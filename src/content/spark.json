@@ -1,0 +1,19 @@
+{
+  "title": "Spark",
+  "intro": "Creative Work by TC Children",
+  "collections": [
+    {
+      "title": "Face Off",
+      "videos": [
+        {
+          "provider": "youtube",
+          "id": "oqM_FJycq7s"
+        },
+        {
+          "provider": "youtube",
+          "id": "vPqMc_xvr58"
+        }
+      ]
+    }
+  ]
+}

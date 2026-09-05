@@ -1,0 +1,303 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Transformation Church — design tokens
+
+   Built around the brand navy (#18265E) used at varying opacities, on a warm
+   paper ground. The warmth matters: a pure-white page makes the navy read cold
+   and corporate, which is the opposite of how this church actually feels.
+   ========================================================================== */
+
+@theme {
+  /* -- colour ------------------------------------------------------------ */
+  --color-ink: #18265e;
+  --color-ink-deep: #0b1132;
+  --color-ink-soft: #4a5382;
+
+  --color-paper: #f7f4ee;
+  --color-paper-warm: #efe9df;
+  --color-paper-bright: #fdfbf7;
+
+  --color-accent: #c5462f;
+  --color-accent-soft: #e4a08f;
+
+  /* Navy at fixed opacities — the site's entire secondary palette. */
+  --color-rule: rgb(24 38 94 / 0.14);
+  --color-rule-strong: rgb(24 38 94 / 0.28);
+  --color-wash: rgb(24 38 94 / 0.05);
+
+  /* -- type -------------------------------------------------------------- */
+  --font-display: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid scale, 390px → 1600px viewport. */
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.06rem + 0.28vw, 1.25rem);
+  --text-xl: clamp(1.3rem, 1.18rem + 0.5vw, 1.6rem);
+  --text-2xl: clamp(1.6rem, 1.36rem + 1vw, 2.25rem);
+  --text-3xl: clamp(2rem, 1.6rem + 1.7vw, 3.15rem);
+  --text-4xl: clamp(2.5rem, 1.85rem + 2.8vw, 4.5rem);
+  --text-5xl: clamp(3rem, 1.9rem + 4.6vw, 6.75rem);
+  --text-6xl: clamp(3.5rem, 1.7rem + 7.5vw, 9.5rem);
+
+  /* -- motion ------------------------------------------------------------ */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* -- layout ------------------------------------------------------------ */
+  --spacing-gutter: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+/* ==========================================================================
+   Base
+
+   Everything element-level lives in @layer base. Unlayered rules beat every
+   cascade layer, so leaving these outside meant `h2.label` kept the display
+   serif and its negative tracking instead of the utility's uppercase letter-
+   spacing — headings using .label rendered as "FINDUS".
+   ========================================================================== */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --header-height: 5.25rem;
+  }
+
+  * {
+    border-color: var(--color-rule);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.65;
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Newsreader carries the display voice. Optical sizing is set for large
+     text; tracking and leading are looser than a high-contrast face needs, so
+     long headings stay comfortable to read rather than merely decorative. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36;
+    font-weight: 400;
+    letter-spacing: -0.014em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/*
+ * Opt-in display face for non-heading elements.
+ *
+ * Lives in @layer components, not as an @utility: Tailwind already generates a
+ * `font-display` utility from the --font-display theme key, and redefining that
+ * name collides. The components layer sits below utilities, so `.label` and
+ * friends still win when both are applied.
+ */
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36;
+    font-weight: 400;
+    letter-spacing: -0.014em;
+    line-height: 1.12;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 96rem;
+  padding-inline: var(--spacing-gutter);
+}
+
+@utility container-prose {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 42rem;
+}
+
+/* Small caps label used for section eyebrows and metadata. */
+@utility label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@utility rule-top {
+  border-top: 1px solid var(--color-rule);
+}
+
+/* Editorial link: underline grows from the left on hover. */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.5s var(--ease-out-expo);
+
+  &:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Unifies the mixed-quality archive photography under the brand navy. */
+@utility duotone {
+  filter: grayscale(1) contrast(1.06);
+  mix-blend-mode: luminosity;
+}
+
+/* ==========================================================================
+   Scroll reveal
+   Elements start hidden only when JS is available to reveal them, so the page
+   still reads fully without it.
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 1;
+}
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Long-form copy
+   ========================================================================== */
+
+.prose-tc {
+  font-size: var(--text-lg);
+  line-height: 1.75;
+  color: rgb(24 38 94 / 0.86);
+}
+
+.prose-tc > * + * {
+  margin-top: 1.35em;
+}
+
+.prose-tc h2 {
+  font-size: var(--text-2xl);
+  margin-top: 2.4em;
+  margin-bottom: -0.35em;
+  color: var(--color-ink);
+}
+
+.prose-tc h3 {
+  font-size: var(--text-xl);
+  margin-top: 2em;
+  margin-bottom: -0.4em;
+  color: var(--color-ink);
+}
+
+.prose-tc strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.prose-tc a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-rule-strong);
+  transition: text-decoration-color 0.3s;
+}
+
+.prose-tc a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.prose-tc blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1.5rem;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.4;
+  color: var(--color-ink);
+}
+
+.prose-tc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose-tc ul > li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+
+.prose-tc ul > li + li {
+  margin-top: 0.6em;
+}
+
+.prose-tc ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--color-accent);
+}

@@ -1,0 +1,33 @@
+{
+  "name": "transformation-church",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@portabletext/react": "^3.2.4",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^4.22.1",
+    "next": "15.5.4",
+    "next-sanity": "^11.6.13",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "sanity": "^4.22.1",
+    "styled-components": "^6.5.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "playwright": "^1.63.0",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.8.3"
+  }
+}
