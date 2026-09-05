@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     "Restore Foodbank is a venture of Transformation Church, distributing food to individuals and families in crisis every Wednesday in Rowley Regis.",
 };
 
+// TODO(Joe): these are the 2023 figures carried over from the old site and are
+// known to be out of date — replace before launch. The label text carries the
+// year, so update both the number and the wording together.
 const stats = [
   { value: "440+", label: "People used our service in 2023" },
   { value: "10", label: "Volunteers" },

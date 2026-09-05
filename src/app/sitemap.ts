@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getPosts } from "@/lib/blog";
 import { preachers, sermons, series } from "@/lib/content";
-import { site } from "@/lib/site";
+import { openVacancies, site } from "@/lib/site";
 
 const STATIC_ROUTES = [
   { path: "/", priority: 1 },
@@ -26,8 +26,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getPosts();
   const url = (path: string) => `${site.url}${path}`;
 
+  const routes = [
+    ...STATIC_ROUTES,
+    ...(openVacancies().length > 0
+      ? [{ path: "/vacancies", priority: 0.6 }]
+      : []),
+  ];
+
   return [
-    ...STATIC_ROUTES.map((r) => ({
+    ...routes.map((r) => ({
       url: url(r.path),
       priority: r.priority,
       changeFrequency: "monthly" as const,

@@ -2,7 +2,14 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
-import { footerLinks, legalLinks, navigation, site, gatherings } from "@/lib/site";
+import {
+  footerLinks,
+  gatherings,
+  legalLinks,
+  navigation,
+  openVacancies,
+  site,
+} from "@/lib/site";
 
 const socials = [
   { label: "Instagram", href: site.social.instagram },
@@ -11,6 +18,12 @@ const socials = [
 ];
 
 export function Footer() {
+  // Only advertise vacancies while a role is actually open.
+  const more =
+    openVacancies().length > 0
+      ? [...footerLinks, { label: "Vacancies", href: "/vacancies" }]
+      : footerLinks;
+
   return (
     <footer className="bg-ink-deep text-paper">
       <div className="container-page">
@@ -70,7 +83,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <h3 className="label text-paper/35">More</h3>
             <ul className="mt-5 space-y-3">
-              {footerLinks.map((item) => (
+              {more.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
