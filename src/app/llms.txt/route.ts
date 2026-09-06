@@ -1,6 +1,7 @@
 import { getPosts } from "@/lib/blog";
 import { formatDate, preachers, sermons, series } from "@/lib/content";
 import { openVacancies } from "@/content/vacancies";
+import { formatEventDate, formatEventTime, getSchedule } from "@/lib/events";
 import { gatherings, site, visitFaqs } from "@/lib/site";
 
 /**
@@ -27,6 +28,7 @@ function line(label: string, path: string, description: string) {
 export async function GET() {
   const posts = await getPosts();
   const roles = openVacancies();
+  const { recurring, oneOff } = await getSchedule(8);
 
   const years = sermons.map((s) => Number(s.date.slice(0, 4)));
   const span = `${Math.min(...years)}-${Math.max(...years)}`;
@@ -46,9 +48,26 @@ The church began in July 2002 as a Malayalam-language prayer fellowship of about
 
 ${line("Plan your visit", "/visit", "Service times, what to expect on a Sunday, directions, parking and accessibility")}
 ${line("What's on", "/whats-on", "The weekly rhythm plus any upcoming one-off events")}
+${line("Giving", "/giving", "Ways to give, and how Gift Aid adds 25% to a UK taxpayer's donation")}
 ${line("Contact", "/contact", "Connection card, prayer requests and general enquiries")}
 ${line("Connect", "/connect", "All social channels, giving and directions in one place")}
 
+## Weekly gatherings
+${recurring.length > 0
+  ? recurring
+      .map((e) => `
+- **${e.name}** - ${e.weekday}s, ${formatEventTime(e)}`)
+      .join("")
+  : gatherings
+      .map((g) => `
+- **${g.name} (${g.language})** - Sundays, ${g.time}`)
+      .join("")}
+- **Restore Foodbank** - Wednesdays, 10:30am to 1:00pm
+
+${oneOff.length > 0 ? `## Upcoming events
+${oneOff.map((e) => `
+- **${e.name}** - ${formatEventDate(e)}, ${formatEventTime(e)}`).join("")}
+` : ""}
 ## About the church
 
 ${line("About us", "/about", "Mission, vision, core values, the thirteen belief statements with scripture references, and church leadership")}

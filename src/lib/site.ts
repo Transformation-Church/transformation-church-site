@@ -78,12 +78,13 @@ export const navigation = [
   { label: "What's On", href: "/whats-on" },
   { label: "Sermons", href: "/sermons" },
   { label: "Foodbank", href: "/restore-foodbank" },
-  { label: "Blog", href: "/blog" },
+  { label: "Give", href: "/giving" },
   { label: "Contact", href: "/contact" },
 ];
 
 /** Secondary links surfaced in the footer rather than the main nav. */
 export const footerLinks = [
+  { label: "Blog", href: "/blog" },
   { label: "Gallery", href: "/gallery" },
   { label: "Our History", href: "/our-history" },
   { label: "Kids Space", href: "/kids-space" },

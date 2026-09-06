@@ -153,7 +153,40 @@ export async function getSchedule(oneOffLimit = 12) {
     recurring.push({ ...event, weekday: weekdayOf(event) });
   }
 
+  // Read the week as a week: Sunday first, then by time of day. Ordering by
+  // next occurrence instead would put Friday above Sunday for most of the week.
+  const DAYS = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  recurring.sort((a, b) => {
+    const day = DAYS.indexOf(a.weekday) - DAYS.indexOf(b.weekday);
+    if (day !== 0) return day;
+    return minutesInDay(a) - minutesInDay(b);
+  });
+
   return { recurring, oneOff: oneOff.slice(0, oneOffLimit), total: all.length };
+}
+
+/** Minutes past midnight in Europe/London, for ordering within a day. */
+function minutesInDay(event: ChurchEvent) {
+  const d = new Date(event.start);
+  if (Number.isNaN(d.getTime())) return 0;
+  const [h, m] = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Europe/London",
+  })
+    .format(d)
+    .split(":")
+    .map(Number);
+  return h * 60 + m;
 }
 
 /* ------------------------------------------------------------- formatting */
