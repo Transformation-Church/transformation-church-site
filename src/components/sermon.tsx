@@ -113,9 +113,9 @@ export function SermonCard({
           />
         )}
         <span className="absolute inset-0 bg-ink/15 transition-opacity duration-700 group-hover:opacity-0" />
+        {/* Badge sits top-right: the church's title cards carry the series name
+            and preacher along the bottom-left, which a badge there would cover. */}
         {sermon.youtubeId && (
-          {/* Top-right: the church's title cards carry the series name and
-              preacher along the bottom-left, which a badge there would cover. */}
           <span className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-paper/90 text-ink backdrop-blur transition-colors duration-500 group-hover:bg-accent group-hover:text-paper">
             <svg viewBox="0 0 12 14" className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden>
               <path d="M0 0l12 7-12 7z" />
