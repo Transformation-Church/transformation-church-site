@@ -7,15 +7,18 @@ import { site } from "@/lib/site";
  * iframe. The iframe would work, but its contents are invisible to search
  * engines, can't carry our structured data, sits in a fixed-height box that
  * fights the layout, and loads third-party cookies on a site that currently
- * sets none. Reading the JSON keeps all of that ours.
+ * sets none.
  *
- * Endpoint shape:
  *   https://{account}.churchsuite.com/-/calendar/{uuid}/json
  *
- * Note: at the time of writing the church's calendar is empty (num_results: 0),
- * so the per-event field mapping below is written defensively against several
- * plausible key names and has NOT been verified against real event data. Once
- * a real event exists in ChurchSuite, check a live entry renders correctly.
+ * Field mapping is against the real payload: events carry `starts_at` and
+ * `ends_at` as true UTC instants ("2026-09-06T09:00:00Z"), a numeric
+ * `category_id` that indexes the top-level `categories` array, and a
+ * `sequence_id` that is non-null for recurring series and null for one-offs.
+ *
+ * Times are always formatted in Europe/London. ChurchSuite stores real UTC, so
+ * a 10:00am service is 09:00Z under BST and 10:00Z under GMT; formatting by
+ * zone keeps it reading as 10:00am year round.
  */
 
 const FEED_UUID =
@@ -27,35 +30,25 @@ export const CHURCHSUITE_CALENDAR_URL = `${site.churchSuite.base}/-/calendar/${F
 export type ChurchEvent = {
   id: string;
   name: string;
-  /** ISO-ish start, as provided by ChurchSuite (local time, no zone). */
+  /** UTC instant. */
   start: string;
   end: string | null;
   allDay: boolean;
   description: string;
   location: string | null;
   category: { name: string; color: string } | null;
+  /** Non-null when the event belongs to a recurring series. */
+  sequenceId: number | null;
   url: string;
   image: string | null;
 };
 
+export type WeeklyEvent = ChurchEvent & { weekday: string };
+
 type Raw = Record<string, unknown>;
+type Category = { id: number; name: string; color: string };
 
-const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
-
-function pick(o: Raw, ...keys: string[]) {
-  for (const k of keys) {
-    const v = o[k];
-    if (typeof v === "string" && v.trim()) return v.trim();
-    if (typeof v === "number") return String(v);
-  }
-  return "";
-}
-
-/** ChurchSuite returns "YYYY-MM-DD HH:MM:SS"; make it parseable everywhere. */
-function toIso(value: string) {
-  if (!value) return "";
-  return value.includes("T") ? value : value.replace(" ", "T");
-}
+const text = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 
 function stripHtml(html: string) {
   return html
@@ -66,44 +59,38 @@ function stripHtml(html: string) {
     .trim();
 }
 
-function normalise(raw: Raw): ChurchEvent | null {
-  const name = pick(raw, "name", "title");
-  const start = toIso(pick(raw, "datetime_start", "date_start", "start"));
+function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | null {
+  const name = text(raw.name);
+  const start = text(raw.starts_at);
   if (!name || !start) return null;
+  if (text(raw.status) && text(raw.status) !== "confirmed") return null;
 
   const loc = raw.location as Raw | undefined;
-  const cat = raw.category as Raw | undefined;
-  const images = raw.images as Raw | undefined;
+  const cat =
+    typeof raw.category_id === "number"
+      ? categories.get(raw.category_id)
+      : undefined;
 
-  const image =
-    (images?.md as Raw | undefined)?.url ??
-    (images?.lg as Raw | undefined)?.url ??
-    (images?.original as Raw | undefined)?.url ??
-    null;
+  // Location is usually blank; the address, when present, repeats the church's.
+  const locationName = loc ? text(loc.name) : "";
 
   return {
-    id: pick(raw, "id", "identifier") || `${name}-${start}`,
+    id: text(raw.identifier) || String(raw.id ?? `${name}-${start}`),
     name,
     start,
-    end: toIso(pick(raw, "datetime_end", "date_end", "end")) || null,
-    allDay: raw.all_day === 1 || raw.all_day === true,
-    description: stripHtml(pick(raw, "description", "summary")),
-    location: loc ? pick(loc, "name", "address") || null : null,
-    category: cat
-      ? { name: pick(cat, "name"), color: pick(cat, "color") || "#18265e" }
-      : null,
-    url: pick(raw, "url", "link") || CHURCHSUITE_CALENDAR_URL,
-    image: typeof image === "string" ? image : null,
+    end: text(raw.ends_at) || null,
+    allDay: raw.all_day === true,
+    description: stripHtml(text(raw.description)),
+    location: locationName || null,
+    category: cat ? { name: cat.name, color: cat.color } : null,
+    sequenceId:
+      typeof raw.sequence_id === "number" ? raw.sequence_id : null,
+    url: text(raw.url) || CHURCHSUITE_CALENDAR_URL,
+    image: text(raw.image) || null,
   };
 }
 
-/**
- * Upcoming events, soonest first.
- *
- * Never throws: a calendar outage must not take the page down, and an empty
- * list renders as a designed state rather than a gap.
- */
-export async function getEvents(limit = 12): Promise<ChurchEvent[]> {
+async function fetchFeed(): Promise<ChurchEvent[]> {
   try {
     const res = await fetch(`${CHURCHSUITE_CALENDAR_URL}/json`, {
       headers: { Accept: "application/json" },
@@ -111,61 +98,108 @@ export async function getEvents(limit = 12): Promise<ChurchEvent[]> {
     });
     if (!res.ok) return [];
 
-    const data = (await res.json()) as unknown;
-    const list = Array.isArray(data)
-      ? data
-      : Array.isArray((data as { events?: unknown[] })?.events)
-        ? (data as { events: Raw[] }).events
-        : [];
+    const data = (await res.json()) as Raw;
+    const list = Array.isArray(data?.events) ? (data.events as Raw[]) : [];
+
+    const categories = new Map<number, Category>();
+    if (Array.isArray(data?.categories)) {
+      for (const c of data.categories as Raw[]) {
+        if (typeof c.id === "number") {
+          categories.set(c.id, {
+            id: c.id,
+            name: text(c.name),
+            color: text(c.color) || "#18265e",
+          });
+        }
+      }
+    }
 
     const now = Date.now();
-    return (list as Raw[])
-      .map(normalise)
+    return list
+      .map((e) => normalise(e, categories))
       .filter((e): e is ChurchEvent => e !== null)
       .filter((e) => {
         const t = Date.parse(e.end || e.start);
-        return Number.isNaN(t) ? true : t >= now - 86_400_000;
+        return Number.isNaN(t) ? true : t >= now;
       })
-      .sort((a, b) => a.start.localeCompare(b.start))
-      .slice(0, limit);
+      .sort((a, b) => a.start.localeCompare(b.start));
   } catch {
+    // A calendar outage must never take the page down.
     return [];
   }
 }
 
+/**
+ * Split the feed into the weekly rhythm and genuine one-offs.
+ *
+ * Without this the page is 50-odd repetitions of the same three services.
+ * Recurring series collapse to their next occurrence; everything else lists
+ * individually.
+ */
+export async function getSchedule(oneOffLimit = 12) {
+  const all = await fetchFeed();
+
+  const seenSequence = new Set<number>();
+  const recurring: WeeklyEvent[] = [];
+  const oneOff: ChurchEvent[] = [];
+
+  for (const event of all) {
+    if (event.sequenceId === null) {
+      oneOff.push(event);
+      continue;
+    }
+    if (seenSequence.has(event.sequenceId)) continue;
+    seenSequence.add(event.sequenceId);
+    recurring.push({ ...event, weekday: weekdayOf(event) });
+  }
+
+  return { recurring, oneOff: oneOff.slice(0, oneOffLimit), total: all.length };
+}
+
 /* ------------------------------------------------------------- formatting */
 
-const DAY_MONTH = new Intl.DateTimeFormat("en-GB", {
-  weekday: "long",
+const zone = "Europe/London";
+
+const WEEKDAY = new Intl.DateTimeFormat("en-GB", { weekday: "long", timeZone: zone });
+const DATE = new Intl.DateTimeFormat("en-GB", {
+  weekday: "short",
   day: "numeric",
   month: "long",
-  timeZone: "Europe/London",
+  timeZone: zone,
 });
-
 const TIME = new Intl.DateTimeFormat("en-GB", {
   hour: "numeric",
   minute: "2-digit",
   hour12: true,
-  timeZone: "Europe/London",
+  timeZone: zone,
 });
+
+const clock = (d: Date) => TIME.format(d).toLowerCase().replace(/\s/g, "");
+
+export function weekdayOf(event: ChurchEvent) {
+  const d = new Date(event.start);
+  return Number.isNaN(d.getTime()) ? "" : WEEKDAY.format(d);
+}
 
 export function formatEventDate(event: ChurchEvent) {
   const d = new Date(event.start);
-  if (Number.isNaN(d.getTime())) return event.start;
-  return DAY_MONTH.format(d);
+  return Number.isNaN(d.getTime()) ? event.start : DATE.format(d);
 }
 
 export function formatEventTime(event: ChurchEvent) {
   if (event.allDay) return "All day";
   const d = new Date(event.start);
   if (Number.isNaN(d.getTime())) return "";
-
-  const startText = TIME.format(d).toLowerCase().replace(/\s/g, "");
-  if (!event.end) return startText;
+  if (!event.end) return clock(d);
 
   const e = new Date(event.end);
-  if (Number.isNaN(e.getTime())) return startText;
-  return `${startText} to ${TIME.format(e).toLowerCase().replace(/\s/g, "")}`;
+  if (Number.isNaN(e.getTime())) return clock(d);
+
+  // Overnight prayer runs past midnight; say so rather than implying same-day.
+  const sameDay = DATE.format(d) === DATE.format(e);
+  return sameDay
+    ? `${clock(d)} to ${clock(e)}`
+    : `${clock(d)} to ${clock(e)} next day`;
 }
 
 export function eventSchema(event: ChurchEvent, orgId: string) {
@@ -180,7 +214,7 @@ export function eventSchema(event: ChurchEvent, orgId: string) {
     ...(event.description ? { description: event.description } : {}),
     location: {
       "@type": "Place",
-      name: event.location || site.name,
+      name: site.name,
       address: {
         "@type": "PostalAddress",
         streetAddress: site.address.line1,
@@ -191,8 +225,6 @@ export function eventSchema(event: ChurchEvent, orgId: string) {
     },
     organizer: { "@id": orgId },
     url: event.url,
-    ...(event.image ? { image: event.image } : {}),
+    isAccessibleForFree: true,
   };
 }
-
-export { str };

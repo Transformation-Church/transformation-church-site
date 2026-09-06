@@ -7,7 +7,7 @@ import {
   eventSchema,
   formatEventDate,
   formatEventTime,
-  getEvents,
+  getSchedule,
 } from "@/lib/events";
 import { ORG_ID, canonical } from "@/lib/seo";
 import { gatherings, site } from "@/lib/site";
@@ -20,67 +20,95 @@ export const metadata: Metadata = {
 };
 
 /**
- * Only rhythms we have confirmed appear here. The old site advertised a
- * Saturday Bible study and a "Young Eagles" gathering with times that were
- * never verified, so they are deliberately left out rather than published and
- * wrong. Add them here once confirmed, or let them come through ChurchSuite.
+ * Restore Foodbank isn't in the ChurchSuite calendar, so it's listed here from
+ * the confirmed details on its own page. Everything else comes from the feed.
  */
-const weekly = [
-  ...gatherings.map((g) => ({
-    day: "Sunday",
-    name: `${g.name} (${g.language})`,
-    time: g.time,
-    detail: `${g.language}-language worship, teaching and prayer.`,
-    href: "/visit",
-  })),
-  {
-    day: "Wednesday",
-    name: "Restore Foodbank",
-    time: "10:30am to 1:00pm",
-    detail: "Food distribution, and donations received, at the church.",
-    href: "/restore-foodbank",
-  },
-];
+const FOODBANK = {
+  weekday: "Wednesday",
+  name: "Restore Foodbank",
+  time: "10:30am to 1:00pm",
+  detail: "Food distribution, and donations received, at the church.",
+  href: "/restore-foodbank",
+};
+
+/** Used only if the ChurchSuite feed is unreachable at build time. */
+const FALLBACK_WEEKLY = gatherings.map((g) => ({
+  weekday: "Sunday",
+  name: `${g.name} (${g.language})`,
+  time: g.time,
+  detail: `${g.language}-language worship, teaching and prayer.`,
+  href: "/visit",
+}));
 
 export default async function WhatsOnPage() {
-  const events = await getEvents();
+  const { recurring, oneOff } = await getSchedule();
+
+  const weekly =
+    recurring.length > 0
+      ? recurring.map((e) => ({
+          weekday: e.weekday,
+          name: e.name,
+          time: formatEventTime(e),
+          detail: e.category?.name ?? "",
+          href: e.url,
+          external: true,
+        }))
+      : FALLBACK_WEEKLY;
+
+  const schedule = [...weekly, FOODBANK];
 
   return (
     <>
-      {events.length > 0 && (
-        <JsonLd data={events.map((e) => eventSchema(e, ORG_ID))} />
+      {oneOff.length > 0 && (
+        <JsonLd data={oneOff.map((e) => eventSchema(e, ORG_ID))} />
       )}
 
       <PageHeader
         eyebrow="What's on"
         title="Every week, and what's coming up"
-        lede="Our Sunday gatherings run to the same rhythm week in, week out. Anything extra appears below as it's scheduled."
+        lede="Our gatherings run to the same rhythm week in, week out. Anything extra appears below as it's scheduled."
       />
 
       {/* ------------------------------------------------------- weekly */}
       <Section index="01" eyebrow="Every week" title="The regular rhythm">
         <ul className="border-t border-rule" data-reveal>
-          {weekly.map((item) => (
-            <li key={`${item.day}-${item.name}`}>
-              <a
-                href={item.href}
-                className="group grid grid-cols-12 items-baseline gap-x-6 gap-y-2 border-b border-rule py-7 transition-colors duration-500 hover:border-ink/35"
-              >
+          {schedule.map((item) => {
+            const inner = (
+              <>
                 <span className="label col-span-12 text-ink/40 md:col-span-2">
-                  {item.day}
+                  {item.weekday}
                 </span>
                 <span className="col-span-12 md:col-span-6">
                   <span className="block font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
                     {item.name}
                   </span>
-                  <span className="mt-1.5 block text-ink/60">{item.detail}</span>
+                  {item.detail && (
+                    <span className="mt-1.5 block text-ink/60">{item.detail}</span>
+                  )}
                 </span>
                 <span className="col-span-12 font-display text-xl text-ink md:col-span-4 md:text-right">
                   {item.time}
                 </span>
-              </a>
-            </li>
-          ))}
+              </>
+            );
+
+            const cls =
+              "group grid grid-cols-12 items-baseline gap-x-6 gap-y-2 border-b border-rule py-7 transition-colors duration-500 hover:border-ink/35";
+
+            return (
+              <li key={`${item.weekday}-${item.name}-${item.time}`}>
+                {"external" in item && item.external ? (
+                  <a href={item.href} target="_blank" rel="noreferrer" className={cls}>
+                    {inner}
+                  </a>
+                ) : (
+                  <a href={item.href} className={cls}>
+                    {inner}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </Section>
 
@@ -88,10 +116,10 @@ export default async function WhatsOnPage() {
       <Section
         index="02"
         eyebrow="Coming up"
-        title={events.length > 0 ? "Upcoming events" : "Nothing else in the diary"}
+        title={oneOff.length > 0 ? "Upcoming events" : "Nothing else in the diary"}
         lede={
-          events.length > 0
-            ? "One-off events, conferences and gatherings across the life of the church."
+          oneOff.length > 0
+            ? "One-off gatherings, prayer meetings and events across the life of the church."
             : undefined
         }
         action={
@@ -101,10 +129,10 @@ export default async function WhatsOnPage() {
         }
         tone="warm"
       >
-        {events.length === 0 ? (
+        {oneOff.length === 0 ? (
           <div className="border-t border-rule pt-10" data-reveal>
             <p className="max-w-xl text-lg leading-relaxed text-ink/70">
-              There are no additional events scheduled at the moment. Our Sunday
+              There are no additional events scheduled at the moment. Our
               services run as usual, and anything new will appear here as soon
               as it&rsquo;s in the diary.
             </p>
@@ -117,7 +145,7 @@ export default async function WhatsOnPage() {
           </div>
         ) : (
           <ul className="border-t border-rule">
-            {events.map((event, i) => (
+            {oneOff.map((event, i) => (
               <li key={event.id}>
                 <a
                   href={event.url}
