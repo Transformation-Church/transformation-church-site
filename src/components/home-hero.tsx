@@ -5,7 +5,7 @@ import { gatherings, site } from "@/lib/site";
 /**
  * Type-led rather than photo-led on purpose.
  *
- * The migrated archive is warm and genuine but technically soft — 2013–2019
+ * The migrated archive is warm and genuine but technically soft — 2013-2019
  * phone and compact-camera shots. Blown up to a full-bleed hero, the first
  * thing a visitor sees would be the weakest asset on the site. The display type
  * carries the opening instead, and the photography arrives further down at a
@@ -16,7 +16,7 @@ export function HomeHero() {
     <section className="relative overflow-hidden bg-ink-deep text-paper">
       <Grain />
 
-      {/* Offset image panel — present, but never asked to fill the viewport. */}
+      {/* Offset image panel: present, but never asked to fill the viewport. */}
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] lg:block">
         <ArchiveImage
           src="/media/2020/11/TC-Church-transparent-W-M_9-7-17_min-min-scaled-1.jpg"
@@ -47,7 +47,7 @@ export function HomeHero() {
         <p className="mt-10 max-w-xl text-lg leading-relaxed text-paper/65">
           A multicultural Pentecostal church in Rowley Regis, gathering in
           English and Malayalam. Whoever you are, wherever you&rsquo;ve come
-          from — there&rsquo;s a place for you on Sunday.
+          from, there&rsquo;s a place for you on Sunday.
         </p>
 
         <div className="mt-11 flex flex-wrap items-center gap-4">
@@ -60,7 +60,7 @@ export function HomeHero() {
         </div>
       </div>
 
-      {/* Standing information — the detail most first-time visitors came for. */}
+      {/* Standing information: the detail most first-time visitors came for. */}
       <div className="container-page relative">
         <dl className="grid grid-cols-1 gap-px border-t border-paper/12 sm:grid-cols-3">
           {gatherings.map((g) => (

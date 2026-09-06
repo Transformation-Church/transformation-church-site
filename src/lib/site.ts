@@ -70,38 +70,6 @@ export const gatherings: Gathering[] = [
   },
 ];
 
-export type Vacancy = {
-  title: string;
-  type: string;
-  location: string;
-  /** ISO date; the role stops showing the day after this. */
-  closes: string;
-  summary: string;
-  pdf: string;
-};
-
-/**
- * Open roles. Delete an entry once a post is filled — the vacancies page and
- * its footer link disappear on their own when the list is empty or every role
- * has closed.
- */
-export const vacancies: Vacancy[] = [
-  {
-    title: "Youth Pastor",
-    type: "Full-time, permanent",
-    location: `${site.address.town}, Birmingham`,
-    closes: "2026-09-30",
-    summary:
-      "We're looking for a Spirit-led Youth Pastor with a heart for walking alongside young people — mentoring them, grounding them in the Word, and leading the growth of our youth ministry.",
-    pdf: "/media/2026/07/TC_Youth_Pastor_Job_Description.pdf",
-  },
-];
-
-export function openVacancies(now = new Date()) {
-  const today = now.toISOString().slice(0, 10);
-  return vacancies.filter((v) => v.closes >= today);
-}
-
 export const navigation = [
   { label: "About", href: "/about" },
   { label: "Sermons", href: "/sermons" },
@@ -152,6 +120,6 @@ export const visitFaqs = [
   {
     question: "What should I expect?",
     answer:
-      "Contemporary worship led by our band, a talk rooted in the Bible, and time to pray with someone if you'd like to. Come as you are — there's no dress code.",
+      "Contemporary worship led by our band, a talk rooted in the Bible, and time to pray with someone if you'd like to. Come as you are. There's no dress code.",
   },
 ];

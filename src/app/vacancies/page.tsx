@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { Button, PageHeader, Section, TextLink } from "@/components/ui";
-import { openVacancies, site } from "@/lib/site";
+import { JsonLd } from "@/components/json-ld";
+import { Arrow, Button, PageHeader, Section } from "@/components/ui";
+import { openVacancies } from "@/content/vacancies";
+import { canonical } from "@/lib/seo";
+import { jobPostingSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Vacancies",
   description:
     "Current job opportunities at Transformation Church, Rowley Regis, Birmingham.",
+  ...canonical("/vacancies"),
 };
 
 const CLOSES = new Intl.DateTimeFormat("en-GB", {
@@ -21,6 +26,8 @@ export default function VacanciesPage() {
 
   return (
     <>
+      {roles.length > 0 && <JsonLd data={roles.map(jobPostingSchema)} />}
+
       <PageHeader
         eyebrow="Work with us"
         title={roles.length > 0 ? "Join the team" : "No current vacancies"}
@@ -40,23 +47,28 @@ export default function VacanciesPage() {
           <ul className="grid gap-12">
             {roles.map((role) => (
               <li
-                key={role.title}
+                key={role.slug}
                 className="grid gap-x-16 gap-y-8 border-t border-rule pt-10 lg:grid-cols-12"
                 data-reveal
               >
                 <div className="lg:col-span-7">
-                  <h2 className="font-display text-3xl">{role.title}</h2>
+                  <h2 className="font-display text-3xl">
+                    <Link
+                      href={`/vacancies/${role.slug}`}
+                      className="group inline-flex items-baseline gap-3 transition-colors hover:text-accent"
+                    >
+                      {role.title}
+                      <Arrow className="h-4 w-4" />
+                    </Link>
+                  </h2>
                   <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70">
                     {role.summary}
                   </p>
 
-                  <div className="mt-9 flex flex-wrap items-center gap-4">
-                    <Button href={role.pdf} external>
+                  <div className="mt-9">
+                    <Button href={`/vacancies/${role.slug}`}>
                       Read the job description
                     </Button>
-                    <TextLink href={`mailto:${site.contact.email}?subject=${encodeURIComponent(`Application: ${role.title}`)}`}>
-                      Apply by email
-                    </TextLink>
                   </div>
                 </div>
 

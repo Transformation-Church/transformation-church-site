@@ -34,7 +34,7 @@ export async function submitContact(
   }
 
   const result = await sendMail({
-    subject: `[Website] ${subject} — ${name}`,
+    subject: `[Website] ${subject} from ${name}`,
     replyTo: email,
     text: [
       `Subject:  ${subject}`,
@@ -51,7 +51,7 @@ export async function submitContact(
   if (result.ok) {
     return {
       status: "success",
-      message: "Thank you — we've got your message and someone will be in touch soon.",
+      message: "Thank you. We've got your message and someone will be in touch soon.",
     };
   }
   return {
@@ -78,7 +78,7 @@ export async function subscribeNewsletter(
   });
 
   if (result.ok) {
-    return { status: "success", message: "You're on the list — thank you." };
+    return { status: "success", message: "You're on the list. Thank you." };
   }
   return {
     status: "error",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { VideoCollections } from "@/components/video-collections";
 import { Accordion, PageHeader, Section } from "@/components/ui";
 import { kidsSpace } from "@/lib/content";
@@ -8,7 +9,8 @@ import { visitFaqs } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Kids Space",
   description:
-    "Creative work by the children of Transformation Church — films, retellings and projects made by our Sunday school.",
+    "Creative work by the children of Transformation Church: films, retellings and projects made by our Sunday school.",
+  ...canonical("/kids-space"),
 };
 
 export default function KidsSpacePage() {

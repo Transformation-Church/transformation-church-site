@@ -88,8 +88,23 @@ def clean_text(raw):
     s = html.unescape(s)
     s = s.replace("\xa0", " ").replace("​", "").replace("﻿", "")
     s = re.sub(r"[ \t]+", " ", s)
+    s = normalise_dashes(s)
     s = re.sub(r"\n\s*\n\s*\n+", "\n\n", s)
     return s.strip()
+
+
+def normalise_dashes(s):
+    """
+    House style: no em or en dashes in site copy.
+
+    Applied to migrated WordPress text as well as our own, so re-running the
+    migration doesn't reintroduce them. Note this does rewrite the original
+    authors' punctuation, including two line-ending dashes in Liz Joys' poems.
+    """
+    s = re.sub(r"(?<=\d)–(?=\d)", "-", s)                # numeric ranges
+    s = re.sub(r"[ \t]*[–—][ \t]*$", "", s, flags=re.M)  # line-ending
+    s = re.sub(r"[ \t]+[–—][ \t]+", ", ", s)        # parenthetical
+    return s.replace("—", "-").replace("–", "-")    # any remainder
 
 
 def paragraphs(raw):

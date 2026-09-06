@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { Button, PageHeader, Section } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Our History",
   description:
-    "From eleven people praying in a house in Sutton Coldfield in 2002 to a multilingual church in Rowley Regis — the story of Birmingham Pentecostal Fellowship.",
+    "From eleven people praying in a house in Sutton Coldfield in 2002 to a multilingual church in Rowley Regis: the story of Birmingham Pentecostal Fellowship.",
+  ...canonical("/our-history"),
 };
 
 /**
@@ -23,16 +25,16 @@ const chapters = [
     ],
   },
   {
-    period: "2004 — 2005",
+    period: "2004 to 2005",
     title: "Formation of BPF",
     paragraphs: [
       "Having realised the significance of unity for the furtherance of God's Kingdom and for His glory, the believers of both BCF and NLC decided to merge the groups together and move as a single unit with a new title: Birmingham Pentecostal Fellowship (BPF).",
       "They came together on Saturday 4 September 2004 and held a fasting prayer in Kings Heath. On the 5th of September, they had their first Sunday service together. People started coming from various locations of Birmingham and surrounding places. Mr K J Mathewkutty and Mr Sam T Varghese led various services of this Fellowship.",
-      "Pastor Wessly Lukose from Rajasthan, India — who was doing his doctoral studies in theology at the University of Birmingham — took responsibility as the Senior Minister of BPF on 19 June 2005, at the request of the church.",
+      "Pastor Wessly Lukose from Rajasthan, India, who was doing his doctoral studies in theology at the University of Birmingham, took responsibility as the Senior Minister of BPF on 19 June 2005, at the request of the church.",
     ],
   },
   {
-    period: "2009 — today",
+    period: "2009 to today",
     title: "Growth and recognition",
     paragraphs: [
       "The main language of worship was Malayalam, as almost all the existing members originally belonged to south India, particularly Kerala. The services have since evolved into a multilingual gathering, and people come from various parts of Birmingham and beyond.",
@@ -48,7 +50,7 @@ export default function HistoryPage() {
       <PageHeader
         eyebrow="Our history"
         title="Eleven people, one front room, 2002"
-        lede="Birmingham Pentecostal Fellowship is the first Indian Pentecostal community church in Birmingham, with Malayalam — the mother tongue of Kerala — as its original medium of worship."
+        lede="Birmingham Pentecostal Fellowship is the first Indian Pentecostal community church in Birmingham, with Malayalam, the mother tongue of Kerala, as its original medium of worship."
       />
 
       <Section>

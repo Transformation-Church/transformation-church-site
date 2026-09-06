@@ -86,7 +86,7 @@ export async function InstagramFeed() {
       >
         <p className="max-w-lg text-lg leading-relaxed text-ink/70">
           We post service times, events and moments from the life of the church
-          on Instagram — it&rsquo;s the quickest way to see what a Sunday with us
+          on Instagram. It&rsquo;s the quickest way to see what a Sunday with us
           actually looks like.
         </p>
         <Button href={site.social.instagram} external>

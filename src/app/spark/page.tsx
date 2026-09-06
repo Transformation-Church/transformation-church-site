@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { VideoCollections } from "@/components/video-collections";
 import { Accordion, PageHeader, Section, TextLink } from "@/components/ui";
 import { spark } from "@/lib/content";
@@ -8,7 +9,8 @@ import { visitFaqs } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Spark",
   description:
-    "Spark — creative work by the children and young people of Transformation Church.",
+    "Spark: creative work by the children and young people of Transformation Church.",
+  ...canonical("/spark"),
 };
 
 export default function SparkPage() {

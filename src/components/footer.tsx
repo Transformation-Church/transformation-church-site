@@ -2,12 +2,12 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
+import { openVacancies } from "@/content/vacancies";
 import {
   footerLinks,
   gatherings,
   legalLinks,
   navigation,
-  openVacancies,
   site,
 } from "@/lib/site";
 
@@ -36,7 +36,7 @@ export function Footer() {
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <p className="max-w-md text-paper/60">
-              Occasional news from the church — services, events and ways to get
+              Occasional news from the church: services, events and ways to get
               involved. No more than once a month.
             </p>
             <NewsletterForm className="mt-7" />

@@ -4,7 +4,9 @@ import { Instrument_Sans, Newsreader } from "next/font/google";
 import { Chrome } from "@/components/chrome";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
+import { churchSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -28,17 +30,49 @@ const instrument = Instrument_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.tagline}`,
-    template: `%s — ${site.name}`,
+    default: `${site.name} | ${site.tagline}`,
+    template: `%s | ${site.name}`,
   },
   description: site.description,
+  alternates: { canonical: "/" },
+  keywords: [
+    "church in Rowley Regis",
+    "church in Birmingham",
+    "Pentecostal church Birmingham",
+    "Malayalam church Birmingham",
+    "Assemblies of God",
+    "Birmingham Pentecostal Fellowship",
+    "Sunday service Rowley Regis",
+    "foodbank Rowley Regis",
+  ],
   openGraph: {
     type: "website",
     locale: "en_GB",
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
+    url: site.url,
+    title: `${site.name} | ${site.tagline}`,
     description: site.description,
+    images: [
+      {
+        url: "/brand/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: `${site.name}, ${site.address.town}, Birmingham`,
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | ${site.tagline}`,
+    description: site.description,
+    images: ["/brand/og-default.png"],
+  },
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  category: "religion",
+  formatDetection: { telephone: true, address: true, email: true },
   // Mirrors the SITE_INDEXABLE gate in next.config.ts and robots.ts.
   robots:
     process.env.SITE_INDEXABLE === "true"
@@ -58,6 +92,8 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        {/* Identity, address, service times and socials, once for the site. */}
+        <JsonLd data={churchSchema()} />
         <Reveal />
         <Chrome header={<Header />} footer={<Footer />}>
           {children}

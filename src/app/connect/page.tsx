@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { canonical } from "@/lib/seo";
 import Link from "next/link";
 
 import { Arrow, Grain } from "@/components/ui";
@@ -7,7 +9,8 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Connect With Us",
   description:
-    "Every way to find Transformation Church — social channels, sermons, giving and directions, all in one place.",
+    "Every way to find Transformation Church: social channels, sermons, giving and directions, all in one place.",
+  ...canonical("/connect"),
 };
 
 /**
@@ -44,7 +47,7 @@ export default function ConnectPage() {
             Connect with us
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-paper/60">
-            Everything in one place — however you&rsquo;d like to find us.
+            Everything in one place, however you&rsquo;d like to find us.
           </p>
 
           <ul className="mt-12 grid gap-3">

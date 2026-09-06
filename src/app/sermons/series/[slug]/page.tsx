@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { FacetArchive } from "@/components/facet-archive";
+import { canonical } from "@/lib/seo";
 import { getFacet, sermonsBy, series } from "@/lib/content";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -17,6 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: found.name,
+    ...canonical(`/sermons/series/${found.slug}`),
     description: `${found.count} ${found.count === 1 ? "sermon" : "sermons"} in the series “${found.name}” from Transformation Church.`,
   };
 }

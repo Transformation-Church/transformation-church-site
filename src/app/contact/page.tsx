@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { ContactForm } from "@/components/contact-form";
 import { Accordion, PageHeader, Section, TextLink } from "@/components/ui";
 import { site, visitFaqs } from "@/lib/site";
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Fill out a connection card, send a prayer request, or just say hello. We'd love to hear from you.",
+  ...canonical("/contact"),
 };
 
 export default function ContactPage() {

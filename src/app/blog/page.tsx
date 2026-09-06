@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { canonical } from "@/lib/seo";
 import Link from "next/link";
 
 import { PageHeader, Section } from "@/components/ui";
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
   title: "Blog",
   description:
     "Reflections, articles and poetry from the people of Transformation Church.",
+  ...canonical("/blog"),
 };
 
 export default async function BlogPage() {
@@ -20,7 +23,7 @@ export default async function BlogPage() {
       <PageHeader
         eyebrow="Read & listen"
         title="Words for your week"
-        lede="We share insights and reflections for your spiritual nourishment — join us to start learning, experiencing and growing in the Lord Jesus Christ."
+        lede="We share insights and reflections for your spiritual nourishment. Join us to start learning, experiencing and growing in the Lord Jesus Christ."
         meta={
           categories.length > 0 ? (
             <ul className="flex flex-wrap gap-x-8 gap-y-3">
@@ -38,7 +41,7 @@ export default async function BlogPage() {
       <Section>
         {posts.length === 0 ? (
           <p className="py-20 text-center text-lg text-ink/55">
-            There&rsquo;s nothing published yet — check back soon.
+            There&rsquo;s nothing published yet. Check back soon.
           </p>
         ) : (
           <div className="border-t border-rule">

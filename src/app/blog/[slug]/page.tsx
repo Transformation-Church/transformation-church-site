@@ -3,9 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
+import { JsonLd } from "@/components/json-ld";
 import { Grain, TextLink } from "@/components/ui";
 import { getPost, getPosts, getRelatedPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/content";
+import { blogPostSchema, breadcrumbSchema, canonical } from "@/lib/seo";
 import { urlForImage } from "@/sanity/client";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt.slice(0, 155),
+    ...canonical(`/blog/${post.slug}`),
     openGraph: {
       type: "article",
       title: post.title,
@@ -62,6 +65,17 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          blogPostSchema(post),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
+
       <article>
         <header className="relative overflow-hidden bg-ink-deep text-paper">
           <Grain />

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { canonical } from "@/lib/seo";
 import Link from "next/link";
 
 import { PageHeader } from "@/components/ui";
@@ -8,6 +10,7 @@ export const metadata: Metadata = {
   title: "Cookie Policy",
   description:
     "What cookies this website uses, and when. Transformation Church sets no tracking or advertising cookies.",
+  ...canonical("/cookie-policy"),
 };
 
 /**
@@ -51,7 +54,7 @@ export default function CookiePolicyPage() {
               relevant part of the site.
             </p>
 
-            <h3>YouTube — sermon videos</h3>
+            <h3>YouTube: sermon videos</h3>
             <p>
               Sermon pages show a still image rather than a video player when
               they load. YouTube is only contacted once you press play, and we
@@ -61,7 +64,7 @@ export default function CookiePolicyPage() {
               YouTube cookies are set.
             </p>
 
-            <h3>Google Maps — directions</h3>
+            <h3>Google Maps: directions</h3>
             <p>
               The map on our{" "}
               <Link href="/visit">Plan Your Visit</Link> page is embedded from

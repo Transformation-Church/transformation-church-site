@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { InstagramFeed } from "@/components/instagram-feed";
 import { Button, PageHeader, Section, TextLink } from "@/components/ui";
 import { BELIEFS_PDF, beliefs } from "@/content/beliefs";
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "Transformation Church is part of Birmingham Pentecostal Fellowship, an accredited member of Assemblies of God, Great Britain. Our mission, vision, values and what we believe.",
+  ...canonical("/about"),
 };
 
 const leadership = [
@@ -53,7 +55,7 @@ export default function AboutPage() {
           data-reveal
         >
           Ours is a Christ-centred church, striving to be transformed into
-          Christ-likeness — to transform our community and beyond with the love
+          Christ-likeness, to transform our community and beyond with the love
           and message of Christ. God has a unique purpose for your life.
         </blockquote>
       </Section>

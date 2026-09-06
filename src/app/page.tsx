@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 const values = [
   {
     name: "Worshipping",
-    body: "Gathered every Sunday to worship God together — in English, in Malayalam, in one family.",
+    body: "Gathered every Sunday to worship God together, in English, in Malayalam, in one family.",
   },
   {
     name: "Witnessing",
@@ -39,7 +39,7 @@ export default function HomePage() {
           <div className="lg:col-span-7" data-reveal>
             <p className="font-display text-2xl leading-[1.25] text-ink">
               Transformation Church is part of Birmingham Pentecostal
-              Fellowship — the first Indian Pentecostal community church in
+              Fellowship, the first Indian Pentecostal community church in
               Birmingham, and an accredited member of Assemblies of God, Great
               Britain.
             </p>
@@ -77,7 +77,7 @@ export default function HomePage() {
         index="02"
         eyebrow="Sermons"
         title="Teaching you can come back to"
-        lede={`Every message we've recorded — ${sermons.length} of them — with the preachers and series behind them.`}
+        lede={`Every message we've recorded, all ${sermons.length} of them, with the preachers and series behind them.`}
         action={<TextLink href="/sermons">Browse the archive</TextLink>}
         tone="warm"
       >
@@ -93,7 +93,7 @@ export default function HomePage() {
         index="03"
         eyebrow="Life at TC"
         title="Twenty years of Sundays, outreach and everything in between"
-        lede="Our gallery holds photographs from across the life of the church — mission trips, anniversaries, and the ordinary weeks that make up a congregation."
+        lede="Our gallery holds photographs from across the life of the church: mission trips, anniversaries, and the ordinary weeks that make up a congregation."
         action={<TextLink href="/gallery">See the gallery</TextLink>}
       >
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4" data-reveal>

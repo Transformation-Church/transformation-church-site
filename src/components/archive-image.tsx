@@ -3,7 +3,7 @@ import Image from "next/image";
 /**
  * Wrapper for the migrated WordPress photography.
  *
- * The archive spans 2013–2019 on compact cameras and phones: warm and genuine,
+ * The archive spans 2013-2019 on compact cameras and phones: warm and genuine,
  * but inconsistent in white balance, exposure and sharpness. A shared navy wash
  * plus a slight contrast lift makes a wall of them read as one set instead of a
  * jumble, and hides the softness that a clean full-colour treatment exposes.

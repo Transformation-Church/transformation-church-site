@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { LegalPage } from "@/components/legal-page";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
   description:
     "The terms on which you may use the Transformation Church website.",
+  ...canonical("/terms-of-use"),
 };
 
 export default function TermsOfUsePage() {

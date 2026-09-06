@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { GalleryGrid } from "@/components/gallery-grid";
 import { Accordion, PageHeader, Section } from "@/components/ui";
 import { gallery, galleryImageCount } from "@/lib/content";
@@ -8,7 +9,8 @@ import { visitFaqs } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Gallery",
   description:
-    "Photographs from across the life of Transformation Church — Sunday services, mission outreach, anniversaries and events.",
+    "Photographs from across the life of Transformation Church: Sunday services, mission outreach, anniversaries and events.",
+  ...canonical("/gallery"),
 };
 
 export default function GalleryPage() {

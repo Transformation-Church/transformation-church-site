@@ -10,7 +10,7 @@ export function VideoCollections({
   if (collections.length === 0) {
     return (
       <p className="border-t border-rule py-16 text-lg text-ink/55">
-        There&rsquo;s nothing here just yet — check back soon.
+        There&rsquo;s nothing here just yet. Check back soon.
       </p>
     );
   }

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { canonical } from "@/lib/seo";
 import Link from "next/link";
 
 import { SermonArchive } from "@/components/sermon-archive";
@@ -8,12 +10,13 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Sermons",
-  description: `Catch up on ${sermons.length} sermons from Transformation Church — filter by preacher, series or service.`,
+  description: `Catch up on ${sermons.length} sermons from Transformation Church. Filter by preacher, series or service.`,
+  ...canonical("/sermons"),
 };
 
 export default function SermonsPage() {
   const years = new Set(sermons.map((s) => s.date.slice(0, 4)));
-  const span = `${Math.min(...[...years].map(Number))}–${Math.max(...[...years].map(Number))}`;
+  const span = `${Math.min(...[...years].map(Number))}-${Math.max(...[...years].map(Number))}`;
 
   return (
     <>
@@ -57,7 +60,7 @@ export default function SermonsPage() {
         </div>
       </section>
 
-      {/* Series index — a second way into the archive. */}
+      {/* Series index: a second way into the archive. */}
       <section className="bg-paper-warm">
         <div className="container-page py-20 md:py-24">
           <h2 className="font-display text-3xl">Browse by series</h2>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { canonical } from "@/lib/seo";
 import { Accordion, Button, PageHeader, Section } from "@/components/ui";
 import { site } from "@/lib/site";
 
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
   title: "Restore Foodbank",
   description:
     "Restore Foodbank is a venture of Transformation Church, distributing food to individuals and families in crisis every Wednesday in Rowley Regis.",
+  ...canonical("/restore-foodbank"),
 };
 
 // TODO(Joe): these are the 2023 figures carried over from the old site and are
@@ -40,7 +42,7 @@ const faqs = [
   {
     question: "Do I need a voucher?",
     answer:
-      "Yes. Our foodbank works on a voucher referral system, in partnership with the Black Country Food Bank. There are many local places where you can obtain a voucher — see the list above.",
+      "Yes. Our foodbank works on a voucher referral system, in partnership with the Black Country Food Bank. There are many local places where you can obtain a voucher. See the list above.",
   },
   {
     question: "How can I donate?",
@@ -162,7 +164,7 @@ export default function FoodbankPage() {
               <br />
               {site.address.postcode}
             </p>
-            <p className="mt-6 text-paper/60">Wednesdays, 10:30am — 1:00pm</p>
+            <p className="mt-6 text-paper/60">Wednesdays, 10:30am to 1:00pm</p>
           </address>
         </div>
       </section>

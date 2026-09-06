@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/json-ld";
+import { canonical, faqSchema } from "@/lib/seo";
 import { Accordion, Button, PageHeader, Section, TextLink } from "@/components/ui";
 import { gatherings, site, visitFaqs } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Plan Your Visit",
   description:
-    "Everything you need for your first Sunday at Transformation Church — service times, directions, parking, and what to expect.",
+    "Everything you need for your first Sunday at Transformation Church: service times, directions, parking, and what to expect.",
+  ...canonical("/visit"),
 };
 
 const expectations = [
@@ -16,7 +19,7 @@ const expectations = [
   },
   {
     title: "Worship led by our band",
-    body: "Most services open with contemporary songs of thanks to God, led by a band. Join in or simply listen — both are completely fine.",
+    body: "Most services open with contemporary songs of thanks to God, led by a band. Join in or simply listen. Both are completely fine.",
   },
   {
     title: "A talk rooted in the Bible",
@@ -24,7 +27,7 @@ const expectations = [
   },
   {
     title: "Prayer, if you'd like it",
-    body: "There's time to receive personal prayer most Sundays — sometimes during the service, and always afterwards. Only ever if you want it.",
+    body: "There's time to receive personal prayer most Sundays, sometimes during the service, and always afterwards. Only ever if you want it.",
   },
 ];
 
@@ -44,6 +47,8 @@ export default function VisitPage() {
 
   return (
     <>
+      <JsonLd data={faqSchema()} />
+
       <PageHeader
         eyebrow="Plan your visit"
         title="Your first Sunday, without the guesswork"
@@ -130,8 +135,8 @@ export default function VisitPage() {
 
       <Section tone="ink" title="Still not sure? Just ask.">
         <p className="mb-9 max-w-xl text-lg leading-relaxed text-paper/65">
-          If there&rsquo;s anything you&rsquo;d like to know before coming —
-          accessibility, childcare, anything at all — send us a message and
+          If there&rsquo;s anything you&rsquo;d like to know before coming,
+          accessibility, childcare, anything at all, send us a message and
           we&rsquo;ll answer honestly.
         </p>
         <div className="flex flex-wrap gap-4">

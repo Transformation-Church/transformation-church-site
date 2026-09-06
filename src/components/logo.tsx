@@ -29,7 +29,7 @@ export function Logo({
     <Link
       href="/"
       className={`block shrink-0 ${className}`}
-      aria-label={`${site.name} — home`}
+      aria-label={`${site.name} home`}
     >
       <Image
         src={art.src}

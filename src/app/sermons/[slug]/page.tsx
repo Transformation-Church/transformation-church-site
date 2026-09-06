@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { JsonLd } from "@/components/json-ld";
 import { SermonCard, thumbnail } from "@/components/sermon";
 import { Grain, TextLink } from "@/components/ui";
 import { YouTubeEmbed } from "@/components/video-embed";
@@ -12,6 +13,7 @@ import {
   sermonNeighbours,
   sermons,
 } from "@/lib/content";
+import { breadcrumbSchema, canonical, sermonSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const by = sermon.preacher ? ` by ${sermon.preacher.name}` : "";
   return {
     title: sermon.title,
+    ...canonical(`/sermons/${sermon.slug}`),
     description:
       sermon.description.slice(0, 155) ||
       `${sermon.title}${by}, preached at Transformation Church on ${formatDate(sermon.date)}.`,
@@ -66,6 +69,17 @@ export default async function SermonPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          sermonSchema(sermon, thumbnail(sermon)),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Sermons", path: "/sermons" },
+            { name: sermon.title, path: `/sermons/${sermon.slug}` },
+          ]),
+        ]}
+      />
+
       <article>
         {/* header */}
         <header className="relative overflow-hidden bg-ink-deep text-paper">
