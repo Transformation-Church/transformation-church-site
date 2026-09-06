@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
 import { canonical, faqSchema } from "@/lib/seo";
 import { Accordion, Button, PageHeader, Section, TextLink } from "@/components/ui";
-import { gatherings, site, visitFaqs } from "@/lib/site";
+import { getGatherings } from "@/lib/events";
+import { site, visitFaqs } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Plan Your Visit",
@@ -40,7 +41,9 @@ const practical = [
   { label: "Children", value: "Sunday school for ages 5 to 17 during the service." },
 ];
 
-export default function VisitPage() {
+export default async function VisitPage() {
+  const gatherings = await getGatherings();
+
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
     `${site.name}, ${site.address.line1}, ${site.address.town} ${site.address.postcode}`,
   )}&output=embed`;
@@ -54,10 +57,13 @@ export default function VisitPage() {
         title="Your first Sunday, without the guesswork"
         lede="Here's exactly what happens, where to park, and who to look for. No surprises."
         meta={
-          <dl className="grid gap-8 sm:grid-cols-3">
+          <dl className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {gatherings.map((g) => (
-              <div key={`${g.language}-${g.start}`}>
-                <dt className="label text-paper-muted">Sunday · {g.language}</dt>
+              <div key={`${g.weekday}-${g.start}-${g.language ?? g.name}`}>
+                <dt className="label text-paper-muted">
+                  {g.weekday}
+                  {g.language ? ` · ${g.language}` : ""}
+                </dt>
                 <dd className="mt-2 font-display text-3xl text-paper">{g.time}</dd>
               </div>
             ))}

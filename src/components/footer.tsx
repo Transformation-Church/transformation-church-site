@@ -3,13 +3,8 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { openVacancies } from "@/content/vacancies";
-import {
-  footerLinks,
-  gatherings,
-  legalLinks,
-  navigation,
-  site,
-} from "@/lib/site";
+import { getGatherings } from "@/lib/events";
+import { footerLinks, legalLinks, navigation, site } from "@/lib/site";
 
 const socials = [
   { label: "Instagram", href: site.social.instagram },
@@ -17,7 +12,9 @@ const socials = [
   { label: "YouTube", href: site.social.youtube },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const gatherings = await getGatherings();
+
   // Only advertise vacancies while a role is actually open.
   const more =
     openVacancies().length > 0
@@ -97,11 +94,17 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-3 lg:col-start-10">
-            <h3 className="label text-paper-muted">Sundays</h3>
+            <h3 className="label text-paper-muted">Gatherings</h3>
             <ul className="mt-5 space-y-3">
               {gatherings.map((g) => (
-                <li key={`${g.language}-${g.start}`} className="flex justify-between gap-4">
-                  <span className="text-paper-body">{g.language}</span>
+                <li
+                  key={`${g.weekday}-${g.start}-${g.language ?? g.name}`}
+                  className="flex justify-between gap-4"
+                >
+                  <span className="text-paper-body">
+                    {g.language ?? g.name}
+                    <span className="block text-sm text-paper-muted">{g.weekday}</span>
+                  </span>
                   <span className="font-display text-lg text-paper">{g.time}</span>
                 </li>
               ))}

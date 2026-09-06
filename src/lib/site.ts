@@ -55,7 +55,13 @@ export type Gathering = {
   note?: string;
 };
 
-/** Confirmed schedule. Sunday services are the two headline gatherings. */
+/**
+ * Fallback only. ChurchSuite is the source of truth for service times, read via
+ * getGatherings() in src/lib/events.ts. This list is used when the calendar
+ * feed is unreachable, so a build during an outage still ships correct Sunday
+ * times rather than an empty schedule. It deliberately omits the Friday Hindi
+ * service, which exists only in ChurchSuite.
+ */
 export const gatherings: Gathering[] = [
   {
     name: "Sunday Service",

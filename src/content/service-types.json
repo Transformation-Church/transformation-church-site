@@ -7,18 +7,18 @@
     "latest": "2023-01-01"
   },
   {
-    "slug": "sunday-english-service",
-    "name": "Sunday English Service",
-    "description": "",
-    "count": 26,
-    "latest": "2023-12-17"
-  },
-  {
     "slug": "saturday-service",
     "name": "Saturday Service",
     "description": "",
     "count": 25,
     "latest": "2022-02-26"
+  },
+  {
+    "slug": "sunday-english-service",
+    "name": "Sunday English Service",
+    "description": "",
+    "count": 25,
+    "latest": "2023-12-17"
   },
   {
     "slug": "fasting-prayer",
@@ -47,12 +47,5 @@
     "description": "",
     "count": 2,
     "latest": "2022-02-19"
-  },
-  {
-    "slug": "malayalam-service",
-    "name": "Malayalam Service",
-    "description": "",
-    "count": 1,
-    "latest": "2021-07-11"
   }
 ]

@@ -77,7 +77,7 @@ export default function HomePage() {
         index="02"
         eyebrow="Sermons"
         title="Teaching you can come back to"
-        lede={`Every message we've recorded, all ${sermons.length} of them, with the preachers and series behind them.`}
+        lede={`Every sermon we've recorded, searchable by preacher, series or passage.`}
         action={<TextLink href="/sermons">Browse the archive</TextLink>}
         tone="warm"
       >

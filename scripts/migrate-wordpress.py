@@ -42,6 +42,16 @@ TAGS = re.compile(r"<[^>]+>")
 warnings: collections.Counter = collections.Counter()
 notes: list[str] = []
 
+# Sermons excluded at Joe's request because the WordPress records are faulty
+# and cannot be repaired from the export. Fix them at source and remove the
+# slug here to bring the sermon back.
+EXCLUDED_SERMONS = {
+    # YouTube ID is truncated to 10 characters; the real link is unrecoverable.
+    "cautions-in-extended-life-part-3",
+    # No preacher assigned in WordPress.
+    "gods-presence-the-only-source-of-blessing",
+}
+
 # Typos carried over from the WordPress originals. Corrected on migration so the
 # rebuilt site reads cleanly; fix them at source if the old site stays up.
 TITLE_FIXES = {
@@ -192,6 +202,10 @@ def build_sermons(by_type, attachments_by_id):
     for s in by_type["wpfc_sermon"]:
         if s["status"] != "publish":
             warnings["sermon_draft_skipped"] += 1
+            continue
+        if s["slug"] in EXCLUDED_SERMONS:
+            warnings["sermon_excluded"] += 1
+            notes.append("Sermon excluded (faulty source record): '%s'" % s["title"])
             continue
 
         cats = {c["domain"]: c for c in s["categories"]}

@@ -1,6 +1,7 @@
 import { ArchiveImage } from "@/components/archive-image";
 import { Button, Grain } from "@/components/ui";
-import { gatherings, site } from "@/lib/site";
+import { getGatherings } from "@/lib/events";
+import { site } from "@/lib/site";
 
 /**
  * Type-led rather than photo-led on purpose.
@@ -11,7 +12,9 @@ import { gatherings, site } from "@/lib/site";
  * carries the opening instead, and the photography arrives further down at a
  * size that flatters it.
  */
-export function HomeHero() {
+export async function HomeHero() {
+  const gatherings = await getGatherings();
+
   return (
     <section className="relative overflow-hidden bg-ink-deep text-paper">
       <Grain />
@@ -62,15 +65,18 @@ export function HomeHero() {
 
       {/* Standing information: the detail most first-time visitors came for. */}
       <div className="container-page relative">
-        <dl className="grid grid-cols-1 gap-px border-t border-paper/12 sm:grid-cols-3">
+        <dl className="grid grid-cols-2 gap-px border-t border-paper/12 md:grid-cols-4">
           {gatherings.map((g) => (
-            <div key={`${g.language}-${g.start}`} className="py-8 sm:pr-8">
-              <dt className="label text-paper-muted">Sunday · {g.language}</dt>
+            <div key={`${g.weekday}-${g.start}-${g.language ?? g.name}`} className="py-8 md:pr-8">
+              <dt className="label text-paper-muted">
+                {g.weekday}
+                {g.language ? ` · ${g.language}` : ""}
+              </dt>
               <dd className="mt-3 font-display text-3xl text-paper">{g.time}</dd>
             </div>
           ))}
 
-          <div className="border-t border-paper/12 py-8 sm:border-l sm:border-t-0 sm:pl-8">
+          <div className="border-t border-paper/12 py-8 md:border-l md:border-t-0 md:pl-8">
             <dt className="label text-paper-muted">Where</dt>
             <dd className="mt-3 leading-snug text-paper-body">
               {site.address.line1}

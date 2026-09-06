@@ -21,18 +21,18 @@
     "latest": "2021-08-29"
   },
   {
-    "slug": "lessons-in-tough-times",
-    "name": "Lessons in Tough Times",
-    "description": "",
-    "count": 7,
-    "latest": "2021-08-01"
-  },
-  {
     "slug": "focus-to-finish",
     "name": "Focus To Finish",
     "description": "",
     "count": 6,
     "latest": "2022-02-27"
+  },
+  {
+    "slug": "lessons-in-tough-times",
+    "name": "Lessons in Tough Times",
+    "description": "",
+    "count": 6,
+    "latest": "2021-08-01"
   },
   {
     "slug": "not-yet-but-already",
@@ -56,13 +56,6 @@
     "latest": "2021-09-05"
   },
   {
-    "slug": "true-worshipers-of-god",
-    "name": "True worshipers of God",
-    "description": "",
-    "count": 4,
-    "latest": "2021-09-19"
-  },
-  {
     "slug": "abcd-in-the-current-situation",
     "name": "ABCD In The Current Situation",
     "description": "",
@@ -82,6 +75,13 @@
     "description": "",
     "count": 3,
     "latest": "2021-06-06"
+  },
+  {
+    "slug": "true-worshipers-of-god",
+    "name": "True worshipers of God",
+    "description": "",
+    "count": 3,
+    "latest": "2021-09-12"
   },
   {
     "slug": "ezras-call-for-revival",

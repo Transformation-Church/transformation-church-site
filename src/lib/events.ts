@@ -1,4 +1,4 @@
-import { site } from "@/lib/site";
+import { gatherings as fallbackGatherings, site } from "@/lib/site";
 
 /**
  * Events from ChurchSuite.
@@ -173,6 +173,67 @@ export async function getSchedule(oneOffLimit = 12) {
   });
 
   return { recurring, oneOff: oneOff.slice(0, oneOffLimit), total: all.length };
+}
+
+/**
+ * The regular gatherings, as ChurchSuite has them.
+ *
+ * ChurchSuite is the single source of truth for service times: the church
+ * office maintains the calendar, and the site follows it. The hardcoded list in
+ * site.ts is only a fallback for when the feed is unreachable, so a build
+ * during a ChurchSuite outage still ships correct Sunday times rather than an
+ * empty schedule.
+ */
+export async function getGatherings(): Promise<Gathering[]> {
+  const { recurring } = await getSchedule(0);
+
+  if (recurring.length === 0) {
+    return fallbackGatherings.map((g) => ({
+      name: g.name,
+      weekday: g.day,
+      time: g.time,
+      start: g.start,
+      language: g.language,
+      url: null,
+    }));
+  }
+
+  return recurring.map((e) => {
+    // "Sunday Service (English)" -> language English; "Hindi Service" -> Hindi.
+    const inBrackets = e.name.match(/\(([^)]+)\)/)?.[1];
+    const leading = e.name.match(/^(\w+)\s+Service$/i)?.[1];
+    return {
+      name: e.name.replace(/\s*\([^)]*\)\s*$/, "").trim(),
+      weekday: e.weekday,
+      time: startTime(e),
+      start: startClock(e),
+      language: inBrackets ?? leading,
+      url: e.url,
+    };
+  });
+}
+
+export type Gathering = {
+  /** Service name with any language suffix removed. */
+  name: string;
+  weekday: string;
+  /** Display time, e.g. "10:00am". */
+  time: string;
+  /** 24-hour start, for structured data. */
+  start: string;
+  language?: string;
+  url: string | null;
+};
+
+/** Just the start, without the "to ..." half that formatEventTime adds. */
+function startTime(event: ChurchEvent) {
+  const d = new Date(event.start);
+  return Number.isNaN(d.getTime()) ? "" : clock(d);
+}
+
+function startClock(event: ChurchEvent) {
+  const m = minutesInDay(event);
+  return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 }
 
 /** Minutes past midnight in Europe/London, for ordering within a day. */

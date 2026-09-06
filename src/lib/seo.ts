@@ -13,7 +13,8 @@
 import type { Sermon } from "@/lib/content";
 import type { BlogPost } from "@/lib/blog";
 import type { Vacancy } from "@/content/vacancies";
-import { gatherings, site, visitFaqs } from "@/lib/site";
+import type { Gathering } from "@/lib/events";
+import { site, visitFaqs } from "@/lib/site";
 
 export const ORG_ID = `${site.url}/#church`;
 
@@ -27,9 +28,17 @@ export function absolute(path: string) {
 
 /* ------------------------------------------------------------------ church */
 
-const DAY = "https://schema.org/Sunday";
+const SCHEMA_DAY: Record<string, string> = {
+  Sunday: "https://schema.org/Sunday",
+  Monday: "https://schema.org/Monday",
+  Tuesday: "https://schema.org/Tuesday",
+  Wednesday: "https://schema.org/Wednesday",
+  Thursday: "https://schema.org/Thursday",
+  Friday: "https://schema.org/Friday",
+  Saturday: "https://schema.org/Saturday",
+};
 
-export function churchSchema() {
+export function churchSchema(gatherings: Gathering[]) {
   return {
     "@context": "https://schema.org",
     "@type": "Church",
@@ -70,16 +79,16 @@ export function churchSchema() {
     },
     openingHoursSpecification: gatherings.map((g) => ({
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: DAY,
+      dayOfWeek: SCHEMA_DAY[g.weekday] ?? "https://schema.org/Sunday",
       opens: g.start,
-      name: `${g.name} (${g.language})`,
+      name: g.language ? `${g.name} (${g.language})` : g.name,
     })),
     event: gatherings.map((g) => ({
       "@type": "Event",
-      name: `${g.name} (${g.language})`,
+      name: g.language ? `${g.name} (${g.language})` : g.name,
       eventSchedule: {
         "@type": "Schedule",
-        byDay: DAY,
+        byDay: SCHEMA_DAY[g.weekday] ?? "https://schema.org/Sunday",
         startTime: g.start,
         repeatFrequency: "P1W",
       },

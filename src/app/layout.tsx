@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
+import { getGatherings } from "@/lib/events";
 import { churchSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -80,9 +81,11 @@ export const metadata: Metadata = {
       : { index: false, follow: false },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const gatherings = await getGatherings();
+
   return (
     <html lang="en-GB" className={`${newsreader.variable} ${instrument.variable}`}>
       <body>
@@ -93,7 +96,7 @@ export default function RootLayout({
           Skip to content
         </a>
         {/* Identity, address, service times and socials, once for the site. */}
-        <JsonLd data={churchSchema()} />
+        <JsonLd data={churchSchema(gatherings)} />
         <Reveal />
         <Chrome header={<Header />} footer={<Footer />}>
           {children}
