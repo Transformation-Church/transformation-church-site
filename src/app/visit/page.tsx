@@ -57,13 +57,13 @@ export default function VisitPage() {
           <dl className="grid gap-8 sm:grid-cols-3">
             {gatherings.map((g) => (
               <div key={`${g.language}-${g.start}`}>
-                <dt className="label text-paper/55">Sunday · {g.language}</dt>
+                <dt className="label text-paper-muted">Sunday · {g.language}</dt>
                 <dd className="mt-2 font-display text-3xl text-paper">{g.time}</dd>
               </div>
             ))}
             <div>
-              <dt className="label text-paper/55">Where</dt>
-              <dd className="mt-2 leading-snug text-paper/80">
+              <dt className="label text-paper-muted">Where</dt>
+              <dd className="mt-2 leading-snug text-paper-body">
                 {site.address.line1}
                 <br />
                 {site.address.town} {site.address.postcode}
@@ -83,11 +83,11 @@ export default function VisitPage() {
               data-reveal
               style={{ ["--reveal-delay" as string]: `${(i % 2) * 90}ms` }}
             >
-              <span className="label tabular-nums text-ink/70">
+              <span className="label tabular-nums text-ink-muted">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-3 font-display text-xl">{e.title}</h3>
-              <p className="mt-3 leading-relaxed text-ink/70">{e.body}</p>
+              <p className="mt-3 leading-relaxed text-ink-muted">{e.body}</p>
             </li>
           ))}
         </ol>
@@ -102,8 +102,8 @@ export default function VisitPage() {
                 key={p.label}
                 className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule py-5"
               >
-                <dt className="label text-ink/70">{p.label}</dt>
-                <dd className="text-right text-ink/80">{p.value}</dd>
+                <dt className="label text-ink-muted">{p.label}</dt>
+                <dd className="text-right text-ink-body">{p.value}</dd>
               </div>
             ))}
           </dl>
@@ -134,7 +134,7 @@ export default function VisitPage() {
       </Section>
 
       <Section tone="ink" title="Still not sure? Just ask.">
-        <p className="mb-9 max-w-xl text-lg leading-relaxed text-paper/65">
+        <p className="mb-9 max-w-xl text-lg leading-relaxed text-paper-body">
           If there&rsquo;s anything you&rsquo;d like to know before coming,
           accessibility, childcare, anything at all, send us a message and
           we&rsquo;ll answer honestly.

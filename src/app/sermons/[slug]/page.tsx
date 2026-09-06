@@ -99,8 +99,8 @@ export default async function SermonPage({ params }: Props) {
             <dl className="mt-12 grid gap-x-10 gap-y-6 border-t border-paper/12 pt-8 sm:grid-cols-2 lg:grid-cols-5">
               {facts.map((f) => (
                 <div key={f.k}>
-                  <dt className="label text-paper/55">{f.k}</dt>
-                  <dd className="mt-2 text-paper/85">
+                  <dt className="label text-paper-muted">{f.k}</dt>
+                  <dd className="mt-2 text-paper-body">
                     {f.href ? (
                       <Link href={f.href} className="link-underline">
                         {f.v}
@@ -127,7 +127,7 @@ export default async function SermonPage({ params }: Props) {
                 />
               ) : (
                 <div className="border border-rule bg-wash p-10 text-center">
-                  <p className="text-ink/70">
+                  <p className="text-ink-muted">
                     There&rsquo;s no recording available for this sermon.
                   </p>
                   <div className="mt-5 flex justify-center">
@@ -148,14 +148,14 @@ export default async function SermonPage({ params }: Props) {
             </div>
 
             <aside className="lg:col-span-3 lg:col-start-10">
-              <h2 className="label text-ink/70">Keep listening</h2>
+              <h2 className="label text-ink-muted">Keep listening</h2>
               <div className="mt-6 space-y-px">
                 {newer && (
                   <Link
                     href={`/sermons/${newer.slug}`}
                     className="group block border-t border-rule py-5"
                   >
-                    <span className="label text-ink/70">Next</span>
+                    <span className="label text-ink-muted">Next</span>
                     <span className="mt-2 block font-display text-lg transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-1">
                       {newer.title}
                     </span>
@@ -166,7 +166,7 @@ export default async function SermonPage({ params }: Props) {
                     href={`/sermons/${older.slug}`}
                     className="group block border-t border-rule py-5"
                   >
-                    <span className="label text-ink/70">Previous</span>
+                    <span className="label text-ink-muted">Previous</span>
                     <span className="mt-2 block font-display text-lg transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-1">
                       {older.title}
                     </span>

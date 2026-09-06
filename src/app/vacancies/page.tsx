@@ -61,7 +61,7 @@ export default function VacanciesPage() {
                       <Arrow className="h-4 w-4" />
                     </Link>
                   </h2>
-                  <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70">
+                  <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
                     {role.summary}
                   </p>
 
@@ -85,8 +85,8 @@ export default function VacanciesPage() {
                       key={row.k}
                       className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule py-4 first:border-t"
                     >
-                      <dt className="label text-ink/70">{row.k}</dt>
-                      <dd className="text-right text-ink/80">{row.v}</dd>
+                      <dt className="label text-ink-muted">{row.k}</dt>
+                      <dd className="text-right text-ink-body">{row.v}</dd>
                     </div>
                   ))}
                 </dl>

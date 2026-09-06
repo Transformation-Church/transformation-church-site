@@ -65,7 +65,7 @@ export default function FoodbankPage() {
                 <dt className="font-display text-4xl text-paper tabular-nums">
                   {s.value}
                 </dt>
-                <dd className="label mt-3 leading-relaxed text-paper/55">
+                <dd className="label mt-3 leading-relaxed text-paper-muted">
                   {s.label}
                 </dd>
               </div>
@@ -79,7 +79,7 @@ export default function FoodbankPage() {
         <div className="grid gap-x-16 gap-y-12 lg:grid-cols-2">
           <div data-reveal>
             <h2 className="font-display text-2xl">Our vision</h2>
-            <p className="mt-5 text-lg leading-relaxed text-ink/70">
+            <p className="mt-5 text-lg leading-relaxed text-ink-muted">
               The senior leadership of Transformation Church had a desire to
               support our local community. We believe that service to the
               community is service to God. The idea of a foodbank operating out
@@ -91,7 +91,7 @@ export default function FoodbankPage() {
           </div>
           <div data-reveal style={{ ["--reveal-delay" as string]: "100ms" }}>
             <h2 className="font-display text-2xl">Our aim</h2>
-            <p className="mt-5 text-lg leading-relaxed text-ink/70">
+            <p className="mt-5 text-lg leading-relaxed text-ink-muted">
               We know anyone can find themselves in crisis for any number of
               reasons, and when that happens we are here to help. We work to
               meet the need of the hungry, providing three to ten days&rsquo;
@@ -115,7 +115,7 @@ export default function FoodbankPage() {
               key={r}
               className="flex items-baseline gap-5 border-b border-rule py-5"
             >
-              <span className="label shrink-0 tabular-nums text-ink/70">
+              <span className="label shrink-0 tabular-nums text-ink-muted">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="text-lg">{r}</span>
@@ -128,7 +128,7 @@ export default function FoodbankPage() {
       <section className="bg-ink text-paper">
         <div className="container-page grid gap-x-16 gap-y-10 py-20 md:py-24 lg:grid-cols-12">
           <div className="lg:col-span-6" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/55">
+            <p className="label mb-6 flex items-center gap-3 text-paper-muted">
               <span className="tabular-nums">03</span>
               <span className="h-px w-8 bg-accent" />
               If you&rsquo;d like to give
@@ -136,7 +136,7 @@ export default function FoodbankPage() {
             <h2 className="font-display text-3xl text-paper">
               Donations welcome every Wednesday
             </h2>
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-paper/65">
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-paper-body">
               We receive donations at our centre on Wednesdays between 10:30am
               and 1:00pm. If you&rsquo;d like to give food, non-food items, or
               your time as a volunteer, please get in touch.
@@ -156,7 +156,7 @@ export default function FoodbankPage() {
           </div>
 
           <address className="not-italic lg:col-span-4 lg:col-start-9" data-reveal>
-            <h3 className="label text-paper/55">Find the foodbank</h3>
+            <h3 className="label text-paper-muted">Find the foodbank</h3>
             <p className="mt-5 font-display text-2xl leading-snug text-paper">
               {site.address.line1}
               <br />
@@ -164,7 +164,7 @@ export default function FoodbankPage() {
               <br />
               {site.address.postcode}
             </p>
-            <p className="mt-6 text-paper/60">Wednesdays, 10:30am to 1:00pm</p>
+            <p className="mt-6 text-paper-muted">Wednesdays, 10:30am to 1:00pm</p>
           </address>
         </div>
       </section>

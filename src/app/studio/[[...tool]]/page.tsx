@@ -23,7 +23,7 @@ export default function StudioPage() {
     return (
       <div className="container-page py-40">
         <h1 className="font-display text-3xl">Studio not configured</h1>
-        <p className="mt-5 max-w-lg text-lg text-ink/70">
+        <p className="mt-5 max-w-lg text-lg text-ink-muted">
           Set <code>NEXT_PUBLIC_SANITY_PROJECT_ID</code> in your environment to
           enable the Sanity Studio here. Until then the blog reads from the
           posts migrated out of WordPress.

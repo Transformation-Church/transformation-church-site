@@ -9,7 +9,7 @@ export function VideoCollections({
 }) {
   if (collections.length === 0) {
     return (
-      <p className="border-t border-rule py-16 text-lg text-ink/70">
+      <p className="border-t border-rule py-16 text-lg text-ink-muted">
         There&rsquo;s nothing here just yet. Check back soon.
       </p>
     );
@@ -20,11 +20,11 @@ export function VideoCollections({
       {collections.map((collection, i) => (
         <section key={collection.title} data-reveal>
           <div className="flex items-baseline gap-5 border-t border-rule pt-7">
-            <span className="label tabular-nums text-ink/70">
+            <span className="label tabular-nums text-ink-muted">
               {String(i + 1).padStart(2, "0")}
             </span>
             <h2 className="font-display text-2xl">{collection.title}</h2>
-            <span className="label ml-auto text-ink/70">
+            <span className="label ml-auto text-ink-muted">
               {collection.videos.length}{" "}
               {collection.videos.length === 1 ? "film" : "films"}
             </span>

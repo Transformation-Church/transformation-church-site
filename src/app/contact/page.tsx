@@ -28,11 +28,11 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9">
-            <h2 className="label text-ink/70">Other ways to reach us</h2>
+            <h2 className="label text-ink-muted">Other ways to reach us</h2>
 
             <dl className="mt-7 border-t border-rule">
               <div className="border-b border-rule py-6">
-                <dt className="label text-ink/70">Email</dt>
+                <dt className="label text-ink-muted">Email</dt>
                 <dd className="mt-2">
                   <a
                     href={`mailto:${site.contact.email}`}
@@ -44,8 +44,8 @@ export default function ContactPage() {
               </div>
 
               <div className="border-b border-rule py-6">
-                <dt className="label text-ink/70">Visit</dt>
-                <dd className="mt-2 leading-snug text-ink/75">
+                <dt className="label text-ink-muted">Visit</dt>
+                <dd className="mt-2 leading-snug text-ink-muted">
                   {site.address.line1}
                   <br />
                   {site.address.town}
@@ -60,15 +60,15 @@ export default function ContactPage() {
               </div>
 
               <div className="border-b border-rule py-6">
-                <dt className="label text-ink/70">Social</dt>
+                <dt className="label text-ink-muted">Social</dt>
                 <dd className="mt-3 flex flex-col gap-2">
-                  <a href={site.social.instagram} target="_blank" rel="noreferrer" className="link-underline text-ink/75">
+                  <a href={site.social.instagram} target="_blank" rel="noreferrer" className="link-underline text-ink-muted">
                     Instagram
                   </a>
-                  <a href={site.social.facebook} target="_blank" rel="noreferrer" className="link-underline text-ink/75">
+                  <a href={site.social.facebook} target="_blank" rel="noreferrer" className="link-underline text-ink-muted">
                     Facebook
                   </a>
-                  <a href={site.social.youtube} target="_blank" rel="noreferrer" className="link-underline text-ink/75">
+                  <a href={site.social.youtube} target="_blank" rel="noreferrer" className="link-underline text-ink-muted">
                     YouTube
                   </a>
                 </dd>

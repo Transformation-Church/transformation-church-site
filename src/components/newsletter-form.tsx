@@ -34,7 +34,7 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
           required
           autoComplete="email"
           placeholder="you@example.com"
-          className="w-full border-b border-paper/25 bg-transparent pb-3 text-paper placeholder:text-paper/55 focus:border-paper focus:outline-none"
+          className="w-full border-b border-paper/25 bg-transparent pb-3 text-paper placeholder:text-paper-muted focus:border-paper focus:outline-none"
         />
         <Submit />
       </div>
@@ -53,7 +53,7 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
         <p
           role="status"
           className={`mt-4 text-sm ${
-            state.status === "success" ? "text-paper/75" : "text-accent-soft"
+            state.status === "success" ? "text-paper-body" : "text-accent-soft"
           }`}
         >
           {state.message}

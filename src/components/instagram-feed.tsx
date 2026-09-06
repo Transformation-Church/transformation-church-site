@@ -84,7 +84,7 @@ export async function InstagramFeed() {
         className="flex flex-col items-start gap-7 border-t border-rule pt-10 md:flex-row md:items-center md:justify-between"
         data-reveal
       >
-        <p className="max-w-lg text-lg leading-relaxed text-ink/70">
+        <p className="max-w-lg text-lg leading-relaxed text-ink-muted">
           We post service times, events and moments from the life of the church
           on Instagram. It&rsquo;s the quickest way to see what a Sunday with us
           actually looks like.

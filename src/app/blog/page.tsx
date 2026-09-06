@@ -28,9 +28,9 @@ export default async function BlogPage() {
           categories.length > 0 ? (
             <ul className="flex flex-wrap gap-x-8 gap-y-3">
               {categories.map((c) => (
-                <li key={c.slug} className="label text-paper/55">
+                <li key={c.slug} className="label text-paper-muted">
                   {c.name}{" "}
-                  <span className="tabular-nums text-paper/55">{c.count}</span>
+                  <span className="tabular-nums text-paper-muted">{c.count}</span>
                 </li>
               ))}
             </ul>
@@ -40,7 +40,7 @@ export default async function BlogPage() {
 
       <Section>
         {posts.length === 0 ? (
-          <p className="py-20 text-center text-lg text-ink/70">
+          <p className="py-20 text-center text-lg text-ink-muted">
             There&rsquo;s nothing published yet. Check back soon.
           </p>
         ) : (
@@ -53,7 +53,7 @@ export default async function BlogPage() {
                 data-reveal
                 style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 60}ms` }}
               >
-                <span className="label col-span-12 text-ink/70 md:col-span-2">
+                <span className="label col-span-12 text-ink-muted md:col-span-2">
                   {formatDate(post.date)}
                 </span>
 
@@ -62,12 +62,12 @@ export default async function BlogPage() {
                     {post.title}
                   </span>
                   {post.author && (
-                    <span className="mt-1.5 block text-sm text-ink/70">
+                    <span className="mt-1.5 block text-sm text-ink-muted">
                       by {post.author}
                     </span>
                   )}
                   {post.excerpt && (
-                    <span className="mt-3 block max-w-xl text-ink/70">
+                    <span className="mt-3 block max-w-xl text-ink-muted">
                       {post.excerpt.slice(0, 150)}
                       {post.excerpt.length > 150 ? "…" : ""}
                     </span>

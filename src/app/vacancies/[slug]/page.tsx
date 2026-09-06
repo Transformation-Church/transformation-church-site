@@ -72,8 +72,8 @@ export default async function VacancyPage({ params }: Props) {
           <dl className="grid grid-cols-2 gap-8 lg:grid-cols-4">
             {facts.map((f) => (
               <div key={f.k}>
-                <dt className="label text-paper/55">{f.k}</dt>
-                <dd className="mt-2 text-paper/85">{f.v}</dd>
+                <dt className="label text-paper-muted">{f.k}</dt>
+                <dd className="mt-2 text-paper-body">{f.v}</dd>
               </div>
             ))}
           </dl>
@@ -89,7 +89,7 @@ export default async function VacancyPage({ params }: Props) {
       {!stillOpen && (
         <div className="bg-accent/10">
           <div className="container-page py-6">
-            <p className="text-ink/75">
+            <p className="text-ink-muted">
               <strong className="font-semibold">This role has closed.</strong>{" "}
               Applications were accepted until{" "}
               {CLOSES.format(new Date(`${role.closes}T00:00:00Z`))}. Do{" "}
@@ -114,7 +114,7 @@ export default async function VacancyPage({ params }: Props) {
                 <h2 className="font-display text-2xl">{section.heading}</h2>
 
                 {section.body?.map((p, j) => (
-                  <p key={j} className="mt-5 text-lg leading-relaxed text-ink/75">
+                  <p key={j} className="mt-5 text-lg leading-relaxed text-ink-muted">
                     {p}
                   </p>
                 ))}
@@ -124,7 +124,7 @@ export default async function VacancyPage({ params }: Props) {
                     {section.list.map((item) => (
                       <li
                         key={item}
-                        className="flex gap-4 border-b border-rule py-4 leading-relaxed text-ink/75"
+                        className="flex gap-4 border-b border-rule py-4 leading-relaxed text-ink-muted"
                       >
                         <span
                           aria-hidden
@@ -141,14 +141,14 @@ export default async function VacancyPage({ params }: Props) {
             {/* how to apply */}
             <section className="mt-16 border-t border-rule pt-10" data-reveal>
               <h2 className="font-display text-2xl">How to apply</h2>
-              <p className="mt-5 text-lg leading-relaxed text-ink/75">
+              <p className="mt-5 text-lg leading-relaxed text-ink-muted">
                 {role.apply.intro}
               </p>
               <ul className="mt-6 border-t border-rule">
                 {role.apply.items.map((item) => (
                   <li
                     key={item}
-                    className="flex gap-4 border-b border-rule py-4 leading-relaxed text-ink/75"
+                    className="flex gap-4 border-b border-rule py-4 leading-relaxed text-ink-muted"
                   >
                     <span
                       aria-hidden
@@ -159,7 +159,7 @@ export default async function VacancyPage({ params }: Props) {
                 ))}
               </ul>
               {role.apply.outro && (
-                <p className="mt-7 text-lg leading-relaxed text-ink/75">
+                <p className="mt-7 text-lg leading-relaxed text-ink-muted">
                   {role.apply.outro}
                 </p>
               )}
@@ -182,12 +182,12 @@ export default async function VacancyPage({ params }: Props) {
           {/* aside */}
           <aside className="lg:col-span-3 lg:col-start-10">
             <div className="lg:sticky lg:top-[calc(var(--header-height)+2rem)]">
-              <h2 className="label text-ink/70">At a glance</h2>
+              <h2 className="label text-ink-muted">At a glance</h2>
               <dl className="mt-6 border-t border-rule">
                 {facts.map((f) => (
                   <div key={f.k} className="border-b border-rule py-4">
-                    <dt className="label text-ink/70">{f.k}</dt>
-                    <dd className="mt-1.5 text-ink/80">{f.v}</dd>
+                    <dt className="label text-ink-muted">{f.k}</dt>
+                    <dd className="mt-1.5 text-ink-body">{f.v}</dd>
                   </div>
                 ))}
               </dl>

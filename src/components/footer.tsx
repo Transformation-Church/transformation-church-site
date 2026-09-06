@@ -35,7 +35,7 @@ export function Footer() {
             </h2>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <p className="max-w-md text-paper/60">
+            <p className="max-w-md text-paper-muted">
               Occasional news from the church: services, events and ways to get
               involved. No more than once a month.
             </p>
@@ -47,7 +47,7 @@ export function Footer() {
         <div className="grid gap-12 py-16 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <Logo tone="dark" className="h-7" />
-            <address className="mt-7 not-italic text-paper/60">
+            <address className="mt-7 not-italic text-paper-muted">
               {site.address.line1}
               <br />
               {site.address.town}
@@ -58,20 +58,20 @@ export function Footer() {
               href={site.address.maps}
               target="_blank"
               rel="noreferrer"
-              className="label link-underline mt-5 inline-block text-paper/75"
+              className="label link-underline mt-5 inline-block text-paper-body"
             >
               Get directions
             </a>
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="label text-paper/55">Explore</h3>
+            <h3 className="label text-paper-muted">Explore</h3>
             <ul className="mt-5 space-y-3">
               {navigation.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="link-underline text-paper/70 hover:text-paper"
+                    className="link-underline text-paper-body hover:text-paper"
                   >
                     {item.label}
                   </Link>
@@ -81,13 +81,13 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="label text-paper/55">More</h3>
+            <h3 className="label text-paper-muted">More</h3>
             <ul className="mt-5 space-y-3">
               {more.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="link-underline text-paper/70 hover:text-paper"
+                    className="link-underline text-paper-body hover:text-paper"
                   >
                     {item.label}
                   </Link>
@@ -97,17 +97,17 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-3 lg:col-start-10">
-            <h3 className="label text-paper/55">Sundays</h3>
+            <h3 className="label text-paper-muted">Sundays</h3>
             <ul className="mt-5 space-y-3">
               {gatherings.map((g) => (
                 <li key={`${g.language}-${g.start}`} className="flex justify-between gap-4">
-                  <span className="text-paper/70">{g.language}</span>
+                  <span className="text-paper-body">{g.language}</span>
                   <span className="font-display text-lg text-paper">{g.time}</span>
                 </li>
               ))}
             </ul>
 
-            <h3 className="label mt-10 text-paper/55">Follow</h3>
+            <h3 className="label mt-10 text-paper-muted">Follow</h3>
             <ul className="mt-5 space-y-3">
               {socials.map((s) => (
                 <li key={s.label}>
@@ -115,7 +115,7 @@ export function Footer() {
                     href={s.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="link-underline text-paper/70 hover:text-paper"
+                    className="link-underline text-paper-body hover:text-paper"
                   >
                     {s.label}
                   </a>
@@ -124,7 +124,7 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${site.contact.email}`}
-                  className="link-underline text-paper/70 hover:text-paper"
+                  className="link-underline text-paper-body hover:text-paper"
                 >
                   {site.contact.email}
                 </a>
@@ -134,7 +134,7 @@ export function Footer() {
         </div>
 
         {/* Legal */}
-        <div className="flex flex-col gap-5 border-t border-paper/12 py-8 text-paper/55 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-5 border-t border-paper/12 py-8 text-paper-muted md:flex-row md:items-center md:justify-between">
           <p className="label text-[0.6rem] leading-relaxed">
             &copy; {new Date().getFullYear()} {site.name}. Registered as a
             Charitable Incorporated Organisation in England and Wales, Charity

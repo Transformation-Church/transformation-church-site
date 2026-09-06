@@ -69,10 +69,10 @@ export function Header() {
                     solid
                       ? active
                         ? "text-ink"
-                        : "text-ink/70 hover:text-ink"
+                        : "text-ink-muted hover:text-ink"
                       : active
                         ? "text-paper"
-                        : "text-paper/70 hover:text-paper"
+                        : "text-paper-body hover:text-paper"
                   }`}
                 >
                   {item.label}
@@ -139,7 +139,7 @@ export function Header() {
                     className="flex items-baseline gap-4 py-5"
                     style={{ transitionDelay: `${i * 40}ms` }}
                   >
-                    <span className="label text-paper/55 text-[0.6rem]">
+                    <span className="label text-paper-muted text-[0.6rem]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="font-display text-3xl">{item.label}</span>
@@ -156,7 +156,7 @@ export function Header() {
             </Link>
           </nav>
 
-          <div className="label space-y-2 text-paper/55 text-[0.62rem] leading-relaxed">
+          <div className="label space-y-2 text-paper-muted text-[0.62rem] leading-relaxed">
             <p>
               {site.address.line1}, {site.address.town} {site.address.postcode}
             </p>

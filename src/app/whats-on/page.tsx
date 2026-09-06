@@ -75,7 +75,7 @@ export default async function WhatsOnPage() {
           {schedule.map((item) => {
             const inner = (
               <>
-                <span className="label col-span-12 text-ink/70 md:col-span-2">
+                <span className="label col-span-12 text-ink-muted md:col-span-2">
                   {item.weekday}
                 </span>
                 <span className="col-span-12 md:col-span-6">
@@ -83,7 +83,7 @@ export default async function WhatsOnPage() {
                     {item.name}
                   </span>
                   {item.detail && (
-                    <span className="mt-1.5 block text-ink/70">{item.detail}</span>
+                    <span className="mt-1.5 block text-ink-muted">{item.detail}</span>
                   )}
                 </span>
                 <span className="col-span-12 font-display text-xl text-ink md:col-span-4 md:text-right">
@@ -131,7 +131,7 @@ export default async function WhatsOnPage() {
       >
         {oneOff.length === 0 ? (
           <div className="border-t border-rule pt-10" data-reveal>
-            <p className="max-w-xl text-lg leading-relaxed text-ink/70">
+            <p className="max-w-xl text-lg leading-relaxed text-ink-muted">
               There are no additional events scheduled at the moment. Our
               services run as usual, and anything new will appear here as soon
               as it&rsquo;s in the diary.
@@ -155,7 +155,7 @@ export default async function WhatsOnPage() {
                   data-reveal
                   style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 60}ms` }}
                 >
-                  <span className="label col-span-12 text-ink/70 md:col-span-3">
+                  <span className="label col-span-12 text-ink-muted md:col-span-3">
                     {formatEventDate(event)}
                   </span>
 
@@ -172,13 +172,13 @@ export default async function WhatsOnPage() {
                       {event.name}
                     </span>
                     {event.location && (
-                      <span className="mt-1.5 block text-sm text-ink/70">
+                      <span className="mt-1.5 block text-sm text-ink-muted">
                         {event.location}
                       </span>
                     )}
                   </span>
 
-                  <span className="col-span-12 text-ink/70 md:col-span-3 md:text-right">
+                  <span className="col-span-12 text-ink-muted md:col-span-3 md:text-right">
                     {formatEventTime(event)}
                   </span>
                 </a>
@@ -205,7 +205,7 @@ export default async function WhatsOnPage() {
               </TextLink>
             </div>
           </address>
-          <p className="text-lg leading-relaxed text-paper/65 lg:col-span-5 lg:col-start-8">
+          <p className="text-lg leading-relaxed text-paper-body lg:col-span-5 lg:col-start-8">
             Free parking on site, three minutes&rsquo; walk from Rowley Regis
             station, and five minutes from Junction 2 of the M5.
           </p>

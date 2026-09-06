@@ -27,7 +27,7 @@ export function PageHeader({
         <div className="grid gap-x-16 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-8">
             {eyebrow && (
-              <p className="label mb-7 flex items-center gap-3 text-paper/55">
+              <p className="label mb-7 flex items-center gap-3 text-paper-muted">
                 <span className="h-px w-8 bg-accent" />
                 {eyebrow}
               </p>
@@ -37,7 +37,7 @@ export function PageHeader({
 
           {lede && (
             <div className="lg:col-span-4 lg:pt-3">
-              <p className="text-lg leading-relaxed text-paper/65">{lede}</p>
+              <p className="text-lg leading-relaxed text-paper-body">{lede}</p>
             </div>
           )}
         </div>
@@ -110,7 +110,7 @@ export function Section({
               {eyebrow && (
                 <p
                   className={`label mb-6 flex items-center gap-3 ${
-                    dark ? "text-paper/55" : "text-ink/70"
+                    dark ? "text-paper-muted" : "text-ink-muted"
                   }`}
                 >
                   {index && <span className="tabular-nums">{index}</span>}
@@ -126,7 +126,7 @@ export function Section({
                 {lede && (
                   <p
                     className={`text-lg leading-relaxed ${
-                      dark ? "text-paper/60" : "text-ink/70"
+                      dark ? "text-paper-muted" : "text-ink-muted"
                     }`}
                   >
                     {lede}
@@ -219,7 +219,7 @@ export function TextLink({
   external?: boolean;
 }) {
   const cls = `label group inline-flex items-center gap-2.5 ${
-    tone === "paper" ? "text-paper/75 hover:text-paper" : "text-ink/70 hover:text-ink"
+    tone === "paper" ? "text-paper-body hover:text-paper" : "text-ink-muted hover:text-ink"
   } transition-colors duration-300`;
 
   if (external) {
@@ -259,7 +259,7 @@ export function Accordion({
             <span className="font-display text-xl">{item.question}</span>
             <span
               className={`relative h-3 w-3 shrink-0 ${
-                dark ? "text-paper/55" : "text-ink/70"
+                dark ? "text-paper-muted" : "text-ink-muted"
               }`}
               aria-hidden
             >
@@ -269,7 +269,7 @@ export function Accordion({
           </summary>
           <div
             className={`max-w-2xl pb-7 leading-relaxed ${
-              dark ? "text-paper/60" : "text-ink/70"
+              dark ? "text-paper-muted" : "text-ink-muted"
             }`}
           >
             {item.answer}

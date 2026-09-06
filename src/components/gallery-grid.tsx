@@ -66,7 +66,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
             className={`label rounded-full px-5 py-2.5 transition-colors duration-300 ${
               active === tab
                 ? "bg-ink text-paper"
-                : "border border-rule text-ink/70 hover:border-ink/40 hover:text-ink"
+                : "border border-rule text-ink-muted hover:border-ink/40 hover:text-ink"
             }`}
           >
             {tab}
@@ -74,7 +74,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
         ))}
       </div>
 
-      <p className="label py-6 text-ink/70" role="status" aria-live="polite">
+      <p className="label py-6 text-ink-muted" role="status" aria-live="polite">
         {visible.length} {visible.length === 1 ? "photograph" : "photographs"}
       </p>
 
@@ -142,7 +142,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
                 priority
               />
             </div>
-            <figcaption className="label mt-5 flex justify-between gap-4 text-paper/55">
+            <figcaption className="label mt-5 flex justify-between gap-4 text-paper-muted">
               <span>{current.category}</span>
               <span className="tabular-nums">
                 {(open ?? 0) + 1} / {visible.length}

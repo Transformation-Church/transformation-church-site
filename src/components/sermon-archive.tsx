@@ -24,7 +24,7 @@ function Select({
   const id = `filter-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="label text-ink/70">
+      <label htmlFor={id} className="label text-ink-muted">
         {label}
       </label>
       <div className="relative">
@@ -44,7 +44,7 @@ function Select({
         <svg
           viewBox="0 0 12 8"
           aria-hidden
-          className="pointer-events-none absolute right-1 top-1/2 h-2 w-3 -translate-y-1/2 text-ink/70"
+          className="pointer-events-none absolute right-1 top-1/2 h-2 w-3 -translate-y-1/2 text-ink-muted"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
@@ -105,7 +105,7 @@ export function SermonArchive({
       {/* filters */}
       <div className="grid gap-x-10 gap-y-8 border-b border-rule pb-10 md:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="sermon-search" className="label text-ink/70">
+          <label htmlFor="sermon-search" className="label text-ink-muted">
             Search
           </label>
           <input
@@ -117,7 +117,7 @@ export function SermonArchive({
               setShown(PAGE_SIZE);
             }}
             placeholder="Title, preacher, passage"
-            className="w-full border-b border-rule-strong bg-transparent py-2.5 font-display text-lg text-ink placeholder:text-ink/70 focus:border-ink focus:outline-none"
+            className="w-full border-b border-rule-strong bg-transparent py-2.5 font-display text-lg text-ink placeholder:text-ink-muted focus:border-ink focus:outline-none"
           />
         </div>
 
@@ -133,7 +133,7 @@ export function SermonArchive({
 
       {/* count */}
       <div className="flex items-center justify-between gap-6 py-6">
-        <p className="label text-ink/70" role="status" aria-live="polite">
+        <p className="label text-ink-muted" role="status" aria-live="polite">
           {results.length} {results.length === 1 ? "sermon" : "sermons"}
         </p>
         {active && (
@@ -144,7 +144,7 @@ export function SermonArchive({
               setQuery("");
               setShown(PAGE_SIZE);
             }}
-            className="label link-underline text-ink/70 hover:text-ink"
+            className="label link-underline text-ink-muted hover:text-ink"
           >
             Clear filters
           </button>
@@ -153,7 +153,7 @@ export function SermonArchive({
 
       {/* results */}
       {results.length === 0 ? (
-        <p className="border-t border-rule py-20 text-center text-lg text-ink/70">
+        <p className="border-t border-rule py-20 text-center text-lg text-ink-muted">
           No sermons match those filters. Try widening your search.
         </p>
       ) : (

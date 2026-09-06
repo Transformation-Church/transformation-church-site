@@ -21,6 +21,26 @@
   /* Darkened from #c5462f, which measured 4.46:1 on paper and 4.05:1 on the
      warm ground: both just under the 4.5:1 AA threshold for small text. */
   --color-accent: #b93e28;
+
+  /*
+   * Solid text colours rather than opacity modifiers.
+   *
+   * Tailwind v4 compiles `text-ink/70` to an oklab() colour, which axe-core
+   * and therefore Lighthouse cannot parse: they read solid #18265e as
+   * #a0a3b6 and report failures that pixel sampling disproves. Solid tokens
+   * give the same rendered colour, are independent of what is behind them,
+   * and audit cleanly.
+   *
+   * Measured against both grounds each is used on:
+   *   ink-muted   5.27:1 on paper, 4.79:1 on warm
+   *   ink-body    7.20:1 on paper, 6.54:1 on warm
+   *   paper-muted 6.52:1 on ink-deep, 5.03:1 on ink
+   *   paper-body  8.53:1 on ink-deep, 6.59:1 on ink
+   */
+  --color-ink-muted: #5b6489;
+  --color-ink-body: #454f7b;
+  --color-paper-muted: #9999a3;
+  --color-paper-body: #b0b0b6;
   --color-accent-soft: #e4a08f;
 
   /* Navy at fixed opacities — the site's entire secondary palette. */
@@ -232,7 +252,7 @@
 .prose-tc {
   font-size: var(--text-lg);
   line-height: 1.75;
-  color: rgb(24 38 94 / 0.86);
+  color: var(--color-ink-body);
 }
 
 .prose-tc > * + * {

@@ -43,7 +43,7 @@ export default function HomePage() {
               Birmingham, and an accredited member of Assemblies of God, Great
               Britain.
             </p>
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70">
+            <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-muted">
               What began in 2002 as eleven people praying together in a house in
               Sutton Coldfield is now a multilingual church in Rowley Regis, with
               cell groups meeting across the West Midlands. We are a Christ-centred
@@ -59,12 +59,12 @@ export default function HomePage() {
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9" data-reveal>
-            <h2 className="label text-ink/70">Our core values</h2>
+            <h2 className="label text-ink-muted">Our core values</h2>
             <dl className="mt-7 border-t border-rule">
               {values.map((v) => (
                 <div key={v.name} className="border-b border-rule py-6">
                   <dt className="font-display text-xl">{v.name}</dt>
-                  <dd className="mt-2 text-ink/70">{v.body}</dd>
+                  <dd className="mt-2 text-ink-muted">{v.body}</dd>
                 </div>
               ))}
             </dl>
@@ -121,13 +121,13 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-ink text-paper">
         <div className="container-page grid gap-x-16 gap-y-12 py-20 md:py-28 lg:grid-cols-12">
           <div className="lg:col-span-5" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/55">
+            <p className="label mb-6 flex items-center gap-3 text-paper-muted">
               <span className="tabular-nums">04</span>
               <span className="h-px w-8 bg-accent" />
               In the community
             </p>
             <h2 className="font-display text-3xl text-paper">Restore Foodbank</h2>
-            <p className="mt-7 max-w-md text-lg leading-relaxed text-paper/65">
+            <p className="mt-7 max-w-md text-lg leading-relaxed text-paper-body">
               We believe service to the community is service to God. Every
               Wednesday we distribute food to families and individuals in crisis,
               in partnership with the Black Country Food Bank.
@@ -148,7 +148,7 @@ export default function HomePage() {
             ].map((s) => (
               <div key={s.l} className="border-t border-paper/12 py-8 pr-6">
                 <dt className="font-display text-4xl text-paper">{s.n}</dt>
-                <dd className="label mt-3 leading-relaxed text-paper/55">{s.l}</dd>
+                <dd className="label mt-3 leading-relaxed text-paper-muted">{s.l}</dd>
               </div>
             ))}
           </dl>
@@ -174,7 +174,7 @@ export default function HomePage() {
                 data-reveal
                 style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}
               >
-                <span className="label col-span-12 text-ink/70 md:col-span-2">
+                <span className="label col-span-12 text-ink-muted md:col-span-2">
                   {formatDate(p.date)}
                 </span>
                 <span className="col-span-12 md:col-span-7">
@@ -182,7 +182,7 @@ export default function HomePage() {
                     {p.title}
                   </span>
                   {p.author && (
-                    <span className="mt-1 block text-sm text-ink/70">
+                    <span className="mt-1 block text-sm text-ink-muted">
                       by {p.author}
                     </span>
                   )}
@@ -200,7 +200,7 @@ export default function HomePage() {
       <Section index="06" eyebrow="Come and see" title="You'd be very welcome">
         <div className="grid gap-x-16 gap-y-10 lg:grid-cols-12">
           <div className="lg:col-span-6" data-reveal>
-            <p className="text-lg leading-relaxed text-ink/70">
+            <p className="text-lg leading-relaxed text-ink-muted">
               There&rsquo;s no dress code and nothing you need to bring. Expect
               contemporary worship led by our band, a talk rooted in the Bible,
               and someone to pray with you if you&rsquo;d like. There&rsquo;s
@@ -216,7 +216,7 @@ export default function HomePage() {
           </div>
 
           <address className="not-italic lg:col-span-4 lg:col-start-9" data-reveal>
-            <h3 className="label text-ink/70">Find us</h3>
+            <h3 className="label text-ink-muted">Find us</h3>
             <p className="mt-6 font-display text-2xl leading-snug">
               {site.address.line1}
               <br />

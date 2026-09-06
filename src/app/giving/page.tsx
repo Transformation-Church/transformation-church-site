@@ -90,13 +90,13 @@ export default function GivingPage() {
         meta={
           <dl className="flex flex-wrap items-center gap-x-10 gap-y-4">
             <div>
-              <dt className="label text-paper/55">Registered charity</dt>
+              <dt className="label text-paper-muted">Registered charity</dt>
               <dd className="mt-2 font-display text-2xl tabular-nums text-paper">
                 {site.charityNumber}
               </dd>
             </div>
             <div>
-              <dt className="label text-paper/55">Gift Aid adds</dt>
+              <dt className="label text-paper-muted">Gift Aid adds</dt>
               <dd className="mt-2 font-display text-2xl text-paper">
                 25% at no cost to you
               </dd>
@@ -121,11 +121,11 @@ export default function GivingPage() {
               data-reveal
               style={{ ["--reveal-delay" as string]: `${(i % 2) * 90}ms` }}
             >
-              <span className="label tabular-nums text-ink/70">
+              <span className="label tabular-nums text-ink-muted">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h2 className="mt-3 font-display text-2xl">{way.title}</h2>
-              <p className="mt-4 leading-relaxed text-ink/70">{way.body}</p>
+              <p className="mt-4 leading-relaxed text-ink-muted">{way.body}</p>
               {way.action && (
                 <div className="mt-6">
                   <TextLink href={way.action.href} external={way.action.external}>
@@ -142,7 +142,7 @@ export default function GivingPage() {
       <section className="bg-ink text-paper">
         <div className="container-page grid gap-x-16 gap-y-10 py-20 md:py-24 lg:grid-cols-12">
           <div className="lg:col-span-6" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/55">
+            <p className="label mb-6 flex items-center gap-3 text-paper-muted">
               <span className="tabular-nums">02</span>
               <span className="h-px w-8 bg-accent" />
               Gift Aid
@@ -150,7 +150,7 @@ export default function GivingPage() {
             <h2 className="font-display text-3xl text-paper">
               Every £1 you give becomes £1.25
             </h2>
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-paper/65">
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-paper-body">
               If you are a UK taxpayer, Gift Aid lets us reclaim the basic-rate
               tax you have already paid on your donation. It costs you nothing
               extra, it takes one tick when you give online, and across a year
@@ -175,7 +175,7 @@ export default function GivingPage() {
             ].map((s) => (
               <div key={s.n} className="border-t border-paper/12 py-7 pr-6">
                 <dt className="font-display text-3xl text-paper">{s.n}</dt>
-                <dd className="label mt-2.5 text-paper/55">{s.l}</dd>
+                <dd className="label mt-2.5 text-paper-muted">{s.l}</dd>
               </div>
             ))}
           </dl>
@@ -190,7 +190,7 @@ export default function GivingPage() {
 
       <Section>
         <div className="border-t border-rule pt-10" data-reveal>
-          <p className="max-w-2xl text-lg leading-relaxed text-ink/70">
+          <p className="max-w-2xl text-lg leading-relaxed text-ink-muted">
             {site.name} is registered as a Charitable Incorporated Organisation
             in England and Wales, charity number {site.charityNumber}. If you
             would like to see how we use what is given, or have any question at
