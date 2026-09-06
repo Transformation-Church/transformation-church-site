@@ -1,35 +1,42 @@
+<div align="center">
+
+<img src="public/brand/emblem.png" alt="Transformation Church" width="112">
+
 # Transformation Church
 
-Website for Transformation Church, Rowley Regis. A rebuild of the previous
-WordPress and Elementor site.
+**Rowley Regis, Birmingham** · Registered charity 1208306
+
+A rebuild of transformationchurch.co.uk, replacing WordPress and Elementor.
+
+<br>
+
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.25-000000?style=plastic&logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19.1.1-087EA4?style=plastic&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=plastic&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=plastic&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+
+[![Sanity](https://img.shields.io/badge/Sanity-blog_CMS-F03E2F?style=plastic&logo=sanity&logoColor=white)](https://www.sanity.io)
+[![ChurchSuite](https://img.shields.io/badge/ChurchSuite-events_feed-18265E?style=plastic)](https://churchsuite.com)
+[![Vercel](https://img.shields.io/badge/Vercel-deployed-000000?style=plastic&logo=vercel&logoColor=white)](https://vercel.com)
+
+[![Accessibility](https://img.shields.io/badge/WCAG_2.2_AA-0_violations-1D6A4F?style=plastic)](#accessibility)
+[![Pages](https://img.shields.io/badge/prerendered-245_pages-18265E?style=plastic)](#where-the-content-lives)
+[![Sermons](https://img.shields.io/badge/sermon_archive-165-18265E?style=plastic)](#sermons-preachers-series-static-json)
+[![Cookies](https://img.shields.io/badge/cookies_set-none-1D6A4F?style=plastic)](#notes-on-decisions)
+
+**[Live site](https://transformation-church-site.vercel.app)**  ·  **[Council paper](docs/council-paper-website-rebuild.html)**  ·  **[Studio](https://transformation-church-site.vercel.app/studio)**
+
+</div>
+
+---
 
 **Stack:** Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Sanity for
 the blog · ChurchSuite for events · deployed on Vercel.
 
-- Live (temporary address): https://transformation-church-site.vercel.app
-- Repository: https://github.com/Transformation-Church/transformation-church-site
-
----
-
-## Getting started
-
-```bash
-npm install
-npm run dev
-```
-
-The site runs with no environment variables at all. Every integration degrades
-to a designed state rather than an error: the blog serves the posts migrated
-out of WordPress, events fall back to the confirmed Sunday schedule, Instagram
-shows a follow panel, and the contact forms tell people to email the office
-directly.
-
-| Script | What it does |
-| --- | --- |
-| `npm run dev` | Development server |
-| `npm run build` | Production build (247 prerendered pages) |
-| `npm start` | Serve the production build |
-| `npm run typecheck` | `tsc --noEmit` |
+> **Note**
+> The live address above is temporary. The site deliberately sends `noindex`
+> until `SITE_INDEXABLE=true` is set, so it is not indexed as duplicate content
+> against the old site. See the [launch checklist](#launch-checklist).
 
 ---
 
@@ -39,7 +46,7 @@ There are four sources, chosen per content type rather than forced into one CMS.
 
 ### Sermons, preachers, series: static JSON
 
-167 sermons, 25 preachers and 19 series live in `src/content/*.json`, generated
+165 sermons, 25 preachers and 19 series live in `src/content/*.json`, generated
 from the WordPress export. They are archival and change rarely, so they ship in
 the bundle: no CMS round trip, no query cost, and every sermon page is
 prerendered.
@@ -92,8 +99,10 @@ Two things worth knowing if you touch `src/lib/events.ts`:
 
 ### Everything else: typed modules
 
-Service times, address, social links and the ChurchSuite account are in
-`src/lib/site.ts`. The statement of faith is in `src/content/beliefs.ts`, open
+Address, social links and the ChurchSuite account are in `src/lib/site.ts`.
+Service times are **not** hardcoded: `getGatherings()` reads them from
+ChurchSuite, and the list in `site.ts` is only a fallback for when that feed is
+unreachable. The statement of faith is in `src/content/beliefs.ts`, open
 roles in `src/content/vacancies.ts`. The "Are you new here?" answers live in one
 place because the old site had them duplicated across six pages and they had
 drifted apart.
@@ -125,17 +134,15 @@ See `.env.example`. All are optional; the table says what happens without each.
 3. Add `RESEND_API_KEY` and `CONTACT_FROM` so the forms deliver.
 4. Replace the Restore Foodbank figures, which are from 2023 and flagged with a
    `TODO` in `src/app/restore-foodbank/page.tsx`.
-5. Decide whether the Friday Hindi Service belongs in the headline schedule in
-   `src/lib/site.ts`. It runs weekly in ChurchSuite and appears on What's On,
-   but was not in the schedule confirmed at handover.
+### Excluded sermons
 
-### Known defects in the source data
+Two WordPress records are faulty and unrepairable from the export, so they are
+listed in `EXCLUDED_SERMONS` in the migration script and do not appear on the
+site. Fix them at source and delete the slug to bring them back.
 
-Both are in WordPress, not in the migration:
-
-- *Cautions in Extended Life, Part 3* has a truncated YouTube ID
-  (`EKZrQWWkuj`, 10 characters where 11 are required).
-- *God's presence: The only source of Blessing* has no preacher assigned.
+- *Cautions in Extended Life, Part 3*: YouTube ID truncated to 10 characters
+  where 11 are required, so the real link is unrecoverable.
+- *God's presence: The only source of Blessing*: no preacher assigned.
 
 ---
 

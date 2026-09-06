@@ -1,0 +1,571 @@
+<title>Transformation Church Rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Instrument+Sans:wght@400;500;600&display=swap">
+
+<style>
+  /* ---------------------------------------------------------------- tokens
+     Taken from the rebuilt site's own design system, so the council reads the
+     case in the visual language it is being asked to approve. */
+  :root {
+    --ink:        #18265e;
+    --ink-deep:   #0b1132;
+    --ink-body:   #454f7b;
+    --ink-muted:  #5b6489;
+    --paper:      #f7f4ee;
+    --paper-warm: #efe9df;
+    --card:       #fdfbf7;
+    --accent:     #b93e28;
+    --good:       #1d6a4f;
+    --rule:       rgb(24 38 94 / 0.14);
+    --rule-soft:  rgb(24 38 94 / 0.07);
+
+    --display: "Newsreader", "Iowan Old Style", Georgia, serif;
+    --sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink:        #eef1fb;
+      --ink-deep:   #f7f9ff;
+      --ink-body:   #c3c9e2;
+      --ink-muted:  #9aa2c2;
+      --paper:      #0b1132;
+      --paper-warm: #131a3e;
+      --card:       #161e46;
+      --accent:     #ff8a70;
+      --good:       #5fce9f;
+      --rule:       rgb(214 222 255 / 0.18);
+      --rule-soft:  rgb(214 222 255 / 0.09);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink:        #eef1fb;
+    --ink-deep:   #f7f9ff;
+    --ink-body:   #c3c9e2;
+    --ink-muted:  #9aa2c2;
+    --paper:      #0b1132;
+    --paper-warm: #131a3e;
+    --card:       #161e46;
+    --accent:     #ff8a70;
+    --good:       #5fce9f;
+    --rule:       rgb(214 222 255 / 0.18);
+    --rule-soft:  rgb(214 222 255 / 0.09);
+  }
+
+  /* ------------------------------------------------------------------ base */
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink-body);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 60rem;
+    margin-inline: auto;
+    padding: 0 clamp(1.25rem, 4vw, 3.5rem) 6rem;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--display);
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.14;
+    letter-spacing: -0.014em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h1 { font-size: clamp(2.3rem, 1.6rem + 3vw, 3.6rem); }
+  h2 { font-size: clamp(1.5rem, 1.2rem + 1.3vw, 2.1rem); }
+  h3 { font-size: 1.2rem; }
+
+  p { margin: 0; text-wrap: pretty; }
+  a { color: inherit; }
+
+  .label {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  .rule { height: 1px; background: var(--rule); border: 0; margin: 0; }
+
+  /* --------------------------------------------------------------- masthead */
+  .masthead {
+    background: var(--ink-deep);
+    color: var(--paper);
+    padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 3.5rem;
+  }
+  :root[data-theme="dark"] .masthead,
+  :root:not([data-theme="light"]) .masthead { border-bottom: 1px solid var(--rule); }
+
+  .masthead .wrap { padding-bottom: 0; }
+  .masthead h1 { color: #f7f4ee; }
+  .masthead .label { color: rgb(247 244 238 / 0.6); }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .masthead { background: #060a20; }
+  }
+  :root[data-theme="dark"] .masthead { background: #060a20; }
+
+  .eyebrow { display: flex; align-items: center; gap: 0.75rem; }
+  .eyebrow::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    flex: none;
+  }
+
+  .lede {
+    color: rgb(247 244 238 / 0.75);
+    font-size: 1.16rem;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin-top: 1.6rem;
+  }
+
+  .masthead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 2.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(247 244 238 / 0.16);
+    font-size: 0.86rem;
+    color: rgb(247 244 238 / 0.62);
+  }
+
+  /* --------------------------------------------------------------- sections */
+  section { margin-top: 3.75rem; }
+  section > * + * { margin-top: 1.15rem; }
+  section > h2 + p { margin-top: 1.4rem; }
+
+  .prose { max-width: 64ch; }
+
+  /* ------------------------------------------------------------ verdict box */
+  .verdict {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 1.6rem 1.75rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .verdict strong { color: var(--ink); font-weight: 600; }
+
+  /* ----------------------------------------------------------------- table */
+  .table-scroll { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    min-width: 34rem;
+  }
+
+  caption {
+    text-align: left;
+    color: var(--ink-muted);
+    font-size: 0.86rem;
+    padding-bottom: 0.9rem;
+    line-height: 1.5;
+  }
+
+  th, td { padding: 0.72rem 0.9rem; text-align: left; vertical-align: baseline; }
+  th:first-child, td:first-child { padding-left: 0; }
+  th:last-child, td:last-child { padding-right: 0; }
+
+  thead th {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.6rem;
+  }
+
+  tbody tr + tr td { border-top: 1px solid var(--rule-soft); }
+  tbody th { font-weight: 500; color: var(--ink); font-family: var(--sans); font-size: 0.95rem; }
+
+  .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .old { color: var(--ink-muted); }
+  .new { color: var(--ink); font-weight: 600; }
+  .delta {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--good);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* --------------------------------------------------------------- findings */
+  .findings { display: grid; gap: 1.5rem; margin-top: 1.75rem; }
+  @media (min-width: 46rem) { .findings { grid-template-columns: 1fr 1fr; gap: 1.75rem 2.5rem; } }
+
+  .finding { display: grid; gap: 0.5rem; align-content: start; }
+  .finding h3 { color: var(--ink); }
+  .finding p { color: var(--ink-body); }
+  .finding .was {
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+    border-left: 2px solid var(--rule);
+    padding-left: 0.85rem;
+  }
+
+  /* ------------------------------------------------------------- inventory */
+  .inventory {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .inventory li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .inventory .what { color: var(--ink-body); }
+  .inventory .count {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+
+  /* ------------------------------------------------------------- footnote */
+  .method {
+    margin-top: 4rem;
+    padding: 1.5rem 1.75rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule-soft);
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--ink-muted);
+    display: grid;
+    gap: 0.7rem;
+  }
+  .method strong { color: var(--ink); font-weight: 600; }
+
+  .signoff {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+  }
+
+  a.link { color: var(--ink); text-decoration-color: var(--rule); text-underline-offset: 0.2em; }
+  a.link:hover { text-decoration-color: var(--accent); }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    .masthead { background: #fff; color: #000; padding-top: 0; }
+    .masthead h1, .masthead .label, .lede, .masthead-meta { color: #000; }
+    section { break-inside: avoid; }
+    .wrap { max-width: none; }
+  }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="label eyebrow">Paper for the church council</p>
+    <h1>Replacing the church website</h1>
+    <p class="lede">
+      The rebuilt site is finished and running. This paper sets out what
+      measurably changes, what carries over unchanged, and what is still
+      outstanding before it can go live.
+    </p>
+    <div class="masthead-meta">
+      <span>Transformation Church, Rowley Regis</span>
+      <span>Registered charity 1208306</span>
+      <span>Prepared by Jobin Bennykutty</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section aria-labelledby="ask">
+    <h2 id="ask">What is being asked</h2>
+    <div class="verdict">
+      <p><strong>The proposal:</strong> retire the current WordPress site and point
+      transformationchurch.co.uk at the rebuilt one.</p>
+      <p>Every page, sermon, photograph and policy from the current site has already been
+      moved across. Nothing is discarded. The change is a switch of address, and it is
+      reversible &mdash; the existing site can be restored by pointing the domain back.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="measured">
+    <h2 id="measured">What actually changes</h2>
+    <p class="prose">
+      Both home pages were loaded under identical conditions and measured with the same
+      tooling. These are not estimates.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Home page, desktop, single load with an empty cache.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Measure</th>
+            <th scope="col" class="num">Current site</th>
+            <th scope="col" class="num">Rebuilt site</th>
+            <th scope="col" class="delta">Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Page ready to read</th>
+            <td class="num old">4.60 s</td>
+            <td class="num new">0.13 s</td>
+            <td class="delta">36&times; faster</td>
+          </tr>
+          <tr>
+            <th scope="row">Fully loaded</th>
+            <td class="num old">5.16 s</td>
+            <td class="num new">0.25 s</td>
+            <td class="delta">21&times; faster</td>
+          </tr>
+          <tr>
+            <th scope="row">Data downloaded</th>
+            <td class="num old">8.02 MB</td>
+            <td class="num new">0.65 MB</td>
+            <td class="delta">12&times; lighter</td>
+          </tr>
+          <tr>
+            <th scope="row">Files requested</th>
+            <td class="num old">113</td>
+            <td class="num new">35</td>
+            <td class="delta">69% fewer</td>
+          </tr>
+          <tr>
+            <th scope="row">Stylesheets loaded</th>
+            <td class="num old">37</td>
+            <td class="num new">1</td>
+            <td class="delta">36 removed</td>
+          </tr>
+          <tr>
+            <th scope="row">Accessibility failures</th>
+            <td class="num old">21</td>
+            <td class="num new">0</td>
+            <td class="delta">all resolved</td>
+          </tr>
+          <tr>
+            <th scope="row">Cookies set on arrival</th>
+            <td class="num old">2</td>
+            <td class="num new">0</td>
+            <td class="delta">none set</td>
+          </tr>
+          <tr>
+            <th scope="row">Outside companies contacted</th>
+            <td class="num old">6</td>
+            <td class="num new">0</td>
+            <td class="delta">none</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="prose" style="margin-top:1.4rem">
+      The speed difference matters most to the people we are least likely to hear from.
+      A visitor on a weak mobile signal looking up what time the service starts currently
+      waits around five seconds and downloads eight megabytes. Many will not wait.
+    </p>
+  </section>
+
+  <hr class="rule" style="margin-top:3.5rem">
+
+  <section aria-labelledby="fixes">
+    <h2 id="fixes">Problems this fixes</h2>
+    <p class="prose">Each of these was found on the current site during the rebuild.</p>
+
+    <div class="findings">
+
+      <div class="finding">
+        <h3>The service times contradict themselves</h3>
+        <p>
+          The current site publishes four different versions of the Sunday schedule
+          across its pages. A first-time visitor cannot tell which is right.
+        </p>
+        <p class="was">
+          Now held in one place and used everywhere, including the live calendar.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>Twelve links a screen reader cannot name</h3>
+        <p>
+          Twelve links on the current home page have no readable text, so a blind
+          visitor hears only &ldquo;link&rdquo; with no indication of where it goes.
+          Nine further elements fail contrast.
+        </p>
+        <p class="was">
+          The rebuilt site passes every automated check on WCAG 2.2 AA across
+          24 pages on both desktop and mobile.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>Advertising trackers load before anyone consents</h3>
+        <p>
+          On arrival the current site contacts Google Analytics, Google Tag Manager
+          and DoubleClick, an advertising network, and sets cookies before any choice
+          is offered.
+        </p>
+        <p class="was">
+          The rebuilt site sets no cookies and loads nothing from third parties. Sermon
+          videos only contact YouTube once someone presses play.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>Six plugins to keep patched</h3>
+        <p>
+          The page builder, sermon manager, events calendar, SEO tool, cookie banner
+          and security plugin each need updating, and each is a way in if it is not.
+        </p>
+        <p class="was">
+          The rebuilt site has no plugins and no database to compromise. Pages are
+          pre-built files.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>A vacancy nobody can find</h3>
+        <p>
+          The Youth Pastor job description sits in the current site's media library
+          with no page linking to it, and closes on 30 September.
+        </p>
+        <p class="was">
+          Now a proper page, written so it can appear in Google&rsquo;s job listings.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>Statements of faith missing their references</h3>
+        <p>
+          The thirteen beliefs on the current About page have had their scripture
+          citations stripped out.
+        </p>
+        <p class="was">
+          Restored in full from the original document, every reference in place.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="rule" style="margin-top:3.5rem">
+
+  <section aria-labelledby="carried">
+    <h2 id="carried">Nothing is lost</h2>
+    <p class="prose">
+      Everything below was moved across automatically from a full export of the current
+      site, checked, and is live on the rebuilt one.
+    </p>
+    <ul class="inventory">
+      <li><span class="what">Sermons, with preacher, series, date and video</span><span class="count">165</span></li>
+      <li><span class="what">Preachers, each with their own page</span><span class="count">25</span></li>
+      <li><span class="what">Sermon series</span><span class="count">19</span></li>
+      <li><span class="what">Gallery photographs, 2013 onwards</span><span class="count">59</span></li>
+      <li><span class="what">Blog posts and poems, with their authors</span><span class="count">9</span></li>
+      <li><span class="what">Statements of faith, with scripture references</span><span class="count">13</span></li>
+      <li><span class="what">Kids Space and Spark films</span><span class="count">14</span></li>
+      <li><span class="what">Privacy policy, terms of use, cookie policy</span><span class="count">3</span></li>
+      <li><span class="what">Our history, in full and unedited</span><span class="count">complete</span></li>
+      <li><span class="what">Restore Foodbank, including how to get help</span><span class="count">complete</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="new">
+    <h2 id="new">What the church gains</h2>
+    <div class="findings">
+
+      <div class="finding">
+        <h3>A live What&rsquo;s On page</h3>
+        <p>
+          Reads directly from the church&rsquo;s own ChurchSuite calendar. Whatever the
+          office puts in the diary appears on the website within fifteen minutes, with
+          no one touching the site.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>Giving, with Gift Aid explained</h3>
+        <p>
+          Four ways to give, and a plain explanation that Gift Aid adds 25p to every
+          pound at no cost to the giver. The current site has no giving page at all.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>The blog is editable without a developer</h3>
+        <p>
+          Posts are written and published through a simple editor. No code, no plugin
+          updates, and a mistake cannot break the rest of the site.
+        </p>
+      </div>
+
+      <div class="finding">
+        <h3>Findable by search engines and AI assistants</h3>
+        <p>
+          The service times, address, charity number and every sermon are published in
+          a form search engines read directly, so an answer to &ldquo;what time is the
+          service&rdquo; comes from us rather than from guesswork.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="method">
+    <p><strong>How these figures were produced.</strong>
+      Both sites were loaded in the same browser at the same screen size with an empty
+      cache, and timings taken from the browser&rsquo;s own performance record. Accessibility
+      was tested with axe, the industry-standard automated checker, against WCAG 2.2
+      Level AA.</p>
+    <p>Two honest caveats. Each site was measured once from one location, so the timings
+      will vary a little between runs; the scale of the difference will not. And automated
+      accessibility testing catches most problems but not all &mdash; it is not a substitute
+      for testing with people who use assistive technology.</p>
+  </div>
+
+  <p class="signoff">
+    The rebuilt site can be reviewed in full before any decision is taken. Every point in
+    this paper can be demonstrated live.
+  </p>
+
+</div>
