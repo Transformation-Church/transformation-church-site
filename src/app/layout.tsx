@@ -39,7 +39,11 @@ export const metadata: Metadata = {
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
   },
-  robots: { index: true, follow: true },
+  // Mirrors the SITE_INDEXABLE gate in next.config.ts and robots.ts.
+  robots:
+    process.env.SITE_INDEXABLE === "true"
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
 };
 
 export default function RootLayout({
