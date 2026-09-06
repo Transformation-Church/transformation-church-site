@@ -19,6 +19,9 @@ export const site = {
     town: "Rowley Regis",
     postcode: "B65 0LJ",
     country: "United Kingdom",
+    // From the ChurchSuite site record, not estimated.
+    latitude: 52.477975,
+    longitude: -2.034637,
     maps: "https://maps.app.goo.gl/w2Mh2DpbEgfrguY88",
   },
 
@@ -72,15 +75,16 @@ export const gatherings: Gathering[] = [
 
 export const navigation = [
   { label: "About", href: "/about" },
+  { label: "What's On", href: "/whats-on" },
   { label: "Sermons", href: "/sermons" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Blog", href: "/blog" },
   { label: "Foodbank", href: "/restore-foodbank" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
 /** Secondary links surfaced in the footer rather than the main nav. */
 export const footerLinks = [
+  { label: "Gallery", href: "/gallery" },
   { label: "Our History", href: "/our-history" },
   { label: "Kids Space", href: "/kids-space" },
   { label: "Spark", href: "/spark" },

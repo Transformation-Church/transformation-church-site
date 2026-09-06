@@ -45,6 +45,7 @@ The church began in July 2002 as a Malayalam-language prayer fellowship of about
 ## Visiting
 
 ${line("Plan your visit", "/visit", "Service times, what to expect on a Sunday, directions, parking and accessibility")}
+${line("What's on", "/whats-on", "The weekly rhythm plus any upcoming one-off events")}
 ${line("Contact", "/contact", "Connection card, prayer requests and general enquiries")}
 ${line("Connect", "/connect", "All social channels, giving and directions in one place")}
 

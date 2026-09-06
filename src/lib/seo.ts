@@ -49,6 +49,11 @@ export function churchSchema() {
       postalCode: site.address.postcode,
       addressCountry: "GB",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: site.address.latitude,
+      longitude: site.address.longitude,
+    },
     hasMap: site.address.maps,
     parentOrganization: {
       "@type": "Organization",

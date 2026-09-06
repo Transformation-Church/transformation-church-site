@@ -8,6 +8,7 @@ import { site } from "@/lib/site";
 const STATIC_ROUTES = [
   { path: "/", priority: 1 },
   { path: "/visit", priority: 0.9 },
+  { path: "/whats-on", priority: 0.85 },
   { path: "/about", priority: 0.8 },
   { path: "/sermons", priority: 0.8 },
   { path: "/gallery", priority: 0.7 },
