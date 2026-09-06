@@ -44,7 +44,7 @@ export function churchSchema(gatherings: Gathering[]) {
     "@type": "Church",
     "@id": ORG_ID,
     name: site.name,
-    alternateName: "TC",
+    alternateName: ["TC", "Birmingham Pentecostal Fellowship", "BPF"],
     url: site.url,
     logo: absolute("/brand/logo-light.png"),
     image: absolute("/brand/logo-light.png"),
@@ -64,13 +64,40 @@ export function churchSchema(gatherings: Gathering[]) {
       longitude: site.address.longitude,
     },
     hasMap: site.address.maps,
+    // Worship happens in three languages. This is the signal that connects the
+    // church to Malayalam and Hindi language searches, and it is simply true.
+    knowsLanguage: [
+      { "@type": "Language", name: "English", alternateName: "en-GB" },
+      { "@type": "Language", name: "Malayalam", alternateName: "ml" },
+      { "@type": "Language", name: "Hindi", alternateName: "hi" },
+    ],
+    areaServed: [
+      { "@type": "City", name: "Birmingham" },
+      { "@type": "Place", name: "Rowley Regis" },
+      { "@type": "Place", name: "Sandwell" },
+      { "@type": "Place", name: "The Black Country" },
+      { "@type": "AdministrativeArea", name: "West Midlands" },
+    ],
+    memberOf: {
+      "@type": "Organization",
+      name: "Assemblies of God, Great Britain",
+      url: "https://www.aog.org.uk/",
+    },
+    denomination: "Pentecostal",
     parentOrganization: {
       "@type": "Organization",
       name: site.parentOrg,
       description:
         "An accredited member of Assemblies of God, Great Britain, and a registered charity in England and Wales.",
     },
-    sameAs: [site.social.facebook, site.social.youtube, site.social.instagram],
+    sameAs: [
+      site.social.facebook,
+      site.social.youtube,
+      site.social.instagram,
+      // Helps Google connect this site to the Business Profile listing, which
+      // is what actually answers "church near me" searches.
+      site.address.maps,
+    ],
     // Registered Charitable Incorporated Organisation.
     identifier: {
       "@type": "PropertyValue",

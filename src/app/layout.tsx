@@ -31,19 +31,25 @@ const instrument = Instrument_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | ${site.tagline}`,
+    // Names the languages people actually search for. All three services are
+    // real and weekly, so this is descriptive, not keyword stuffing.
+    default: `${site.name} | Malayalam & English Pentecostal Church in Birmingham`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
   alternates: { canonical: "/" },
   keywords: [
-    "church in Rowley Regis",
-    "church in Birmingham",
-    "Pentecostal church Birmingham",
     "Malayalam church Birmingham",
-    "Assemblies of God",
+    "Malayalam Pentecostal church",
+    "Malayalam church near me",
+    "Hindi church Birmingham",
+    "Pentecostal church Birmingham",
+    "AOG church near me",
+    "Assemblies of God church Birmingham",
+    "church in Rowley Regis",
+    "church in Sandwell",
     "Birmingham Pentecostal Fellowship",
-    "Sunday service Rowley Regis",
+    "Kerala Christian community Birmingham",
     "foodbank Rowley Regis",
   ],
   openGraph: {

@@ -49,6 +49,7 @@ The church began in July 2002 as a Malayalam-language prayer fellowship of about
 ${line("Plan your visit", "/visit", "Service times, what to expect on a Sunday, directions, parking and accessibility")}
 ${line("What's on", "/whats-on", "The weekly rhythm plus any upcoming one-off events")}
 ${line("Giving", "/giving", "Ways to give, and how Gift Aid adds 25% to a UK taxpayer's donation")}
+${line("Malayalam service", "/malayalam-service", "For Malayalam-speaking families: the weekly Malayalam service, the church's Kerala roots, and where cell groups meet")}
 ${line("Contact", "/contact", "Connection card, prayer requests and general enquiries")}
 ${line("Connect", "/connect", "All social channels, giving and directions in one place")}
 

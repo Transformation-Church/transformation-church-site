@@ -9,7 +9,7 @@ export const site = {
   shortName: "TC",
   tagline: "Rowley Regis, Birmingham",
   description:
-    "A multicultural Pentecostal church in Rowley Regis, Birmingham. Part of Birmingham Pentecostal Fellowship, an accredited member of Assemblies of God, Great Britain.",
+    "Malayalam, English and Hindi Pentecostal church in Rowley Regis, Birmingham. Part of Birmingham Pentecostal Fellowship, an accredited member of Assemblies of God, Great Britain. Everyone welcome on Sundays.",
   url: "https://www.transformationchurch.co.uk",
   charityNumber: "1208306",
   parentOrg: "Birmingham Pentecostal Fellowship",
@@ -22,7 +22,11 @@ export const site = {
     // From the ChurchSuite site record, not estimated.
     latitude: 52.477975,
     longitude: -2.034637,
-    maps: "https://maps.app.goo.gl/w2Mh2DpbEgfrguY88",
+    // Long-form place URL rather than a maps.app.goo.gl short link. The old
+    // site used one of those and it now returns "Dynamic Link Not Found",
+    // because Google retired the dynamic-link service behind them. This form
+    // points at the same Business Profile listing and does not depend on it.
+    maps: "https://www.google.com/maps/place/Transformation+Church+UK+(+Part+of+BPF+Ministries)/@52.4779727,-2.0346321,17z/data=!4m6!3m5!1s0x4870970726982b27:0xa004ed42e300a1ff",
   },
 
   contact: {
@@ -90,6 +94,7 @@ export const navigation = [
 
 /** Secondary links surfaced in the footer rather than the main nav. */
 export const footerLinks = [
+  { label: "Malayalam Service", href: "/malayalam-service" },
   { label: "Blog", href: "/blog" },
   { label: "Gallery", href: "/gallery" },
   { label: "Our History", href: "/our-history" },
