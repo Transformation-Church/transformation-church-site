@@ -161,10 +161,16 @@ export default async function WhatsOnPage() {
 
                   <span className="col-span-12 md:col-span-6">
                     {event.category && (
-                      <span
-                        className="label mb-2 block"
-                        style={{ color: event.category.color }}
-                      >
+                      /* ChurchSuite's category colours are chosen for a
+                         calendar grid, not for text: "Prayer Tower" (#fa5252)
+                         measures 2.72:1 on our warm ground. Keep the colour as
+                         a swatch and set the label in a readable tone. */
+                      <span className="label mb-2 flex items-center gap-2 text-ink-muted">
+                        <span
+                          aria-hidden
+                          className="inline-block h-2 w-2 shrink-0 rounded-full"
+                          style={{ backgroundColor: event.category.color }}
+                        />
                         {event.category.name}
                       </span>
                     )}
