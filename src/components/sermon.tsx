@@ -34,7 +34,7 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
       className="group relative grid grid-cols-12 items-center gap-x-6 gap-y-2 border-b border-rule py-6 transition-colors duration-500 hover:border-ink/35"
     >
       <div className="col-span-2 hidden md:block">
-        <span className="label tabular-nums text-ink/40">
+        <span className="label tabular-nums text-ink/70">
           {formatDateShort(sermon.date)}
         </span>
       </div>
@@ -43,22 +43,22 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
         {sermon.series && (
           <span className="label mb-2 block text-accent">{sermon.series.name}</span>
         )}
-        <h3 className="font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
+        <h2 className="font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
           {sermon.title}
-        </h3>
-        <span className="label mt-2 block text-ink/40 md:hidden">
+        </h2>
+        <span className="label mt-2 block text-ink/70 md:hidden">
           {formatDateShort(sermon.date)}
         </span>
       </div>
 
       <div className="col-span-8 md:col-span-3">
         {sermon.preacher && (
-          <span className="text-sm text-ink/55">{sermon.preacher.name}</span>
+          <span className="text-sm text-ink/70">{sermon.preacher.name}</span>
         )}
       </div>
 
       <div className="col-span-4 flex justify-end md:col-span-1">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-rule text-ink/45 transition-colors duration-500 group-hover:border-ink group-hover:bg-ink group-hover:text-paper">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-rule text-ink/70 transition-colors duration-500 group-hover:border-ink group-hover:bg-ink group-hover:text-paper">
           <Arrow />
         </span>
       </div>
@@ -124,7 +124,7 @@ export function SermonCard({
         )}
       </span>
 
-      <span className="label mt-6 flex items-center gap-3 text-ink/40">
+      <span className="label mt-6 flex items-center gap-3 text-ink/70">
         <span className="tabular-nums">{formatDate(sermon.date)}</span>
         {sermon.series && (
           <>
@@ -137,7 +137,7 @@ export function SermonCard({
       <h3 className="mt-3 font-display text-xl">{sermon.title}</h3>
 
       {sermon.preacher && (
-        <span className="mt-2 text-sm text-ink/55">{sermon.preacher.name}</span>
+        <span className="mt-2 text-sm text-ink/70">{sermon.preacher.name}</span>
       )}
     </Link>
   );

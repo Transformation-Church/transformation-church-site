@@ -15,7 +15,7 @@ const SUBJECTS = [
 ];
 
 const field =
-  "w-full border-b border-rule-strong bg-transparent py-3 text-ink placeholder:text-ink/30 focus:border-ink focus:outline-none";
+  "w-full border-b border-rule-strong bg-transparent py-3 text-ink placeholder:text-ink/70 focus:border-ink focus:outline-none";
 
 function Submit() {
   const { pending } = useFormStatus();
@@ -47,13 +47,13 @@ export function ContactForm() {
     <form action={action} className="grid gap-8">
       <div className="grid gap-8 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="label text-ink/45">
+          <label htmlFor="name" className="label text-ink/70">
             Your name *
           </label>
           <input id="name" name="name" required autoComplete="name" className={`${field} mt-3`} />
         </div>
         <div>
-          <label htmlFor="email" className="label text-ink/45">
+          <label htmlFor="email" className="label text-ink/70">
             Email *
           </label>
           <input
@@ -66,13 +66,13 @@ export function ContactForm() {
           />
         </div>
         <div>
-          <label htmlFor="tel" className="label text-ink/45">
+          <label htmlFor="tel" className="label text-ink/70">
             Phone
           </label>
           <input id="tel" name="tel" type="tel" autoComplete="tel" className={`${field} mt-3`} />
         </div>
         <div>
-          <label htmlFor="subject" className="label text-ink/45">
+          <label htmlFor="subject" className="label text-ink/70">
             What&rsquo;s it about?
           </label>
           <select id="subject" name="subject" className={`${field} mt-3 appearance-none`}>
@@ -86,7 +86,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="label text-ink/45">
+        <label htmlFor="message" className="label text-ink/70">
           Message *
         </label>
         <textarea
@@ -116,7 +116,7 @@ export function ContactForm() {
 
       <div className="flex flex-wrap items-center gap-6">
         <Submit />
-        <p className="max-w-xs text-sm leading-relaxed text-ink/50">
+        <p className="max-w-xs text-sm leading-relaxed text-ink/70">
           By sending this form you agree to our{" "}
           <Link href="/privacy-policy" className="link-underline">
             Privacy Policy

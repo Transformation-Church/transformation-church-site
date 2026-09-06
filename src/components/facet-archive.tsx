@@ -24,20 +24,20 @@ export function FacetArchive({
         meta={
           <dl className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             <div>
-              <dt className="label text-paper/40">Sermons</dt>
+              <dt className="label text-paper/55">Sermons</dt>
               <dd className="mt-2 font-display text-2xl tabular-nums text-paper">
                 {sermons.length}
               </dd>
             </div>
             {newest && (
               <div>
-                <dt className="label text-paper/40">Most recent</dt>
+                <dt className="label text-paper/55">Most recent</dt>
                 <dd className="mt-2 text-paper/85">{formatDate(newest.date)}</dd>
               </div>
             )}
             {oldest && oldest !== newest && (
               <div>
-                <dt className="label text-paper/40">Earliest</dt>
+                <dt className="label text-paper/55">Earliest</dt>
                 <dd className="mt-2 text-paper/85">{formatDate(oldest.date)}</dd>
               </div>
             )}

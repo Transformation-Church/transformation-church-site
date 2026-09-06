@@ -88,20 +88,20 @@ export default function GivingPage() {
         title="Thank you for even considering it"
         lede="Everything we do is funded by the generosity of people who call this church home, and by friends who want to see this work continue."
         meta={
-          <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+          <dl className="flex flex-wrap items-center gap-x-10 gap-y-4">
             <div>
-              <dt className="label text-paper/40">Registered charity</dt>
+              <dt className="label text-paper/55">Registered charity</dt>
               <dd className="mt-2 font-display text-2xl tabular-nums text-paper">
                 {site.charityNumber}
               </dd>
             </div>
             <div>
-              <dt className="label text-paper/40">Gift Aid adds</dt>
+              <dt className="label text-paper/55">Gift Aid adds</dt>
               <dd className="mt-2 font-display text-2xl text-paper">
                 25% at no cost to you
               </dd>
             </div>
-          </div>
+          </dl>
         }
       >
         <div className="mt-10 flex flex-wrap gap-4">
@@ -121,7 +121,7 @@ export default function GivingPage() {
               data-reveal
               style={{ ["--reveal-delay" as string]: `${(i % 2) * 90}ms` }}
             >
-              <span className="label tabular-nums text-ink/35">
+              <span className="label tabular-nums text-ink/70">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h2 className="mt-3 font-display text-2xl">{way.title}</h2>
@@ -142,7 +142,7 @@ export default function GivingPage() {
       <section className="bg-ink text-paper">
         <div className="container-page grid gap-x-16 gap-y-10 py-20 md:py-24 lg:grid-cols-12">
           <div className="lg:col-span-6" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/45">
+            <p className="label mb-6 flex items-center gap-3 text-paper/55">
               <span className="tabular-nums">02</span>
               <span className="h-px w-8 bg-accent" />
               Gift Aid
@@ -175,7 +175,7 @@ export default function GivingPage() {
             ].map((s) => (
               <div key={s.n} className="border-t border-paper/12 py-7 pr-6">
                 <dt className="font-display text-3xl text-paper">{s.n}</dt>
-                <dd className="label mt-2.5 text-paper/45">{s.l}</dd>
+                <dd className="label mt-2.5 text-paper/55">{s.l}</dd>
               </div>
             ))}
           </dl>

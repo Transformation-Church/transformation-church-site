@@ -18,7 +18,9 @@
   --color-paper-warm: #efe9df;
   --color-paper-bright: #fdfbf7;
 
-  --color-accent: #c5462f;
+  /* Darkened from #c5462f, which measured 4.46:1 on paper and 4.05:1 on the
+     warm ground: both just under the 4.5:1 AA threshold for small text. */
+  --color-accent: #b93e28;
   --color-accent-soft: #e4a08f;
 
   /* Navy at fixed opacities — the site's entire secondary palette. */

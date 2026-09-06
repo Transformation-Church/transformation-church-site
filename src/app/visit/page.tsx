@@ -57,12 +57,12 @@ export default function VisitPage() {
           <dl className="grid gap-8 sm:grid-cols-3">
             {gatherings.map((g) => (
               <div key={`${g.language}-${g.start}`}>
-                <dt className="label text-paper/40">Sunday · {g.language}</dt>
+                <dt className="label text-paper/55">Sunday · {g.language}</dt>
                 <dd className="mt-2 font-display text-3xl text-paper">{g.time}</dd>
               </div>
             ))}
             <div>
-              <dt className="label text-paper/40">Where</dt>
+              <dt className="label text-paper/55">Where</dt>
               <dd className="mt-2 leading-snug text-paper/80">
                 {site.address.line1}
                 <br />
@@ -83,7 +83,7 @@ export default function VisitPage() {
               data-reveal
               style={{ ["--reveal-delay" as string]: `${(i % 2) * 90}ms` }}
             >
-              <span className="label tabular-nums text-ink/35">
+              <span className="label tabular-nums text-ink/70">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-3 font-display text-xl">{e.title}</h3>
@@ -102,7 +102,7 @@ export default function VisitPage() {
                 key={p.label}
                 className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule py-5"
               >
-                <dt className="label text-ink/40">{p.label}</dt>
+                <dt className="label text-ink/70">{p.label}</dt>
                 <dd className="text-right text-ink/80">{p.value}</dd>
               </div>
             ))}

@@ -31,7 +31,7 @@ export default function AboutPage() {
       <Section index="01" eyebrow="Mission & vision">
         <div className="grid gap-x-16 gap-y-12 lg:grid-cols-2">
           <div data-reveal>
-            <h3 className="font-display text-2xl">Our mission</h3>
+            <h2 className="font-display text-2xl">Our mission</h2>
             <p className="mt-5 text-lg leading-relaxed text-ink/70">
               We involve ourselves in evangelism, church planting and church
               growth, pastoral care and charity work. We also promote and
@@ -40,7 +40,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div data-reveal style={{ ["--reveal-delay" as string]: "100ms" }}>
-            <h3 className="font-display text-2xl">Our vision</h3>
+            <h2 className="font-display text-2xl">Our vision</h2>
             <p className="mt-5 text-lg leading-relaxed text-ink/70">
               To become a leading multicultural and multi-directional
               fellowship, transformed so as to impact lives and communities with
@@ -81,12 +81,12 @@ export default function AboutPage() {
               data-reveal
               style={{ ["--reveal-delay" as string]: `${(i % 3) * 80}ms` }}
             >
-              <span className="label tabular-nums text-ink/35">
+              <span className="label tabular-nums text-ink/70">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-3 font-display text-xl">{b.title}</h3>
               <p className="mt-3 leading-relaxed text-ink/70">{b.body}</p>
-              <p className="mt-4 text-sm leading-relaxed text-ink/45">
+              <p className="mt-4 text-sm leading-relaxed text-ink/70">
                 {b.references}
               </p>
             </li>
@@ -105,7 +105,7 @@ export default function AboutPage() {
           {leadership.map((p) => (
             <li key={p.name} data-reveal>
               <h3 className="font-display text-2xl">{p.name}</h3>
-              <p className="label mt-2 text-ink/45">{p.role}</p>
+              <p className="label mt-2 text-ink/70">{p.role}</p>
             </li>
           ))}
         </ul>
@@ -115,7 +115,7 @@ export default function AboutPage() {
       <section className="bg-ink-deep text-paper">
         <div className="container-page grid gap-x-16 gap-y-8 py-20 md:py-24 lg:grid-cols-12">
           <div className="lg:col-span-7" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/45">
+            <p className="label mb-6 flex items-center gap-3 text-paper/55">
               <span className="tabular-nums">04</span>
               <span className="h-px w-8 bg-accent" />
               Since 2002

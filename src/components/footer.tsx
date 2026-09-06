@@ -65,7 +65,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="label text-paper/35">Explore</h3>
+            <h3 className="label text-paper/55">Explore</h3>
             <ul className="mt-5 space-y-3">
               {navigation.map((item) => (
                 <li key={item.href}>
@@ -81,7 +81,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="label text-paper/35">More</h3>
+            <h3 className="label text-paper/55">More</h3>
             <ul className="mt-5 space-y-3">
               {more.map((item) => (
                 <li key={item.href}>
@@ -97,7 +97,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-3 lg:col-start-10">
-            <h3 className="label text-paper/35">Sundays</h3>
+            <h3 className="label text-paper/55">Sundays</h3>
             <ul className="mt-5 space-y-3">
               {gatherings.map((g) => (
                 <li key={`${g.language}-${g.start}`} className="flex justify-between gap-4">
@@ -107,7 +107,7 @@ export function Footer() {
               ))}
             </ul>
 
-            <h3 className="label mt-10 text-paper/35">Follow</h3>
+            <h3 className="label mt-10 text-paper/55">Follow</h3>
             <ul className="mt-5 space-y-3">
               {socials.map((s) => (
                 <li key={s.label}>
@@ -134,7 +134,7 @@ export function Footer() {
         </div>
 
         {/* Legal */}
-        <div className="flex flex-col gap-5 border-t border-paper/12 py-8 text-paper/45 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-5 border-t border-paper/12 py-8 text-paper/55 md:flex-row md:items-center md:justify-between">
           <p className="label text-[0.6rem] leading-relaxed">
             &copy; {new Date().getFullYear()} {site.name}. Registered as a
             Charitable Incorporated Organisation in England and Wales, Charity

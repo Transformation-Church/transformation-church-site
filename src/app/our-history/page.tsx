@@ -62,7 +62,7 @@ export default function HistoryPage() {
               data-reveal
             >
               <div className="lg:col-span-4">
-                <p className="label flex items-center gap-3 text-ink/40">
+                <p className="label flex items-center gap-3 text-ink/70">
                   <span className="tabular-nums">
                     {String(i + 1).padStart(2, "0")}
                   </span>

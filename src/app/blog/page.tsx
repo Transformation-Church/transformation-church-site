@@ -30,7 +30,7 @@ export default async function BlogPage() {
               {categories.map((c) => (
                 <li key={c.slug} className="label text-paper/55">
                   {c.name}{" "}
-                  <span className="tabular-nums text-paper/30">{c.count}</span>
+                  <span className="tabular-nums text-paper/55">{c.count}</span>
                 </li>
               ))}
             </ul>
@@ -40,7 +40,7 @@ export default async function BlogPage() {
 
       <Section>
         {posts.length === 0 ? (
-          <p className="py-20 text-center text-lg text-ink/55">
+          <p className="py-20 text-center text-lg text-ink/70">
             There&rsquo;s nothing published yet. Check back soon.
           </p>
         ) : (
@@ -53,7 +53,7 @@ export default async function BlogPage() {
                 data-reveal
                 style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 60}ms` }}
               >
-                <span className="label col-span-12 text-ink/40 md:col-span-2">
+                <span className="label col-span-12 text-ink/70 md:col-span-2">
                   {formatDate(post.date)}
                 </span>
 
@@ -62,12 +62,12 @@ export default async function BlogPage() {
                     {post.title}
                   </span>
                   {post.author && (
-                    <span className="mt-1.5 block text-sm text-ink/50">
+                    <span className="mt-1.5 block text-sm text-ink/70">
                       by {post.author}
                     </span>
                   )}
                   {post.excerpt && (
-                    <span className="mt-3 block max-w-xl text-ink/65">
+                    <span className="mt-3 block max-w-xl text-ink/70">
                       {post.excerpt.slice(0, 150)}
                       {post.excerpt.length > 150 ? "…" : ""}
                     </span>

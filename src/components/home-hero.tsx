@@ -33,7 +33,7 @@ export function HomeHero() {
       </div>
 
       <div className="container-page relative pb-16 pt-[calc(var(--header-height)+6rem)] md:pb-20 md:pt-[calc(var(--header-height)+9rem)]">
-        <p className="label flex items-center gap-3 text-paper/45">
+        <p className="label flex items-center gap-3 text-paper/55">
           <span className="h-px w-8 bg-accent" />
           {site.tagline}
         </p>
@@ -65,13 +65,13 @@ export function HomeHero() {
         <dl className="grid grid-cols-1 gap-px border-t border-paper/12 sm:grid-cols-3">
           {gatherings.map((g) => (
             <div key={`${g.language}-${g.start}`} className="py-8 sm:pr-8">
-              <dt className="label text-paper/40">Sunday · {g.language}</dt>
+              <dt className="label text-paper/55">Sunday · {g.language}</dt>
               <dd className="mt-3 font-display text-3xl text-paper">{g.time}</dd>
             </div>
           ))}
 
           <div className="border-t border-paper/12 py-8 sm:border-l sm:border-t-0 sm:pl-8">
-            <dt className="label text-paper/40">Where</dt>
+            <dt className="label text-paper/55">Where</dt>
             <dd className="mt-3 leading-snug text-paper/80">
               {site.address.line1}
               <br />

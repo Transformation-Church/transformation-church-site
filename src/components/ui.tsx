@@ -27,7 +27,7 @@ export function PageHeader({
         <div className="grid gap-x-16 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-8">
             {eyebrow && (
-              <p className="label mb-7 flex items-center gap-3 text-paper/45">
+              <p className="label mb-7 flex items-center gap-3 text-paper/55">
                 <span className="h-px w-8 bg-accent" />
                 {eyebrow}
               </p>
@@ -110,7 +110,7 @@ export function Section({
               {eyebrow && (
                 <p
                   className={`label mb-6 flex items-center gap-3 ${
-                    dark ? "text-paper/45" : "text-ink/45"
+                    dark ? "text-paper/55" : "text-ink/70"
                   }`}
                 >
                   {index && <span className="tabular-nums">{index}</span>}
@@ -126,7 +126,7 @@ export function Section({
                 {lede && (
                   <p
                     className={`text-lg leading-relaxed ${
-                      dark ? "text-paper/60" : "text-ink/65"
+                      dark ? "text-paper/60" : "text-ink/70"
                     }`}
                   >
                     {lede}
@@ -259,7 +259,7 @@ export function Accordion({
             <span className="font-display text-xl">{item.question}</span>
             <span
               className={`relative h-3 w-3 shrink-0 ${
-                dark ? "text-paper/50" : "text-ink/40"
+                dark ? "text-paper/55" : "text-ink/70"
               }`}
               aria-hidden
             >

@@ -85,7 +85,7 @@ export default function VacanciesPage() {
                       key={row.k}
                       className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule py-4 first:border-t"
                     >
-                      <dt className="label text-ink/40">{row.k}</dt>
+                      <dt className="label text-ink/70">{row.k}</dt>
                       <dd className="text-right text-ink/80">{row.v}</dd>
                     </div>
                   ))}

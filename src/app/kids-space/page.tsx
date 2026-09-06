@@ -25,13 +25,13 @@ export default function KidsSpacePage() {
         meta={
           <dl className="flex gap-12">
             <div>
-              <dt className="label text-paper/40">Collections</dt>
+              <dt className="label text-paper/55">Collections</dt>
               <dd className="mt-2 font-display text-2xl tabular-nums text-paper">
                 {kidsSpace.collections.length}
               </dd>
             </div>
             <div>
-              <dt className="label text-paper/40">Films</dt>
+              <dt className="label text-paper/55">Films</dt>
               <dd className="mt-2 font-display text-2xl tabular-nums text-paper">
                 {films}
               </dd>

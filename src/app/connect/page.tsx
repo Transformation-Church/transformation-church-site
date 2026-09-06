@@ -39,7 +39,7 @@ export default function ConnectPage() {
 
       <div className="container-page relative flex min-h-screen flex-col justify-center py-[calc(var(--header-height)+4rem)]">
         <div className="mx-auto w-full max-w-xl">
-          <p className="label flex items-center gap-3 text-paper/45">
+          <p className="label flex items-center gap-3 text-paper/55">
             <span className="h-px w-8 bg-accent" />
             {site.tagline}
           </p>
@@ -58,11 +58,11 @@ export default function ConnectPage() {
                     <span className="block font-display text-xl text-paper">
                       {link.label}
                     </span>
-                    <span className="label mt-1 block text-paper/40">
+                    <span className="label mt-1 block text-paper/55">
                       {link.note}
                     </span>
                   </span>
-                  <Arrow className="h-4 w-4 text-paper/50 group-hover:text-ink" />
+                  <Arrow className="h-4 w-4 text-paper/55 group-hover:text-ink" />
                 </>
               );
 
@@ -88,7 +88,7 @@ export default function ConnectPage() {
           <p className="mt-10 text-center">
             <a
               href={`mailto:${site.contact.email}`}
-              className="label link-underline text-paper/50 hover:text-paper"
+              className="label link-underline text-paper/55 hover:text-paper"
             >
               {site.contact.email}
             </a>

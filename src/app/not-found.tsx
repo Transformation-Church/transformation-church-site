@@ -5,7 +5,7 @@ export default function NotFound() {
     <div className="relative overflow-hidden bg-ink-deep text-paper">
       <Grain />
       <div className="container-page relative flex min-h-[80vh] flex-col justify-center py-[calc(var(--header-height)+4rem)]">
-        <p className="label flex items-center gap-3 text-paper/45">
+        <p className="label flex items-center gap-3 text-paper/55">
           <span className="h-px w-8 bg-accent" />
           Error 404
         </p>

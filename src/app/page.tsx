@@ -59,12 +59,12 @@ export default function HomePage() {
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9" data-reveal>
-            <h3 className="label text-ink/45">Our core values</h3>
+            <h2 className="label text-ink/70">Our core values</h2>
             <dl className="mt-7 border-t border-rule">
               {values.map((v) => (
                 <div key={v.name} className="border-b border-rule py-6">
                   <dt className="font-display text-xl">{v.name}</dt>
-                  <dd className="mt-2 text-ink/65">{v.body}</dd>
+                  <dd className="mt-2 text-ink/70">{v.body}</dd>
                 </div>
               ))}
             </dl>
@@ -121,7 +121,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-ink text-paper">
         <div className="container-page grid gap-x-16 gap-y-12 py-20 md:py-28 lg:grid-cols-12">
           <div className="lg:col-span-5" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/45">
+            <p className="label mb-6 flex items-center gap-3 text-paper/55">
               <span className="tabular-nums">04</span>
               <span className="h-px w-8 bg-accent" />
               In the community
@@ -148,7 +148,7 @@ export default function HomePage() {
             ].map((s) => (
               <div key={s.l} className="border-t border-paper/12 py-8 pr-6">
                 <dt className="font-display text-4xl text-paper">{s.n}</dt>
-                <dd className="label mt-3 leading-relaxed text-paper/45">{s.l}</dd>
+                <dd className="label mt-3 leading-relaxed text-paper/55">{s.l}</dd>
               </div>
             ))}
           </dl>
@@ -174,7 +174,7 @@ export default function HomePage() {
                 data-reveal
                 style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}
               >
-                <span className="label col-span-12 text-ink/40 md:col-span-2">
+                <span className="label col-span-12 text-ink/70 md:col-span-2">
                   {formatDate(p.date)}
                 </span>
                 <span className="col-span-12 md:col-span-7">
@@ -182,7 +182,7 @@ export default function HomePage() {
                     {p.title}
                   </span>
                   {p.author && (
-                    <span className="mt-1 block text-sm text-ink/50">
+                    <span className="mt-1 block text-sm text-ink/70">
                       by {p.author}
                     </span>
                   )}
@@ -216,7 +216,7 @@ export default function HomePage() {
           </div>
 
           <address className="not-italic lg:col-span-4 lg:col-start-9" data-reveal>
-            <h3 className="label text-ink/45">Find us</h3>
+            <h3 className="label text-ink/70">Find us</h3>
             <p className="mt-6 font-display text-2xl leading-snug">
               {site.address.line1}
               <br />

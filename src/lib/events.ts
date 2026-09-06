@@ -71,8 +71,10 @@ function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | n
       ? categories.get(raw.category_id)
       : undefined;
 
-  // Location is usually blank; the address, when present, repeats the church's.
-  const locationName = loc ? text(loc.name) : "";
+  // Use the address only, never location.name. ChurchSuite is using that field
+  // for host rotas ("Br Bovas Mathew & Fly, Pr Shine & Fly, ..."), which are
+  // members' names and must not appear on a public page.
+  const locationAddress = loc ? text(loc.address) : "";
 
   return {
     id: text(raw.identifier) || String(raw.id ?? `${name}-${start}`),
@@ -81,7 +83,7 @@ function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | n
     end: text(raw.ends_at) || null,
     allDay: raw.all_day === true,
     description: stripHtml(text(raw.description)),
-    location: locationName || null,
+    location: locationAddress || null,
     category: cat ? { name: cat.name, color: cat.color } : null,
     sequenceId:
       typeof raw.sequence_id === "number" ? raw.sequence_id : null,

@@ -48,7 +48,7 @@ const portableComponents: PortableTextComponents = {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={url} alt={value?.alt || ""} className="w-full" loading="lazy" />
           {value?.alt && (
-            <figcaption className="label mt-3 text-ink/45">{value.alt}</figcaption>
+            <figcaption className="label mt-3 text-ink/70">{value.alt}</figcaption>
           )}
         </figure>
       );
@@ -94,7 +94,7 @@ export default async function BlogPostPage({ params }: Props) {
               )}
               <h1 className="font-display text-4xl text-paper">{post.title}</h1>
 
-              <p className="label mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-paper/45">
+              <p className="label mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-paper/55">
                 <span>{formatDate(post.date)}</span>
                 {post.author && (
                   <>
@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: Props) {
                   href={`/blog/${p.slug}`}
                   className="group grid grid-cols-12 items-baseline gap-x-8 gap-y-2 border-b border-rule py-6 transition-colors duration-500 hover:border-ink/35"
                 >
-                  <span className="label col-span-12 text-ink/40 md:col-span-3">
+                  <span className="label col-span-12 text-ink/70 md:col-span-3">
                     {formatDate(p.date)}
                   </span>
                   <span className="col-span-12 font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:col-span-9 md:group-hover:translate-x-1">

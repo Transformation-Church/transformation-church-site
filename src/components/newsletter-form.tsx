@@ -34,7 +34,7 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
           required
           autoComplete="email"
           placeholder="you@example.com"
-          className="w-full border-b border-paper/25 bg-transparent pb-3 text-paper placeholder:text-paper/35 focus:border-paper focus:outline-none"
+          className="w-full border-b border-paper/25 bg-transparent pb-3 text-paper placeholder:text-paper/55 focus:border-paper focus:outline-none"
         />
         <Submit />
       </div>

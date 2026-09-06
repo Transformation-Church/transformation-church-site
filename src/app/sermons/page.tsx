@@ -33,7 +33,7 @@ export default function SermonsPage() {
               { k: "Years", v: span },
             ].map((s) => (
               <div key={s.k}>
-                <dt className="label text-paper/40">{s.k}</dt>
+                <dt className="label text-paper/55">{s.k}</dt>
                 <dd className="mt-2 font-display text-2xl text-paper tabular-nums">
                   {s.v}
                 </dd>
@@ -74,7 +74,7 @@ export default function SermonsPage() {
                   <span className="font-display text-lg transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-1">
                     {s.name}
                   </span>
-                  <span className="label shrink-0 tabular-nums text-ink/40">
+                  <span className="label shrink-0 tabular-nums text-ink/70">
                     {s.count}
                   </span>
                 </Link>
@@ -93,7 +93,7 @@ export default function SermonsPage() {
                   <span className="font-display text-lg transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-1">
                     {p.name}
                   </span>
-                  <span className="label shrink-0 tabular-nums text-ink/40">
+                  <span className="label shrink-0 tabular-nums text-ink/70">
                     {p.count}
                   </span>
                 </Link>

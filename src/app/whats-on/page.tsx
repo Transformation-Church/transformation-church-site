@@ -75,7 +75,7 @@ export default async function WhatsOnPage() {
           {schedule.map((item) => {
             const inner = (
               <>
-                <span className="label col-span-12 text-ink/40 md:col-span-2">
+                <span className="label col-span-12 text-ink/70 md:col-span-2">
                   {item.weekday}
                 </span>
                 <span className="col-span-12 md:col-span-6">
@@ -83,7 +83,7 @@ export default async function WhatsOnPage() {
                     {item.name}
                   </span>
                   {item.detail && (
-                    <span className="mt-1.5 block text-ink/60">{item.detail}</span>
+                    <span className="mt-1.5 block text-ink/70">{item.detail}</span>
                   )}
                 </span>
                 <span className="col-span-12 font-display text-xl text-ink md:col-span-4 md:text-right">
@@ -155,7 +155,7 @@ export default async function WhatsOnPage() {
                   data-reveal
                   style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 60}ms` }}
                 >
-                  <span className="label col-span-12 text-ink/45 md:col-span-3">
+                  <span className="label col-span-12 text-ink/70 md:col-span-3">
                     {formatEventDate(event)}
                   </span>
 
@@ -172,7 +172,7 @@ export default async function WhatsOnPage() {
                       {event.name}
                     </span>
                     {event.location && (
-                      <span className="mt-1.5 block text-sm text-ink/55">
+                      <span className="mt-1.5 block text-sm text-ink/70">
                         {event.location}
                       </span>
                     )}

@@ -72,7 +72,7 @@ export default async function VacancyPage({ params }: Props) {
           <dl className="grid grid-cols-2 gap-8 lg:grid-cols-4">
             {facts.map((f) => (
               <div key={f.k}>
-                <dt className="label text-paper/40">{f.k}</dt>
+                <dt className="label text-paper/55">{f.k}</dt>
                 <dd className="mt-2 text-paper/85">{f.v}</dd>
               </div>
             ))}
@@ -182,11 +182,11 @@ export default async function VacancyPage({ params }: Props) {
           {/* aside */}
           <aside className="lg:col-span-3 lg:col-start-10">
             <div className="lg:sticky lg:top-[calc(var(--header-height)+2rem)]">
-              <h2 className="label text-ink/45">At a glance</h2>
+              <h2 className="label text-ink/70">At a glance</h2>
               <dl className="mt-6 border-t border-rule">
                 {facts.map((f) => (
                   <div key={f.k} className="border-b border-rule py-4">
-                    <dt className="label text-ink/40">{f.k}</dt>
+                    <dt className="label text-ink/70">{f.k}</dt>
                     <dd className="mt-1.5 text-ink/80">{f.v}</dd>
                   </div>
                 ))}

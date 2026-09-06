@@ -65,7 +65,7 @@ export default function FoodbankPage() {
                 <dt className="font-display text-4xl text-paper tabular-nums">
                   {s.value}
                 </dt>
-                <dd className="label mt-3 leading-relaxed text-paper/45">
+                <dd className="label mt-3 leading-relaxed text-paper/55">
                   {s.label}
                 </dd>
               </div>
@@ -115,7 +115,7 @@ export default function FoodbankPage() {
               key={r}
               className="flex items-baseline gap-5 border-b border-rule py-5"
             >
-              <span className="label shrink-0 tabular-nums text-ink/35">
+              <span className="label shrink-0 tabular-nums text-ink/70">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="text-lg">{r}</span>
@@ -128,7 +128,7 @@ export default function FoodbankPage() {
       <section className="bg-ink text-paper">
         <div className="container-page grid gap-x-16 gap-y-10 py-20 md:py-24 lg:grid-cols-12">
           <div className="lg:col-span-6" data-reveal>
-            <p className="label mb-6 flex items-center gap-3 text-paper/45">
+            <p className="label mb-6 flex items-center gap-3 text-paper/55">
               <span className="tabular-nums">03</span>
               <span className="h-px w-8 bg-accent" />
               If you&rsquo;d like to give
@@ -156,7 +156,7 @@ export default function FoodbankPage() {
           </div>
 
           <address className="not-italic lg:col-span-4 lg:col-start-9" data-reveal>
-            <h3 className="label text-paper/40">Find the foodbank</h3>
+            <h3 className="label text-paper/55">Find the foodbank</h3>
             <p className="mt-5 font-display text-2xl leading-snug text-paper">
               {site.address.line1}
               <br />
