@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Newsreader } from "next/font/google";
+import {
+  Instrument_Sans,
+  Newsreader,
+  Noto_Sans_Malayalam,
+} from "next/font/google";
 
 import { Chrome } from "@/components/chrome";
 import { Header } from "@/components/header";
@@ -26,6 +30,15 @@ const instrument = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-instrument",
+});
+
+// Malayalam script needs a face that actually supports it. Without this the
+// browser falls back to whatever it can find, and conjuncts render badly.
+const malayalam = Noto_Sans_Malayalam({
+  subsets: ["malayalam"],
+  display: "swap",
+  weight: ["400", "500", "600"],
+  variable: "--font-noto-malayalam",
 });
 
 export const metadata: Metadata = {
@@ -93,7 +106,7 @@ export default async function RootLayout({
   const gatherings = await getGatherings();
 
   return (
-    <html lang="en-GB" className={`${newsreader.variable} ${instrument.variable}`}>
+    <html lang="en-GB" className={`${newsreader.variable} ${instrument.variable} ${malayalam.variable}`}>
       <body>
         <a
           href="#main"

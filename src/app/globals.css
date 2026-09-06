@@ -51,6 +51,7 @@
   /* -- type -------------------------------------------------------------- */
   --font-display: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-malayalam: var(--font-noto-malayalam), "Noto Sans Malayalam", sans-serif;
 
   /* Fluid scale, 390px → 1600px viewport. */
   --text-2xs: 0.6875rem;
@@ -142,6 +143,15 @@
 
   p {
     text-wrap: pretty;
+  }
+
+  /* Malayalam sets a little larger and looser: the script has taller conjuncts
+     than Latin and reads cramped at the same size and leading. */
+  [lang="ml"] {
+    font-family: var(--font-malayalam);
+    font-size: 1.06em;
+    line-height: 1.85;
+    letter-spacing: 0;
   }
 }
 

@@ -123,6 +123,64 @@ export default async function MalayalamServicePage() {
         </div>
       </PageHeader>
 
+      {/* --------------------------------------------------------- Malayalam
+          PLEASE PROOFREAD. Written for Malayalam-speaking visitors and marked
+          lang="ml" so browsers, screen readers and search engines treat it as
+          Malayalam rather than mislabelled English. Corrections welcome from
+          anyone in the congregation; only the wording here needs changing. */}
+      <section className="bg-paper-warm" aria-labelledby="ml-heading">
+        <div className="container-page py-20 md:py-24">
+          <div className="grid gap-x-16 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <p className="label flex items-center gap-3 text-ink-muted">
+                <span className="h-px w-8 bg-accent" />
+                മലയാളം
+              </p>
+              <h2
+                id="ml-heading"
+                lang="ml"
+                className="mt-6 font-display text-3xl"
+              >
+                ബർമിംഗ്ഹാമിലെ മലയാളം സഭ
+              </h2>
+            </div>
+
+            <div lang="ml" className="grid gap-5 text-lg text-ink-muted lg:col-span-7 lg:col-start-6">
+              <p>
+                ബർമിംഗ്ഹാമിലെ റൗളി റെജിസിൽ സ്ഥിതി ചെയ്യുന്ന ഒരു മലയാളം
+                പെന്തക്കോസ്ത് സഭയാണ് ട്രാൻസ്ഫർമേഷൻ ചർച്ച്. 2002-ൽ സട്ടൺ
+                കോൾഡ്ഫീൽഡിലെ ഒരു വീട്ടിൽ പതിനൊന്നോളം പേർ ഒരുമിച്ചുകൂടി
+                മലയാളത്തിൽ പ്രാർത്ഥിച്ചു തുടങ്ങിയതാണ് ഞങ്ങളുടെ ആരംഭം.
+              </p>
+              <p>
+                എല്ലാ ഞായറാഴ്ചയും രാവിലെ 10 മണിക്ക് ഇംഗ്ലീഷ് ആരാധനയും ഉച്ചയ്ക്ക്
+                12 മണിക്ക് മലയാളം ആരാധനയും നടക്കുന്നു. വെള്ളിയാഴ്ച വൈകുന്നേരം 8
+                മണിക്ക് ഹിന്ദി ആരാധനയുമുണ്ട്.
+              </p>
+              <p>
+                ആരാധനയ്ക്കിടയിൽ 5 മുതൽ 17 വയസ്സുവരെയുള്ള കുട്ടികൾക്കായി സൺഡേ
+                സ്കൂൾ ഉണ്ട്. ആഴ്ചയിൽ വിവിധ സ്ഥലങ്ങളിൽ കൂട്ടായ്മകളും
+                ചേരുന്നുണ്ട്.
+              </p>
+              <p>
+                എല്ലാവർക്കും സ്വാഗതം. പ്രത്യേക വസ്ത്രധാരണ രീതിയൊന്നുമില്ല,
+                ഒന്നും കൊണ്ടുവരേണ്ടതുമില്ല. സഭയുടെ സ്ഥലത്ത് സൗജന്യ പാർക്കിംഗ്
+                ലഭ്യമാണ്. റൗളി റെജിസ് റെയിൽവേ സ്റ്റേഷനിൽ നിന്ന് മൂന്ന് മിനിറ്റ്
+                നടന്നാൽ ഇവിടെ എത്താം.
+              </p>
+              <p className="text-ink-body">
+                വിലാസം: {site.address.line1}, {site.address.town},{" "}
+                {site.address.postcode}. കൂടുതൽ വിവരങ്ങൾക്ക് ഞങ്ങളെ
+                ബന്ധപ്പെടുക:{" "}
+                <a href={`mailto:${site.contact.email}`} className="link-underline">
+                  {site.contact.email}
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ------------------------------------------------------------ roots */}
       <Section index="01" eyebrow="Our roots" title="From Kerala to the Black Country">
         <div className="grid gap-x-16 gap-y-10 lg:grid-cols-12">
