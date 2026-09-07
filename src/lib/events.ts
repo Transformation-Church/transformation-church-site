@@ -1,4 +1,8 @@
-import { gatherings as fallbackGatherings, site } from "@/lib/site";
+import {
+  gatherings as fallbackGatherings,
+  onlineGatherings,
+  site,
+} from "@/lib/site";
 
 /**
  * Events from ChurchSuite.
@@ -36,6 +40,8 @@ export type ChurchEvent = {
   allDay: boolean;
   description: string;
   location: string | null;
+  /** ChurchSuite marks a location as online; null when it says nothing. */
+  onlineLocation: string | null;
   category: { name: string; color: string } | null;
   /** Non-null when the event belongs to a recurring series. */
   sequenceId: number | null;
@@ -76,6 +82,11 @@ function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | n
   // members' names and must not appear on a public page.
   const locationAddress = loc ? text(loc.address) : "";
 
+  // ChurchSuite can mark a location as online. It does not do so for every
+  // service yet, so this is often null and site.ts fills the gap.
+  const online =
+    loc && text(loc.type) === "online" ? text(loc.name) || "Online" : null;
+
   return {
     id: text(raw.identifier) || String(raw.id ?? `${name}-${start}`),
     name,
@@ -84,6 +95,7 @@ function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | n
     allDay: raw.all_day === true,
     description: stripHtml(text(raw.description)),
     location: locationAddress || null,
+    onlineLocation: online,
     category: cat ? { name: cat.name, color: cat.color } : null,
     sequenceId:
       typeof raw.sequence_id === "number" ? raw.sequence_id : null,
@@ -194,6 +206,7 @@ export async function getGatherings(): Promise<Gathering[]> {
       time: g.time,
       start: g.start,
       language: g.language,
+      venue: g.language ? onlineGatherings[g.language] : undefined,
       url: null,
     }));
   }
@@ -202,15 +215,29 @@ export async function getGatherings(): Promise<Gathering[]> {
     // "Sunday Service (English)" -> language English; "Hindi Service" -> Hindi.
     const inBrackets = e.name.match(/\(([^)]+)\)/)?.[1];
     const leading = e.name.match(/^(\w+)\s+Service$/i)?.[1];
+    const language = inBrackets ?? leading;
     return {
       name: e.name.replace(/\s*\([^)]*\)\s*$/, "").trim(),
       weekday: e.weekday,
       time: startTime(e),
       start: startClock(e),
-      language: inBrackets ?? leading,
+      language,
+      venue: onlineVenue(e, language),
       url: e.url,
     };
   });
+}
+
+/**
+ * Where a gathering meets, when that is not the building.
+ *
+ * Prefers ChurchSuite, which can mark an event's location as online. It does
+ * not do so for every service yet, so anything it cannot answer falls back to
+ * the map declared in site.ts.
+ */
+function onlineVenue(event: ChurchEvent, language?: string) {
+  if (event.onlineLocation) return event.onlineLocation;
+  return language ? onlineGatherings[language] : undefined;
 }
 
 export type Gathering = {
@@ -222,6 +249,8 @@ export type Gathering = {
   /** 24-hour start, for structured data. */
   start: string;
   language?: string;
+  /** Set only when it does not meet at the building, e.g. "On Zoom". */
+  venue?: string;
   url: string | null;
 };
 

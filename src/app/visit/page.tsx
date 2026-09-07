@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/json-ld";
+import { LocatorMap } from "@/components/locator-map";
 import { canonical, faqSchema } from "@/lib/seo";
-import { Accordion, Button, PageHeader, Section, TextLink } from "@/components/ui";
+import { Accordion, Button, PageHeader, Section } from "@/components/ui";
 import { getGatherings } from "@/lib/events";
 import { site, visitFaqs } from "@/lib/site";
 
@@ -44,10 +45,6 @@ const practical = [
 export default async function VisitPage() {
   const gatherings = await getGatherings();
 
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
-    `${site.name}, ${site.address.line1}, ${site.address.town} ${site.address.postcode}`,
-  )}&output=embed`;
-
   return (
     <>
       <JsonLd data={faqSchema()} />
@@ -65,6 +62,9 @@ export default async function VisitPage() {
                   {g.language ? ` · ${g.language}` : ""}
                 </dt>
                 <dd className="mt-2 font-display text-3xl text-paper">{g.time}</dd>
+                {g.venue && (
+                  <dd className="label mt-2 text-paper-muted">{g.venue}</dd>
+                )}
               </div>
             ))}
             <div>
@@ -115,20 +115,9 @@ export default async function VisitPage() {
           </dl>
 
           <div className="lg:col-span-6 lg:col-start-7" data-reveal>
-            <div className="relative aspect-[4/3] overflow-hidden border border-rule bg-wash">
-              <iframe
-                src={mapSrc}
-                title={`Map showing ${site.name}`}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 h-full w-full"
-              />
-            </div>
-            <div className="mt-5">
-              <TextLink href={site.address.maps} external>
-                Open in Google Maps
-              </TextLink>
-            </div>
+            {/* The map itself links to the Google Maps listing, so the text
+                link that used to sit under here was the same link twice. */}
+            <LocatorMap />
           </div>
         </div>
       </Section>

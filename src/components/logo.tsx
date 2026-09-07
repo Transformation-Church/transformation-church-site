@@ -38,7 +38,7 @@ export function Logo({
         alt={site.name}
         priority={priority}
         className="h-full w-auto"
-        sizes="(max-width: 768px) 220px, 320px"
+        sizes="(max-width: 768px) 160px, 200px"
       />
     </Link>
   );

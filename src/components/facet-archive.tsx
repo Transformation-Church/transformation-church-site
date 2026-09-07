@@ -1,4 +1,4 @@
-import { SermonRow } from "@/components/sermon";
+import { SermonList } from "@/components/sermon";
 import { PageHeader, TextLink } from "@/components/ui";
 import { formatDate, type Facet, type Sermon } from "@/lib/content";
 
@@ -53,11 +53,7 @@ export function FacetArchive({
 
       <section className="bg-paper">
         <div className="container-page py-16 md:py-20">
-          <div className="border-t border-rule">
-            {sermons.map((s) => (
-              <SermonRow key={s.slug} sermon={s} />
-            ))}
-          </div>
+          <SermonList sermons={sermons} />
         </div>
       </section>
     </>

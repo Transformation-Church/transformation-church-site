@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 
-import { SermonRow } from "@/components/sermon";
+import { SermonList } from "@/components/sermon";
 import type { Facet, Sermon } from "@/lib/content";
 
 const PAGE_SIZE = 30;
@@ -237,11 +237,7 @@ export function SermonArchive({
         </p>
       ) : (
         <>
-          <div className="border-t border-rule">
-            {results.slice(0, shown).map((s) => (
-              <SermonRow key={s.slug} sermon={s} />
-            ))}
-          </div>
+          <SermonList sermons={results.slice(0, shown)} />
 
           {shown < results.length && (
             <div className="flex justify-center pt-12">

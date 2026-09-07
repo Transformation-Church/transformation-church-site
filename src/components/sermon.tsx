@@ -2,7 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Arrow } from "@/components/ui";
-import { formatDateShort, formatDate, type Sermon } from "@/lib/content";
+import {
+  formatDate,
+  formatDateShort,
+  formatDayMonth,
+  year,
+  type Sermon,
+} from "@/lib/content";
 
 /**
  * Prefer the artwork migrated from WordPress.
@@ -33,9 +39,10 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
       href={`/sermons/${sermon.slug}`}
       className="group relative grid grid-cols-12 items-center gap-x-6 gap-y-2 border-b border-rule py-6 transition-colors duration-500 hover:border-ink/35"
     >
+      {/* Day and month only: SermonList's rail carries the year. */}
       <div className="col-span-2 hidden md:block">
         <span className="label tabular-nums text-ink-muted">
-          {formatDateShort(sermon.date)}
+          {formatDayMonth(sermon.date)}
         </span>
       </div>
 
@@ -43,9 +50,10 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
         {sermon.series && (
           <span className="label mb-2 block text-accent">{sermon.series.name}</span>
         )}
-        <h2 className="font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
+        <h3 className="font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
           {sermon.title}
-        </h2>
+        </h3>
+        {/* No rail on narrow screens, so the row keeps the full date. */}
         <span className="label mt-2 block text-ink-muted md:hidden">
           {formatDateShort(sermon.date)}
         </span>
@@ -79,6 +87,60 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
         </span>
       )}
     </Link>
+  );
+}
+
+/* -------------------------------------------------------------- year rail */
+
+/**
+ * The archive as a run of years.
+ *
+ * A hundred and sixty five rows of the same shape scroll past with nothing to
+ * hold onto — you lose your place the moment you look away. Grouping by year
+ * and pinning the year alongside its own rows gives the list a spine, and lets
+ * each row drop the year it was repeating.
+ *
+ * Pure CSS: `position: sticky` inside each year's own section, so the marker
+ * travels with its group and is released by the next one. No scroll listener.
+ */
+export function SermonList({ sermons }: { sermons: Sermon[] }) {
+  const groups: { year: string; sermons: Sermon[] }[] = [];
+  for (const sermon of sermons) {
+    const y = year(sermon.date);
+    if (groups.at(-1)?.year !== y) groups.push({ year: y, sermons: [] });
+    groups.at(-1)!.sermons.push(sermon);
+  }
+
+  return (
+    <div className="border-t border-rule">
+      {groups.map((group) => (
+        <section
+          key={group.year}
+          aria-label={`Sermons from ${group.year}`}
+          className="md:grid md:grid-cols-12 md:gap-x-6"
+        >
+          <div className="md:col-span-1">
+            {/*
+              The year outranks the row titles below it, so it has to stay in
+              the heading outline at every width. The rail is only drawn from md
+              up, where there is a gutter to hold it, so narrow screens get the
+              same heading announced but not painted. Two elements rather than
+              one because sr-only and sticky both set `position`.
+            */}
+            <h2 className="sr-only md:hidden">{group.year}</h2>
+            <h2 className="sticky top-[calc(var(--header-height)+1.5rem)] hidden py-6 font-display text-2xl tabular-nums text-ink-muted md:block">
+              {group.year}
+            </h2>
+          </div>
+
+          <div className="md:col-span-11">
+            {group.sermons.map((sermon) => (
+              <SermonRow key={sermon.slug} sermon={sermon} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   );
 }
 

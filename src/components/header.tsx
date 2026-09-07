@@ -41,6 +41,7 @@ export function Header() {
   return (
     <>
       <header
+        data-site-header
         className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-[var(--ease-out-expo)] ${
           solid
             ? "border-b border-rule bg-paper/90 backdrop-blur-md"
@@ -51,7 +52,7 @@ export function Header() {
           <Logo
             tone={solid ? "light" : "dark"}
             priority
-            className="h-7 md:h-8"
+            className="h-9 md:h-11"
           />
 
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
@@ -124,12 +125,23 @@ export function Header() {
       </header>
 
       {/* Mobile menu */}
+      {/*
+        Scrolls, and keeps a floor under the gap.
+
+        Safari sizes a fixed inset-0 panel to the small viewport while its
+        toolbars are showing, so an iPhone 12 Pro Max is laying this out at
+        roughly 736px rather than 926. justify-between has no slack left to
+        distribute at that height, so the visit button ended up against the
+        address; on a smaller phone the panel overflowed by 50px with no way to
+        reach it. gap-12 is a minimum the flex box cannot take back, and the
+        scroll container means a long menu on a short screen stays usable.
+      */}
       <div
         id="mobile-menu"
         hidden={!open}
-        className="fixed inset-0 z-40 bg-ink-deep text-paper lg:hidden"
+        className="fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-ink-deep text-paper lg:hidden"
       >
-        <div className="container-page flex h-full flex-col justify-between pb-14 pt-[calc(var(--header-height)+2rem)]">
+        <div className="container-page flex min-h-full flex-col justify-between gap-12 pb-[calc(3.5rem+env(safe-area-inset-bottom))] pt-[calc(var(--header-height)+2rem)]">
           <nav aria-label="Primary mobile">
             <ul>
               {navigation.map((item, i) => (
@@ -156,7 +168,13 @@ export function Header() {
             </Link>
           </nav>
 
-          <div className="label space-y-2 text-paper-muted text-[0.62rem] leading-relaxed">
+          {/* A named section is a landmark, so this is not stranded outside
+              one. A footer here would be a second contentinfo, which the page
+              footer already is. */}
+          <section
+            aria-label="Contact details"
+            className="label space-y-2 text-paper-muted text-[0.62rem] leading-relaxed"
+          >
             <p>
               {site.address.line1}, {site.address.town} {site.address.postcode}
             </p>
@@ -165,7 +183,7 @@ export function Header() {
                 {site.contact.email}
               </a>
             </p>
-          </div>
+          </section>
         </div>
       </div>
     </>
