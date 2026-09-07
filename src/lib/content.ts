@@ -180,6 +180,17 @@ export function formatDateShort(iso: string) {
   return SHORT_DATE.format(new Date(`${iso}T00:00:00Z`));
 }
 
+/** For lists that carry the year separately, so it isn't repeated on every row. */
+export function formatDayMonth(iso: string) {
+  return DAY_MONTH.format(new Date(`${iso}T00:00:00Z`));
+}
+
+const DAY_MONTH = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  timeZone: "UTC",
+});
+
 export function year(iso: string) {
   return iso.slice(0, 4);
 }
