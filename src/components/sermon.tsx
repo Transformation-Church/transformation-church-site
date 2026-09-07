@@ -50,9 +50,9 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
         {sermon.series && (
           <span className="label mb-2 block text-accent">{sermon.series.name}</span>
         )}
-        <h2 className="font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
+        <h3 className="font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
           {sermon.title}
-        </h2>
+        </h3>
         {/* No rail on narrow screens, so the row keeps the full date. */}
         <span className="label mt-2 block text-ink-muted md:hidden">
           {formatDateShort(sermon.date)}
@@ -119,10 +119,18 @@ export function SermonList({ sermons }: { sermons: Sermon[] }) {
           aria-label={`Sermons from ${group.year}`}
           className="md:grid md:grid-cols-12 md:gap-x-6"
         >
-          <div className="hidden md:col-span-1 md:block">
-            <h3 className="sticky top-[calc(var(--header-height)+1.5rem)] py-6 font-display text-2xl tabular-nums text-ink-muted">
+          <div className="md:col-span-1">
+            {/*
+              The year outranks the row titles below it, so it has to stay in
+              the heading outline at every width. The rail is only drawn from md
+              up, where there is a gutter to hold it, so narrow screens get the
+              same heading announced but not painted. Two elements rather than
+              one because sr-only and sticky both set `position`.
+            */}
+            <h2 className="sr-only md:hidden">{group.year}</h2>
+            <h2 className="sticky top-[calc(var(--header-height)+1.5rem)] hidden py-6 font-display text-2xl tabular-nums text-ink-muted md:block">
               {group.year}
-            </h3>
+            </h2>
           </div>
 
           <div className="md:col-span-11">

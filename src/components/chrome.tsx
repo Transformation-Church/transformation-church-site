@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { ViewTransitions } from "@/components/view-transitions";
+
 /**
  * Site chrome wrapper.
  *
@@ -12,6 +14,9 @@ import type { ReactNode } from "react";
  * the layout would opt the entire site into dynamic rendering.
  *
  * Header and Footer are passed in as already-rendered server components.
+ *
+ * ViewTransitions mounts here rather than in the layout so the Studio, which
+ * does its own routing, never has its navigation intercepted.
  */
 export function Chrome({
   header,
@@ -29,6 +34,7 @@ export function Chrome({
 
   return (
     <>
+      <ViewTransitions />
       {header}
       <main id="main">{children}</main>
       {footer}

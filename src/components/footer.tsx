@@ -22,7 +22,7 @@ export async function Footer() {
       : footerLinks;
 
   return (
-    <footer className="bg-ink-deep text-paper">
+    <footer data-site-footer className="bg-ink-deep text-paper">
       <div className="container-page">
         {/* Newsletter */}
         <div className="grid gap-10 border-b border-paper/12 py-16 lg:grid-cols-12 lg:gap-16 lg:py-20">

@@ -290,6 +290,52 @@
 }
 
 /* ==========================================================================
+   Cross-page transitions
+
+   Driven by src/components/view-transitions.tsx. Kept short on purpose: the
+   pages are static and prefetched, so anything longer would make a navigation
+   that is already instant feel slower than it is.
+   ========================================================================== */
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+
+::view-transition-old(root) {
+  animation: vt-fade-out 130ms ease both;
+}
+
+::view-transition-new(root) {
+  animation: vt-rise-in 320ms var(--ease-out-expo) both;
+}
+
+/* Named so they are lifted out of the page snapshot and hold still, rather
+   than crossfading against themselves. */
+[data-site-header] {
+  view-transition-name: site-header;
+}
+
+[data-site-footer] {
+  view-transition-name: site-footer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
    Scroll reveal
    Elements start hidden only when JS is available to reveal them, so the page
    still reads fully without it.
