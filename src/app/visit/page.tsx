@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/json-ld";
+import { LocatorMap } from "@/components/locator-map";
 import { canonical, faqSchema } from "@/lib/seo";
 import { Accordion, Button, PageHeader, Section, TextLink } from "@/components/ui";
 import { getGatherings } from "@/lib/events";
@@ -43,10 +44,6 @@ const practical = [
 
 export default async function VisitPage() {
   const gatherings = await getGatherings();
-
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
-    `${site.name}, ${site.address.line1}, ${site.address.town} ${site.address.postcode}`,
-  )}&output=embed`;
 
   return (
     <>
@@ -115,15 +112,7 @@ export default async function VisitPage() {
           </dl>
 
           <div className="lg:col-span-6 lg:col-start-7" data-reveal>
-            <div className="relative aspect-[4/3] overflow-hidden border border-rule bg-wash">
-              <iframe
-                src={mapSrc}
-                title={`Map showing ${site.name}`}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 h-full w-full"
-              />
-            </div>
+            <LocatorMap />
             <div className="mt-5">
               <TextLink href={site.address.maps} external>
                 Open in Google Maps
