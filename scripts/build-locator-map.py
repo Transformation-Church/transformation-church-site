@@ -63,6 +63,7 @@ FRAMES = {
         # closer than this to one already placed is dropped. Without it they
         # pile up in whichever corner has the most named roads.
         "spacing": 140,
+        "affordance": False,
         # Type scale LocatorMap draws this frame at. Everything the script
         # needs to reserve space for is sized from it.
         "scale": 1,
@@ -73,6 +74,10 @@ FRAMES = {
         # Fewer, because each is drawn much larger relative to the frame.
         "labels": 7,
         "spacing": 170,
+        # The "Google Maps" pill is always visible on touch, where there is no
+        # hover to reveal it, so street labels have to route around it. On the
+        # wide frame it only appears on hover, so it reserves nothing.
+        "affordance": True,
         # Drawn at 1.6x, so half as much ground fits the same legible type.
         "scale": 1.6,
     },
@@ -183,6 +188,7 @@ class Frame:
         self.max_labels = spec["labels"]
         self.spacing = spec["spacing"]
         self.scale = spec["scale"]
+        self.affordance = spec["affordance"]
         self.label_size = 19 * self.scale
         self.s, self.w, self.n, self.e = bbox(CHURCH_LAT, CHURCH_LON, *spec["ground"])
 
@@ -212,6 +218,15 @@ class Frame:
         self.keep_clear.append((x - 7 * k, y - 7 * k, x + 7 * k, y + 7 * k))
         self.keep_clear.append(
             text_box(f"{station['name']} station", 20 * k, x, y + 30 * k)
+        )
+
+    def reserve_affordance(self):
+        """Top-right corner. The pill has a solid background rather than a
+        halo, so anything under it is hidden outright, and street labels are
+        already kept off the top edge — so reserving here costs almost nothing,
+        where the bottom-right corner cost three of five labels."""
+        self.keep_clear.append(
+            (self.view_w * 0.46, 0, self.view_w, self.view_h * 0.15)
         )
 
     def reserve_scale_bar(self, units):
@@ -317,6 +332,8 @@ class Frame:
         metres = next(m for m in (1000, 500, 250, 200, 100) if m / across < 0.34)
         units = round(metres / across * self.view_w, 1)
         self.reserve_scale_bar(units)
+        if self.affordance:
+            self.reserve_affordance()
 
         # Both markers have to be reserved before any street label is placed.
         station = None

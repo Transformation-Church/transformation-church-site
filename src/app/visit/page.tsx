@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
 import { LocatorMap } from "@/components/locator-map";
 import { canonical, faqSchema } from "@/lib/seo";
-import { Accordion, Button, PageHeader, Section, TextLink } from "@/components/ui";
+import { Accordion, Button, PageHeader, Section } from "@/components/ui";
 import { getGatherings } from "@/lib/events";
 import { site, visitFaqs } from "@/lib/site";
 
@@ -112,12 +112,9 @@ export default async function VisitPage() {
           </dl>
 
           <div className="lg:col-span-6 lg:col-start-7" data-reveal>
+            {/* The map itself links to the Google Maps listing, so the text
+                link that used to sit under here was the same link twice. */}
             <LocatorMap />
-            <div className="mt-5">
-              <TextLink href={site.address.maps} external>
-                Open in Google Maps
-              </TextLink>
-            </div>
           </div>
         </div>
       </Section>

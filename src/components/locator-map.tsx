@@ -1,3 +1,4 @@
+import { Arrow } from "@/components/ui";
 import map from "@/content/locator-map.json";
 import { site } from "@/lib/site";
 
@@ -195,17 +196,55 @@ function Plan({ frame, scale }: { frame: Frame; scale: number }) {
   );
 }
 
+/**
+ * Says the map is a link. Always visible on touch, where there is no hover to
+ * discover it with; on a pointer it settles in once you are over the map.
+ */
+function Affordance() {
+  return (
+    <span
+      aria-hidden
+      className="label pointer-events-none absolute right-3 top-3 flex items-center gap-2 rounded-full bg-paper/90 px-3 py-2 text-ink shadow-sm backdrop-blur-sm transition-opacity duration-500 ease-[var(--ease-out-expo)] md:bottom-4 md:right-4 md:top-auto md:px-4 md:py-2.5 md:opacity-0 md:group-hover:opacity-100"
+    >
+      {/* On a phone it sits top-right and is always on, since there is no
+          hover to reveal it; the build script keeps street labels out of that
+          corner. On a pointer it fades in bottom-right, over a part of the map
+          that is empty on the wide framing. */}
+      <span className="md:hidden">Google Maps</span>
+      <span className="hidden md:inline">Open in Google Maps</span>
+      <Arrow />
+    </span>
+  );
+}
+
 export function LocatorMap({ className = "" }: { className?: string }) {
   return (
     <figure className={className}>
-      {/* Square and closer in, for the ~350px a phone gives it. */}
-      <div className="relative aspect-square overflow-hidden border border-rule bg-paper-bright md:hidden">
-        <Plan frame={map.close} scale={1.6} />
-      </div>
+      {/*
+        The map is a link to the Google Maps listing, which is where someone
+        goes next: it has the route, the phone's own directions, and the
+        reviews. The anchor carries its own label, so a screen reader announces
+        where it goes rather than reading out the whole map description; the
+        SVG keeps that description for anyone reading the map itself.
+      */}
+      <a
+        href={site.address.maps}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open ${site.name} in Google Maps`}
+        className="group block"
+      >
+        {/* Square and closer in, for the ~350px a phone gives it. */}
+        <div className="relative aspect-square overflow-hidden border border-rule bg-paper-bright transition-colors duration-500 group-hover:border-rule-strong md:hidden">
+          <Plan frame={map.close} scale={1.6} />
+          <Affordance />
+        </div>
 
-      <div className="relative hidden aspect-[4/3] overflow-hidden border border-rule bg-paper-bright md:block">
-        <Plan frame={map.wide} scale={1} />
-      </div>
+        <div className="relative hidden aspect-[4/3] overflow-hidden border border-rule bg-paper-bright transition-colors duration-500 group-hover:border-rule-strong md:block">
+          <Plan frame={map.wide} scale={1} />
+          <Affordance />
+        </div>
+      </a>
 
       {/* ODbL attribution. Required by the data licence. */}
       <figcaption className="label mt-3 text-2xs text-ink-muted">
