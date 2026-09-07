@@ -25,9 +25,9 @@ export const metadata: Metadata = {
  * service is weekly, and the congregation began as a Malayalam prayer
  * fellowship in 2002.
  *
- * The page is in English because I cannot verify Malayalam copy. A Malayalam
- * translation from someone in the congregation would serve this audience
- * better and would help for Malayalam-language searches.
+ * The page carries both English and Malayalam. The Malayalam was reviewed and
+ * approved by the church, so treat it as verified copy: change it with the
+ * church, not on a translator's say-so.
  */
 const faqs = [
   {
@@ -124,10 +124,10 @@ export default async function MalayalamServicePage() {
       </PageHeader>
 
       {/* --------------------------------------------------------- Malayalam
-          PLEASE PROOFREAD. Written for Malayalam-speaking visitors and marked
-          lang="ml" so browsers, screen readers and search engines treat it as
-          Malayalam rather than mislabelled English. Corrections welcome from
-          anyone in the congregation; only the wording here needs changing. */}
+          Written for Malayalam-speaking visitors and marked lang="ml" so
+          browsers, screen readers and search engines treat it as Malayalam
+          rather than mislabelled English. Wording reviewed and approved by the
+          church; check any change with them before shipping it. */}
       <section className="bg-paper-warm" aria-labelledby="ml-heading">
         <div className="container-page py-20 md:py-24">
           <div className="grid gap-x-16 gap-y-8 lg:grid-cols-12">
