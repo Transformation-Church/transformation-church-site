@@ -28,7 +28,7 @@ export function PageHeader({
           <div className="lg:col-span-8">
             {eyebrow && (
               <p className="label mb-7 flex items-center gap-3 text-paper-muted">
-                <span className="h-px w-8 bg-accent" />
+                <span className="rule-draw h-px w-8 bg-accent" />
                 {eyebrow}
               </p>
             )}
@@ -114,7 +114,7 @@ export function Section({
                   }`}
                 >
                   {index && <span className="tabular-nums">{index}</span>}
-                  <span className="h-px w-8 bg-accent" />
+                  <span className="rule-draw h-px w-8 bg-accent" />
                   {eyebrow}
                 </p>
               )}

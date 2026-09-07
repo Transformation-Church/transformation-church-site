@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { canonical } from "@/lib/seo";
 import Link from "next/link";
@@ -51,12 +52,22 @@ export default function SermonsPage() {
 
       <section className="bg-paper">
         <div className="container-page py-16 md:py-20">
-          <SermonArchive
-            sermons={sermons}
-            preachers={preachers}
-            series={series}
-            serviceTypes={serviceTypes}
-          />
+          {/* SermonArchive reads the URL for its filter state, so it needs a
+              Suspense boundary to keep this page statically rendered. */}
+          <Suspense
+            fallback={
+              <div className="border-b border-rule pb-10">
+                <p className="label text-ink-muted">Loading the archive</p>
+              </div>
+            }
+          >
+            <SermonArchive
+              sermons={sermons}
+              preachers={preachers}
+              series={series}
+              serviceTypes={serviceTypes}
+            />
+          </Suspense>
         </div>
       </section>
 

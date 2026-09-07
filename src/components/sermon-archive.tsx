@@ -1,6 +1,7 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 
 import { SermonRow } from "@/components/sermon";
 import type { Facet, Sermon } from "@/lib/content";
@@ -8,7 +9,31 @@ import type { Facet, Sermon } from "@/lib/content";
 const PAGE_SIZE = 30;
 
 type Filters = { preacher: string; series: string; serviceType: string };
-const EMPTY: Filters = { preacher: "", series: "", serviceType: "" };
+
+/**
+ * Normalises for forgiving search: strips accents and punctuation so
+ * "Pr. S. Mathew" is found by "pr s mathew", "mathew", or "prsmathew".
+ *
+ * Many of these preacher names are transliterated from Malayalam and get
+ * spelled several ways, so plain substring matching fails people constantly.
+ */
+function normalise(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Every term must appear somewhere, in any order. */
+function matches(haystack: string, query: string) {
+  const terms = query.split(" ").filter(Boolean);
+  if (terms.length === 0) return true;
+  const compact = haystack.replace(/\s/g, "");
+  return terms.every((t) => haystack.includes(t) || compact.includes(t));
+}
 
 function Select({
   label,
@@ -67,38 +92,85 @@ export function SermonArchive({
   series: Facet[];
   serviceTypes: Facet[];
 }) {
-  const [filters, setFilters] = useState<Filters>(EMPTY);
-  const [query, setQuery] = useState("");
-  const [shown, setShown] = useState(PAGE_SIZE);
+  const router = useRouter();
+  const params = useSearchParams();
 
-  // Typing across 167 records stays smooth if the list lags the input.
-  const deferredQuery = useDeferredValue(query);
+  // The URL is the source of truth, so a filtered view can be shared,
+  // bookmarked and survives a refresh. Changes use replace() rather than
+  // push(), so the back button leaves the archive instead of stepping back
+  // through every filter the visitor tried.
+  const filters: Filters = {
+    preacher: params.get("preacher") ?? "",
+    series: params.get("series") ?? "",
+    serviceType: params.get("service") ?? "",
+  };
+  const query = params.get("q") ?? "";
+
+  // The input stays local so typing is never held up by routing.
+  const [draft, setDraft] = useState(query);
+  const [shown, setShown] = useState(PAGE_SIZE);
+  const deferredDraft = useDeferredValue(draft);
+
+  useEffect(() => setDraft(query), [query]);
+
+  const push = useCallback(
+    (next: Partial<Filters & { q: string }>) => {
+      const search = new URLSearchParams(params.toString());
+      const set = (key: string, value: string | undefined) => {
+        if (value === undefined) return;
+        if (value) search.set(key, value);
+        else search.delete(key);
+      };
+      set("preacher", next.preacher);
+      set("series", next.series);
+      set("service", next.serviceType);
+      set("q", next.q);
+
+      const qs = search.toString();
+      router.replace(qs ? `/sermons?${qs}` : "/sermons", { scroll: false });
+      setShown(PAGE_SIZE);
+    },
+    [params, router],
+  );
+
+  // Commit the typed query to the URL once typing pauses, so the address bar
+  // does not churn on every keystroke.
+  useEffect(() => {
+    if (deferredDraft === query) return;
+    const id = setTimeout(() => push({ q: deferredDraft }), 350);
+    return () => clearTimeout(id);
+  }, [deferredDraft, query, push]);
+
+  const indexed = useMemo(
+    () =>
+      sermons.map((s) => ({
+        sermon: s,
+        haystack: normalise(
+          [s.title, s.preacher?.name, s.series?.name, s.passage, s.serviceType?.name]
+            .filter(Boolean)
+            .join(" "),
+        ),
+      })),
+    [sermons],
+  );
 
   const results = useMemo(() => {
-    const q = deferredQuery.trim().toLowerCase();
-    return sermons.filter((s) => {
-      if (filters.preacher && s.preacher?.slug !== filters.preacher) return false;
-      if (filters.series && s.series?.slug !== filters.series) return false;
-      if (filters.serviceType && s.serviceType?.slug !== filters.serviceType) {
-        return false;
-      }
-      if (!q) return true;
-      return (
-        s.title.toLowerCase().includes(q) ||
-        (s.preacher?.name.toLowerCase().includes(q) ?? false) ||
-        (s.series?.name.toLowerCase().includes(q) ?? false) ||
-        (s.passage?.toLowerCase().includes(q) ?? false)
-      );
-    });
-  }, [sermons, filters, deferredQuery]);
-
-  const set = (key: keyof Filters) => (value: string) => {
-    setFilters((f) => ({ ...f, [key]: value }));
-    setShown(PAGE_SIZE);
-  };
+    const q = normalise(deferredDraft);
+    return indexed
+      .filter(({ sermon }) => {
+        if (filters.preacher && sermon.preacher?.slug !== filters.preacher) return false;
+        if (filters.series && sermon.series?.slug !== filters.series) return false;
+        if (filters.serviceType && sermon.serviceType?.slug !== filters.serviceType) {
+          return false;
+        }
+        return true;
+      })
+      .filter(({ haystack }) => matches(haystack, q))
+      .map(({ sermon }) => sermon);
+  }, [indexed, filters.preacher, filters.series, filters.serviceType, deferredDraft]);
 
   const active =
-    filters.preacher || filters.series || filters.serviceType || query.trim();
+    filters.preacher || filters.series || filters.serviceType || draft.trim();
 
   return (
     <>
@@ -111,23 +183,30 @@ export function SermonArchive({
           <input
             id="sermon-search"
             type="search"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setShown(PAGE_SIZE);
-            }}
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
             placeholder="Title, preacher, passage"
             className="w-full border-b border-rule-strong bg-transparent py-2.5 font-display text-lg text-ink placeholder:text-ink-muted focus:border-ink focus:outline-none"
           />
         </div>
 
-        <Select label="Preacher" value={filters.preacher} options={preachers} onChange={set("preacher")} />
-        <Select label="Series" value={filters.series} options={series} onChange={set("series")} />
+        <Select
+          label="Preacher"
+          value={filters.preacher}
+          options={preachers}
+          onChange={(v) => push({ preacher: v })}
+        />
+        <Select
+          label="Series"
+          value={filters.series}
+          options={series}
+          onChange={(v) => push({ series: v })}
+        />
         <Select
           label="Service"
           value={filters.serviceType}
           options={serviceTypes}
-          onChange={set("serviceType")}
+          onChange={(v) => push({ serviceType: v })}
         />
       </div>
 
@@ -140,8 +219,8 @@ export function SermonArchive({
           <button
             type="button"
             onClick={() => {
-              setFilters(EMPTY);
-              setQuery("");
+              setDraft("");
+              router.replace("/sermons", { scroll: false });
               setShown(PAGE_SIZE);
             }}
             className="label link-underline text-ink-muted hover:text-ink"

@@ -36,24 +36,33 @@ export async function HomeHero() {
       </div>
 
       <div className="container-page relative pb-16 pt-[calc(var(--header-height)+6rem)] md:pb-20 md:pt-[calc(var(--header-height)+9rem)]">
-        <p className="label flex items-center gap-3 text-paper-muted">
-          <span className="h-px w-8 bg-accent" />
+        <p className="label enter flex items-center gap-3 text-paper-muted">
+          <span className="enter-rule h-px w-8 bg-accent" />
           {site.tagline}
         </p>
 
         <h1 className="mt-9 max-w-[15ch] font-display text-6xl text-paper">
-          Transformed,
-          <br />
-          to transform.
+          <span className="enter block" style={{ ["--enter-delay" as string]: "90ms" }}>
+            Transformed,
+          </span>
+          <span className="enter block" style={{ ["--enter-delay" as string]: "180ms" }}>
+            to transform.
+          </span>
         </h1>
 
-        <p className="mt-10 max-w-xl text-lg leading-relaxed text-paper-body">
+        <p
+          className="enter mt-10 max-w-xl text-lg leading-relaxed text-paper-body"
+          style={{ ["--enter-delay" as string]: "300ms" }}
+        >
           A multicultural Pentecostal church in Rowley Regis, gathering in
           English and Malayalam. Whoever you are, wherever you&rsquo;ve come
           from, there&rsquo;s a place for you on Sunday.
         </p>
 
-        <div className="mt-11 flex flex-wrap items-center gap-4">
+        <div
+          className="enter mt-11 flex flex-wrap items-center gap-4"
+          style={{ ["--enter-delay" as string]: "380ms" }}
+        >
           <Button href="/visit" tone="paper">
             Plan your visit
           </Button>
@@ -66,8 +75,12 @@ export async function HomeHero() {
       {/* Standing information: the detail most first-time visitors came for. */}
       <div className="container-page relative">
         <dl className="grid grid-cols-2 gap-px border-t border-paper/12 md:grid-cols-4">
-          {gatherings.map((g) => (
-            <div key={`${g.weekday}-${g.start}-${g.language ?? g.name}`} className="py-8 md:pr-8">
+          {gatherings.map((g, i) => (
+            <div
+              key={`${g.weekday}-${g.start}-${g.language ?? g.name}`}
+              className="enter py-8 md:pr-8"
+              style={{ ["--enter-delay" as string]: `${460 + i * 70}ms` }}
+            >
               <dt className="label text-paper-muted">
                 {g.weekday}
                 {g.language ? ` · ${g.language}` : ""}
@@ -76,7 +89,10 @@ export async function HomeHero() {
             </div>
           ))}
 
-          <div className="border-t border-paper/12 py-8 md:border-l md:border-t-0 md:pl-8">
+          <div
+            className="enter border-t border-paper/12 py-8 md:border-l md:border-t-0 md:pl-8"
+            style={{ ["--enter-delay" as string]: `${460 + gatherings.length * 70}ms` }}
+          >
             <dt className="label text-paper-muted">Where</dt>
             <dd className="mt-3 leading-snug text-paper-body">
               {site.address.line1}

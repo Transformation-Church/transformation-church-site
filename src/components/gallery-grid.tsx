@@ -23,6 +23,10 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
     [items, active],
   );
 
+  // Swipe, so the lightbox is usable on a phone without hitting the small
+  // arrows. Pointer events cover touch and mouse-drag from one handler.
+  const [swipeFrom, setSwipeFrom] = useState<number | null>(null);
+
   const close = useCallback(() => setOpen(null), []);
   const step = useCallback(
     (delta: number) =>
@@ -107,8 +111,17 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
           role="dialog"
           aria-modal="true"
           aria-label="Photograph viewer"
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-ink-deep/97 p-4 md:p-10"
+          className="fixed inset-0 z-[60] flex touch-pan-y items-center justify-center bg-ink-deep/97 p-4 md:p-10"
           onClick={close}
+          onPointerDown={(e) => setSwipeFrom(e.clientX)}
+          onPointerUp={(e) => {
+            if (swipeFrom === null) return;
+            const dx = e.clientX - swipeFrom;
+            setSwipeFrom(null);
+            // Below this the gesture is a tap, and tapping the backdrop closes.
+            if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+          }}
+          onPointerCancel={() => setSwipeFrom(null)}
         >
           <button
             type="button"
@@ -129,7 +142,7 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
           )}
 
           <figure
-            className="relative max-h-full w-full max-w-5xl"
+            className="relative max-h-full w-full max-w-5xl select-none"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-[4/3] w-full">
@@ -142,8 +155,11 @@ export function GalleryGrid({ categories }: { categories: GalleryCategory[] }) {
                 priority
               />
             </div>
-            <figcaption className="label mt-5 flex justify-between gap-4 text-paper-muted">
+            <figcaption className="label mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-paper-muted">
               <span>{current.category}</span>
+              <span className="hidden sm:inline">
+                Swipe or use the arrow keys. Esc to close.
+              </span>
               <span className="tabular-nums">
                 {(open ?? 0) + 1} / {visible.length}
               </span>

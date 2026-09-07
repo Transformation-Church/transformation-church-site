@@ -224,6 +224,72 @@
 }
 
 /* ==========================================================================
+   Page-load entrance
+
+   Used once, on the homepage hero. Everything is in the DOM from the start and
+   the whole sequence finishes inside a second, so this is a considered arrival
+   rather than content held hostage to an animation.
+   ========================================================================== */
+
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.enter {
+  animation: enter-rise 0.85s var(--ease-out-expo) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* The accent rule draws itself rather than fading, which reads as deliberate
+   next to type that rises. */
+@keyframes enter-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.enter-rule {
+  transform-origin: left center;
+  animation: enter-rule 0.7s var(--ease-out-expo) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* Section eyebrow rules draw in as each section arrives, tying the scroll
+   reveal to the same gesture as the hero. */
+.js [data-reveal] .rule-draw {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.8s var(--ease-out-expo) 0.15s;
+}
+
+.js [data-reveal].is-visible .rule-draw {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter,
+  .enter-rule {
+    animation: none;
+  }
+
+  .js [data-reveal] .rule-draw,
+  .js [data-reveal].is-visible .rule-draw {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
    Scroll reveal
    Elements start hidden only when JS is available to reveal them, so the page
    still reads fully without it.
