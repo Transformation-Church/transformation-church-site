@@ -105,7 +105,12 @@ export async function Footer() {
                     {g.language ?? g.name}
                     <span className="block text-sm text-paper-muted">{g.weekday}</span>
                   </span>
-                  <span className="font-display text-lg text-paper">{g.time}</span>
+                  <span className="font-display text-lg text-paper">
+                    {g.time}
+                    {g.venue && (
+                      <span className="label ml-2 text-paper-muted">{g.venue}</span>
+                    )}
+                  </span>
                 </li>
               ))}
             </ul>

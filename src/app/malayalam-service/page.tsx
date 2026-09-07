@@ -100,6 +100,9 @@ export default async function MalayalamServicePage() {
                 <dd className="mt-2 font-display text-3xl text-paper">
                   {hindi.weekday}, {hindi.time}
                 </dd>
+                {hindi.venue && (
+                  <dd className="label mt-2 text-paper-muted">{hindi.venue}</dd>
+                )}
               </div>
             )}
             <div>

@@ -104,12 +104,16 @@ export function churchSchema(gatherings: Gathering[]) {
       propertyID: "Charity Commission for England and Wales",
       value: site.charityNumber,
     },
-    openingHoursSpecification: gatherings.map((g) => ({
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: SCHEMA_DAY[g.weekday] ?? "https://schema.org/Sunday",
-      opens: g.start,
-      name: g.language ? `${g.name} (${g.language})` : g.name,
-    })),
+    // Opening hours describe the building, so a gathering that meets online
+    // does not belong here.
+    openingHoursSpecification: gatherings
+      .filter((g) => !g.venue)
+      .map((g) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: SCHEMA_DAY[g.weekday] ?? "https://schema.org/Sunday",
+        opens: g.start,
+        name: g.language ? `${g.name} (${g.language})` : g.name,
+      })),
     event: gatherings.map((g) => ({
       "@type": "Event",
       name: g.language ? `${g.name} (${g.language})` : g.name,
@@ -119,8 +123,13 @@ export function churchSchema(gatherings: Gathering[]) {
         startTime: g.start,
         repeatFrequency: "P1W",
       },
-      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      location: { "@id": ORG_ID },
+      eventAttendanceMode: g.venue
+        ? "https://schema.org/OnlineEventAttendanceMode"
+        : "https://schema.org/OfflineEventAttendanceMode",
+      // An online gathering must not claim the building as its location.
+      location: g.venue
+        ? { "@type": "VirtualLocation", name: g.venue }
+        : { "@id": ORG_ID },
       organizer: { "@id": ORG_ID },
       isAccessibleForFree: true,
       inLanguage: g.language,
