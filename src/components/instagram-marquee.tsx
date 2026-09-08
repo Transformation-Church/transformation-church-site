@@ -32,9 +32,9 @@ export function InstagramMarquee({ posts }: { posts: FeedPost[] }) {
         data-reveal
       >
         <p className="max-w-xl leading-relaxed text-ink-muted">
-          Our latest Instagram posts are hidden because the images come from
-          Instagram&rsquo;s own servers, and we do not load anything from
-          elsewhere without asking.
+          Our latest Instagram posts are hidden because those images are
+          served by Instagram&rsquo;s host rather than by us, and we do not load
+          anything from elsewhere without asking.
         </p>
         <AllowMediaButton label="Show the posts" />
       </div>

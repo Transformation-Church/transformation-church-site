@@ -75,9 +75,9 @@ const CATEGORIES: {
 }[] = [
   {
     key: "media",
-    name: "Images from YouTube and Instagram",
+    name: "Photographs from our Instagram",
     detail:
-      "Sermon artwork comes from YouTube where we have none of our own, and our Instagram photographs are served by Behold. No cookies are set, but both learn your IP address and which page you are on.",
+      "Our latest Instagram posts are served by Behold rather than from this site. No cookies are set, but they learn your IP address and which page you are on. Everything else on the site, sermon artwork included, is served by us.",
     live: true,
   },
   {
@@ -201,11 +201,11 @@ function ConsentBanner({
             Before we load anything from elsewhere
           </h2>
           <p className="mt-3 leading-relaxed text-paper-body">
-            This site sets no cookies of its own and does not track you. Some
-            pages show sermon artwork from YouTube and photographs from our
-            Instagram, which are fetched from those companies&rsquo; servers and
-            tell them your IP address. You can say no and the rest of the site
-            works exactly the same.{" "}
+            This site sets no cookies of its own and does not track you. Two
+            pages show our latest Instagram posts, and those images come from
+            Instagram&rsquo;s host rather than from us, which tells them your IP
+            address. You can say no and the rest of the site works exactly the
+            same.{" "}
             <Link href="/cookie-policy" className="link-underline text-paper">
               More detail
             </Link>

@@ -43,11 +43,10 @@ export default function CookiePolicyPage() {
             <h2>Your choice about media from elsewhere</h2>
             <p>
               The first time you visit, we ask whether you are happy for us to
-              load two kinds of image that live on other companies&rsquo;
-              servers: sermon artwork from YouTube, where we have none of our
-              own, and photographs from our Instagram. Neither sets a cookie,
-              but fetching them tells those companies your IP address and which
-              page you are reading, so we ask first.
+              show our latest Instagram posts. Those images are served by
+              Behold rather than by us, which tells them your IP address and
+              which page you are reading, so we ask first. No cookie is set
+              either way.
             </p>
             <p>
               Until you answer, nothing is fetched from either. If you say no,
@@ -69,9 +68,9 @@ export default function CookiePolicyPage() {
             </p>
             <ul>
               <li>
-                <strong>Images from YouTube and Instagram.</strong> The only one
-                currently in use. No cookies, but those companies learn your IP
-                address and which page you are on.
+                <strong>Photographs from our Instagram.</strong> The only one
+                currently in use. No cookies, but Behold learns your IP address
+                and which page you are on.
               </li>
               <li>
                 <strong>Measuring how the site is used.</strong> Not in use yet.
@@ -121,7 +120,14 @@ export default function CookiePolicyPage() {
               and <Link href="/about">About</Link> pages are served through
               Behold, which republishes the account as plain data and hosts the
               images itself. Instagram is not contacted and no Instagram
-              cookies are set.
+              cookies are set. These only load if you allow them.
+            </p>
+
+            <h3>Sermon artwork</h3>
+            <p>
+              Sermon images used to be fetched from YouTube. They are now
+              downloaded and served from this site, so browsing the sermon
+              archive contacts nobody.
             </p>
 
             <h2>The map</h2>

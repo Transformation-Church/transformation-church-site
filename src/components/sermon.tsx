@@ -13,12 +13,14 @@ import {
 } from "@/lib/content";
 
 /**
- * Prefer the artwork migrated from WordPress.
+ * Every sermon has local artwork: the church's own title cards from WordPress,
+ * or its YouTube thumbnail downloaded once by scripts/fetch-sermon-thumbnails.py
+ * and served from our domain like everything else.
  *
- * Every sermon has one, they are the church's own designed 16:9 title cards at
- * full resolution, and they serve from our own domain. YouTube's `hqdefault`
- * is 4:3 with letterboxing baked in, so cropping it to 16:9 slices the top off
- * the title — which is exactly what these cards are for.
+ * The remote fallback is a safety net for a sermon added by hand before that
+ * script has run. It is 4:3 with letterboxing baked in, so cropped to a 16:9
+ * card it slices the top off the title, which is exactly what these cards are
+ * for. Run the script rather than let it stand.
  */
 export function thumbnail(sermon: Sermon) {
   if (sermon.image) return sermon.image;
