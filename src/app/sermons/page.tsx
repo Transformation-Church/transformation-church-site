@@ -16,10 +16,12 @@ export const metadata: Metadata = {
 };
 
 export default function SermonsPage() {
-  const years = new Set(
-    sermons.filter((s) => s.date).map((s) => s.date!.slice(0, 4)),
-  );
-  const span = `${Math.min(...[...years].map(Number))}-${Math.max(...[...years].map(Number))}`;
+  // Open-ended on purpose: the archive is still being added to, so a closing
+  // year would go stale the moment it did. The opening year is the earliest we
+  // can date, which is not the oldest sermon here — the undated ones go back
+  // further, they just carry nothing to date them by.
+  const dated = sermons.filter((s) => s.date).map((s) => Number(s.date!.slice(0, 4)));
+  const span = `${Math.min(...dated)} to now`;
 
   return (
     <>
