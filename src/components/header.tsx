@@ -48,14 +48,25 @@ export function Header() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <div className="container-page flex h-[var(--header-height)] items-center justify-between gap-8">
+        <div className="container-page flex h-[var(--header-height)] items-center justify-between gap-6 xl:gap-8">
           <Logo
             tone={solid ? "light" : "dark"}
             priority
             className="h-9 md:h-11"
           />
 
-          <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
+          {/*
+            Tighter between 1024 and 1280, where an iPad in portrait sits. At
+            gap-9 the row measures 903px of a 1024px bar in Chromium and fits,
+            but Safari lays it out fractionally wider and "What's On" broke
+            across two lines after a rotation. gap-6 leaves about 190px spare,
+            and nowrap below means a label can never break mid-phrase however
+            the measurement lands.
+          */}
+          <nav
+            className="hidden items-center gap-6 lg:flex xl:gap-9"
+            aria-label="Primary"
+          >
             {navigation.map((item) => {
               const active =
                 item.href === "/"
@@ -66,7 +77,7 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`label link-underline py-1 transition-colors duration-300 ${
+                  className={`label link-underline shrink-0 whitespace-nowrap py-1 transition-colors duration-300 ${
                     solid
                       ? active
                         ? "text-ink"
@@ -83,7 +94,7 @@ export function Header() {
 
             <Link
               href="/visit"
-              className={`label rounded-full px-5 py-3 transition-all duration-400 ease-[var(--ease-out-expo)] ${
+              className={`label shrink-0 whitespace-nowrap rounded-full px-5 py-3 transition-all duration-400 ease-[var(--ease-out-expo)] ${
                 solid
                   ? "bg-ink text-paper hover:bg-accent"
                   : "bg-paper text-ink hover:bg-accent hover:text-paper"
