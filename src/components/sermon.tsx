@@ -41,9 +41,11 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
     >
       {/* Day and month only: SermonList's rail carries the year. */}
       <div className="col-span-2 hidden md:block">
-        <span className="label tabular-nums text-ink-muted">
-          {formatDayMonth(sermon.date)}
-        </span>
+        {sermon.date && (
+          <span className="label tabular-nums text-ink-muted">
+            {formatDayMonth(sermon.date)}
+          </span>
+        )}
       </div>
 
       <div className="col-span-12 md:col-span-6">
@@ -54,9 +56,11 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
           {sermon.title}
         </h3>
         {/* No rail on narrow screens, so the row keeps the full date. */}
-        <span className="label mt-2 block text-ink-muted md:hidden">
-          {formatDateShort(sermon.date)}
-        </span>
+        {sermon.date && (
+          <span className="label mt-2 block text-ink-muted md:hidden">
+            {formatDateShort(sermon.date)}
+          </span>
+        )}
       </div>
 
       <div className="col-span-8 md:col-span-3">
@@ -104,9 +108,10 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
  * travels with its group and is released by the next one. No scroll listener.
  */
 export function SermonList({ sermons }: { sermons: Sermon[] }) {
+  // Undated sermons sort last, so they gather into one trailing group.
   const groups: { year: string; sermons: Sermon[] }[] = [];
   for (const sermon of sermons) {
-    const y = year(sermon.date);
+    const y = year(sermon.date) ?? "Undated";
     if (groups.at(-1)?.year !== y) groups.push({ year: y, sermons: [] });
     groups.at(-1)!.sermons.push(sermon);
   }
@@ -116,7 +121,11 @@ export function SermonList({ sermons }: { sermons: Sermon[] }) {
       {groups.map((group) => (
         <section
           key={group.year}
-          aria-label={`Sermons from ${group.year}`}
+          aria-label={
+            group.year === "Undated"
+              ? "Sermons we have no date for"
+              : `Sermons from ${group.year}`
+          }
           className="md:grid md:grid-cols-12 md:gap-x-6"
         >
           <div className="md:col-span-1">
@@ -128,7 +137,11 @@ export function SermonList({ sermons }: { sermons: Sermon[] }) {
               one because sr-only and sticky both set `position`.
             */}
             <h2 className="sr-only md:hidden">{group.year}</h2>
-            <h2 className="sticky top-[calc(var(--header-height)+1.5rem)] hidden py-6 font-display text-2xl tabular-nums text-ink-muted md:block">
+            <h2
+              className={`sticky top-[calc(var(--header-height)+1.5rem)] hidden py-6 font-display tabular-nums text-ink-muted md:block ${
+                group.year === "Undated" ? "text-lg" : "text-2xl"
+              }`}
+            >
               {group.year}
             </h2>
           </div>
@@ -187,7 +200,9 @@ export function SermonCard({
       </span>
 
       <span className="label mt-6 flex items-center gap-3 text-ink-muted">
-        <span className="tabular-nums">{formatDate(sermon.date)}</span>
+        {sermon.date && (
+          <span className="tabular-nums">{formatDate(sermon.date)}</span>
+        )}
         {sermon.series && (
           <>
             <span className="h-px w-4 bg-rule-strong" />

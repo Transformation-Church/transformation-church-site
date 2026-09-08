@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 };
 
 export default function SermonsPage() {
-  const years = new Set(sermons.map((s) => s.date.slice(0, 4)));
+  const years = new Set(
+    sermons.filter((s) => s.date).map((s) => s.date!.slice(0, 4)),
+  );
   const span = `${Math.min(...[...years].map(Number))}-${Math.max(...[...years].map(Number))}`;
 
   return (

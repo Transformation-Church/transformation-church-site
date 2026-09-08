@@ -12,8 +12,11 @@ export function FacetArchive({
   facet: Facet;
   sermons: Sermon[];
 }) {
-  const oldest = sermons[sermons.length - 1];
-  const newest = sermons[0];
+  // Only dated sermons can bound the range, and undated ones sort last, so
+  // taking the ends of the whole list would read a null date.
+  const dated = sermons.filter((s) => s.date);
+  const oldest = dated[dated.length - 1];
+  const newest = dated[0];
 
   return (
     <>
@@ -32,13 +35,13 @@ export function FacetArchive({
             {newest && (
               <div>
                 <dt className="label text-paper-muted">Most recent</dt>
-                <dd className="mt-2 text-paper-body">{formatDate(newest.date)}</dd>
+                <dd className="mt-2 text-paper-body">{formatDate(newest.date!)}</dd>
               </div>
             )}
             {oldest && oldest !== newest && (
               <div>
                 <dt className="label text-paper-muted">Earliest</dt>
-                <dd className="mt-2 text-paper-body">{formatDate(oldest.date)}</dd>
+                <dd className="mt-2 text-paper-body">{formatDate(oldest.date!)}</dd>
               </div>
             )}
           </dl>
