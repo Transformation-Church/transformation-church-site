@@ -20,9 +20,10 @@ A rebuild of transformationchurch.co.uk, replacing WordPress and Elementor.
 [![Vercel](https://img.shields.io/badge/Vercel-deployed-000000?style=plastic&logo=vercel&logoColor=white)](https://vercel.com)
 
 [![Accessibility](https://img.shields.io/badge/WCAG_2.2_AA-0_violations-1D6A4F?style=plastic)](#accessibility)
-[![Pages](https://img.shields.io/badge/prerendered-245_pages-18265E?style=plastic)](#where-the-content-lives)
-[![Sermons](https://img.shields.io/badge/sermon_archive-165-18265E?style=plastic)](#sermons-preachers-series-static-json)
+[![Pages](https://img.shields.io/badge/prerendered-407_pages-18265E?style=plastic)](#where-the-content-lives)
+[![Sermons](https://img.shields.io/badge/sermon_archive-309-18265E?style=plastic)](#sermons-preachers-series-static-json)
 [![Cookies](https://img.shields.io/badge/cookies_set-none-1D6A4F?style=plastic)](#notes-on-decisions)
+[![Third parties](https://img.shields.io/badge/third_parties-consented_only-1D6A4F?style=plastic)](#consent)
 
 **[Live site](https://transformation-church-site.vercel.app)**  ·  **[Council paper](docs/council-paper-website-rebuild.html)**  ·  **[Studio](https://transformation-church-site.vercel.app/studio)**
 
@@ -46,27 +47,59 @@ There are four sources, chosen per content type rather than forced into one CMS.
 
 ### Sermons, preachers, series: static JSON
 
-165 sermons, 25 preachers and 19 series live in `src/content/*.json`, generated
-from the WordPress export. They are archival and change rarely, so they ship in
-the bundle: no CMS round trip, no query cost, and every sermon page is
-prerendered.
+309 sermons, 41 preachers and 19 series live in `src/content/*.json`. They are
+archival and change rarely, so they ship in the bundle: no CMS round trip, no
+query cost, and every sermon page is prerendered.
 
-Refresh them from a new WordPress export with:
+The YouTube channel is the source. Three scripts, run in order:
+
+```bash
+python scripts/fetch-youtube-videos.py      # the channel's video list
+python scripts/build-sermons.py --report    # parse and merge, without writing
+python scripts/build-sermons.py             # write src/content/*.json
+python scripts/fetch-sermon-thumbnails.py   # artwork, served from our domain
+```
+
+`fetch-youtube-videos.py` calls the same InnerTube endpoint youtube.com itself
+calls, so there is no API key to obtain or rotate. The one subtlety is which
+continuation token to follow: a channel page carries several, including one for
+the About panel, and following that one returns HTTP 200 with no items, which
+reads exactly like reaching the end of the channel.
+
+`build-sermons.py` parses titles and merges with what is already in the
+archive, so the WordPress records keep what YouTube has no idea about: series,
+Bible passages, descriptions, the church's own artwork, and their slugs, so
+existing links do not break. Three title conventions are handled, because the
+channel has used all three:
+
+```
+Title | Speaker | Date      the current house style
+Speaker | Title | Date      some 2021-22 uploads
+Title - Speaker             the older uploads, no date at all
+```
+
+**Dates come from the title, never from the upload.** Most titles carry no
+year, but they do carry a weekday, and "Sunday 18th February" falls on a Sunday
+in only some years, which pins it exactly. Checked against the 140 sermons the
+WordPress archive already had dates for: 136 agree. 72 sermons carry no date at
+all and are shown as undated rather than borrowing an upload date, which for
+the bulk-uploaded back catalogue would be years out.
+
+**Duplicates are checked three ways**: by video id, by slug, and by person.
+Preachers fold on a key that ignores honorifics and middle initials, or the
+archive lists Dr Joy Samuel and Dr Joy T Samuel as two men with 57 and 16
+sermons rather than one with 74.
+
+The original WordPress export is still reproducible if it is ever needed:
 
 ```bash
 python scripts/migrate-wordpress.py path/to/export.xml --media
-```
-
-`--media` also downloads the uploads library into `public/media/`. The script
-reports source-data problems rather than silently papering over them. After
-adding new media:
-
-```bash
 node scripts/optimise-media.js
 ```
 
-which caps images at 2000px and re-encodes them. The original export was 246MB;
-this brings it to about 88MB.
+`--media` downloads the uploads library into `public/media/`, and
+`optimise-media.js` caps images at 2000px and re-encodes them. The export was
+246MB; `public/media` is about 163MB today, including the sermon artwork.
 
 ### Blog: Sanity
 
@@ -93,9 +126,33 @@ Two things worth knowing if you touch `src/lib/events.ts`:
   `Europe/London` rather than doing arithmetic.
 - `sequence_id` is non-null for recurring series. Without splitting on it the
   page becomes 50-odd repetitions of the same three services.
-- Event locations use `location.address` and **never** `location.name`.
-  ChurchSuite is using that field for host rotas, so member names would
-  otherwise be published.
+- Event locations use `location.address` and **never** `location.name` for a
+  physical location. ChurchSuite is using that field for host rotas, so member
+  names would otherwise be published. `location.name` is read only when
+  `location.type` is `online`, where it names a platform: that is how the site
+  knows the Hindi service meets on Zoom.
+
+### The map on /visit: OpenStreetMap, drawn by us
+
+`/visit` used to embed a live Google map. That put a third party and its
+cookies on the page a first-time visitor is most likely to open, and dropped
+Google's own styling into the middle of a navy and paper layout.
+
+```bash
+python scripts/build-locator-map.py
+```
+
+fetches the real road and rail geometry from OpenStreetMap once and commits it
+as projected SVG paths, which `LocatorMap` draws in the site's own palette. Two
+framings: 2.2km wide for the desktop column, and a square 1.1km one for phones,
+because shrinking the wide frame put every street name at about eight pixels.
+The data is ODbL, so the attribution under the map is required and must stay.
+
+The map links out to the Google listing by **CID**. That link has rotted twice
+already: the old `maps.app.goo.gl` short link died with the service behind it,
+and the long-form `/maps/place/Name/@lat,lng/data=...` URL that replaced it now
+redirects to `/maps/place//@...`, which shows coordinates with no pin. A CID
+names the Business Profile itself, so there is nothing to normalise away.
 
 ### Everything else: typed modules
 
@@ -118,7 +175,7 @@ See `.env.example`. All are optional; the table says what happens without each.
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Blog uses migrated posts; `/studio` shows a setup notice |
 | `NEXT_PUBLIC_SANITY_DATASET` | Defaults to `production` |
 | `RESEND_API_KEY` + `CONTACT_FROM` | Forms tell people to email `info@bpfministries.com` directly |
-| `INSTAGRAM_FEED_URL` | Instagram section shows a follow panel instead of a grid |
+| `INSTAGRAM_FEED_URL` | Falls back to the church's Behold feed in `site.ts`. That URL is public and read-only, so it lives in the repo rather than an environment variable nobody can see |
 | `CHURCHSUITE_CALENDAR_UUID` | Falls back to the church's current calendar UUID |
 | `SITE_INDEXABLE` | **Site sends `noindex` and disallows all crawlers** |
 
@@ -132,17 +189,19 @@ See `.env.example`. All are optional; the table says what happens without each.
    against the old site. Forgetting this means launching invisible to Google.
 2. Point `transformationchurch.co.uk` at Vercel.
 3. Add `RESEND_API_KEY` and `CONTACT_FROM` so the forms deliver.
-4. Replace the Restore Foodbank figures, which are from 2023 and flagged with a
-   `TODO` in `src/app/restore-foodbank/page.tsx`.
+4. Correct the charity number in the safeguarding policy PDF. It reads 1132602;
+   the registered number is 1208306, which is what the site uses.
+
 ### Excluded sermons
 
-Two WordPress records are faulty and unrepairable from the export, so they are
-listed in `EXCLUDED_SERMONS` in the migration script and do not appear on the
-site. Fix them at source and delete the slug to bring them back.
+`EXCLUDED_SERMONS` in the migration script still lists two WordPress records
+that were unrepairable from the export: *Cautions in Extended Life, Part 3*,
+whose YouTube id was truncated to ten characters, and *God's presence: The only
+source of Blessing*, which had no preacher.
 
-- *Cautions in Extended Life, Part 3*: YouTube ID truncated to 10 characters
-  where 11 are required, so the real link is unrecoverable.
-- *God's presence: The only source of Blessing*: no preacher assigned.
+**Both are now on the site**, recovered from the channel, because the archive is
+built from YouTube rather than the export. The exclusion list only affects a
+re-import and can be left alone.
 
 ---
 
@@ -191,7 +250,12 @@ testing with people who use assistive technology.
   vacancies; `Event` on What's On; `BreadcrumbList` on detail pages. Nothing is
   invented: the coordinates come from the church's ChurchSuite site record.
 - **`/llms.txt`** is generated from the same datasets the pages render from, so
-  it cannot drift. It carries the live weekly rhythm and upcoming events.
+  it cannot drift. It carries the live weekly gatherings, including which meet
+  online, and upcoming events.
+- **`sitemap.ts`** generates sermon, series, preacher, post and vacancy URLs
+  from data, but its list of static pages is typed by hand and has fallen
+  behind once already. `python scripts/check-sitemap.py` fails if a page exists
+  that the sitemap does not list, or the reverse.
 - Canonical URLs on every route, an Open Graph card at 1200x630
   (`node scripts/build-og-image.js`), and Twitter summary cards.
 
@@ -217,14 +281,57 @@ frame loads, and YouTube's player is only mounted on interaction, via
 `youtube-nocookie.com`. That keeps roughly a megabyte of player off every page
 load and means no third-party cookies unless someone presses play.
 
-**Sermon artwork.** The church's own 16:9 title cards are preferred over
-YouTube's `hqdefault`, which is 4:3 with letterboxing baked in, so cropping it
-slices the title off the card.
+**Sermon artwork.** Every sermon has artwork served from our own domain: the
+church's own 16:9 title cards where WordPress had them, and the YouTube
+thumbnail downloaded once by `scripts/fetch-sermon-thumbnails.py` for the 145
+that had none. Fetching them live from `i.ytimg.com` would have handed Google
+every visitor's IP address and the page they were reading, for images of the
+church's own videos. The script takes the largest size YouTube holds and leaves
+`hqdefault` until last: that one is 4:3 with the picture letterboxed inside, so
+cropping it to a 16:9 card slices the title off.
 
-**Cookies.** The site sets none of its own. `/cookie-policy` documents what
-actually runs; it was rewritten rather than migrated, because the old policy
-described CookieYes, Elementor and analytics that no longer exist. **If
-analytics or a consent tool are added, that page must be updated.**
+<a id="consent"></a>
+
+**Cookies and consent.** The site sets no cookies of its own and writes nothing
+to storage until asked. Measured, not assumed: a fresh visit to any page
+contacts nobody.
+
+Under PECR that means nothing here legally needs consent today, and an
+accept-or-reject banner over nothing would be theatre. So the banner gates
+something real: the Instagram feed, whose images are served by Behold and
+therefore tell them a visitor's IP address. Everything else, sermon artwork
+included, is served by us.
+
+`src/components/consent.tsx` carries three categories, each off until switched
+on, and the instructions for adding Google Analytics or a Meta pixel when the
+time comes. The short version:
+
+```tsx
+<ConsentedScript category="analytics">
+  <Script src="https://www.googletagmanager.com/gtag/js?id=G-XXXX" />
+</ConsentedScript>
+```
+
+`analytics` is measurement, `marketing` is anything that follows people across
+sites. `ConsentedScript` does not render its children until the category is
+allowed, so the script is never put on the page at all. **Adding one means
+updating `/cookie-policy` and the category list in the same change**, or the
+site will be describing something that is no longer true.
+
+Three rules the implementation encodes, being the ones usually broken: refusing
+everything is one click at the same size and in the same place as accepting;
+consent is withdrawable from a Cookie settings link in the footer of every
+page; and no box is ever pre-ticked, because a pre-ticked box is not consent
+and anything relying on one would be running unlawfully.
+
+**Safeguarding.** `/safeguarding` condenses the 40-page BPF policy to what a
+worried person needs, ordered for them rather than for the policy: the 999
+line, who to tell, the three rules, then what happens next. The full policy
+remains authoritative and the page says so. The coordinators' personal mobile
+numbers are in that policy and deliberately not on the page; the church line
+and the ThirtyOne:Eight 24-hour helpline reach the same people without putting
+three individuals' mobiles somewhere Google will index. Contacts live in
+`safeguarding` in `src/lib/site.ts`.
 
 **No sermon audio.** Worth recording so nobody looks for it: the WordPress
 export contains no audio at all. All 61 `sermon_audio_id` values are `"0"`,

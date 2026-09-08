@@ -1,8 +1,14 @@
 import { getPosts } from "@/lib/blog";
 import { formatDate, preachers, sermons, series } from "@/lib/content";
 import { openVacancies } from "@/content/vacancies";
-import { formatEventDate, formatEventTime, getSchedule } from "@/lib/events";
-import { gatherings, site, visitFaqs } from "@/lib/site";
+import {
+  formatEventDate,
+  formatEventTime,
+  getGatherings,
+  getSchedule,
+  venueFor,
+} from "@/lib/events";
+import { site, visitFaqs } from "@/lib/site";
 
 /**
  * /llms.txt — a structured summary of the site for language models.
@@ -29,12 +35,17 @@ export async function GET() {
   const posts = await getPosts();
   const roles = openVacancies();
   const { recurring, oneOff } = await getSchedule(8);
+  // From ChurchSuite, so the Hindi service and the fact it meets on Zoom are
+  // both here. The fallback list in site.ts holds only the two Sunday
+  // services, which is what this file used to claim was all of them.
+  const services = await getGatherings();
 
   // Undated sermons cannot bound a range.
   const years = sermons
     .filter((s) => s.date)
     .map((s) => Number(s.date!.slice(0, 4)));
   const span = `${Math.min(...years)}-${Math.max(...years)}`;
+  const undated = sermons.length - years.length;
 
   const topSeries = series.slice(0, 8);
   const topPreachers = preachers.slice(0, 8);
@@ -43,14 +54,14 @@ export async function GET() {
 
 > A multicultural Pentecostal church in ${site.address.town}, Birmingham, UK. Part of ${site.parentOrg}, an accredited member of Assemblies of God, Great Britain. Registered charity ${site.charityNumber}.
 
-Services are held every Sunday at ${gatherings.map((g) => `${g.time} (${g.language})`).join(" and ")}, at ${site.address.line1}, ${site.address.town}, ${site.address.postcode}. There is free parking on site, the church is a three-minute walk from Rowley Regis railway station, and five minutes from Junction 2 of the M5.
+Services: ${services.map((g) => `${g.weekday} ${g.time} (${g.language}${g.venue ? `, on ${g.venue}` : ""})`).join("; ")}. Everything except the online service is at ${site.address.line1}, ${site.address.town}, ${site.address.postcode}. There is free parking on site, the church is a three-minute walk from Rowley Regis railway station, and five minutes from Junction 2 of the M5.
 
 The church began in July 2002 as a Malayalam-language prayer fellowship of about eleven people in Sutton Coldfield, and is now a multilingual congregation with cell groups meeting across the West Midlands. Contact: ${site.contact.email}.
 
 ## Visiting
 
 ${line("Plan your visit", "/visit", "Service times, what to expect on a Sunday, directions, parking and accessibility")}
-${line("What's on", "/whats-on", "The weekly rhythm plus any upcoming one-off events")}
+${line("What's on", "/whats-on", "The weekly gatherings plus any upcoming one-off events")}
 ${line("Giving", "/giving", "Ways to give, and how Gift Aid adds 25% to a UK taxpayer's donation")}
 ${line("Malayalam service", "/malayalam-service", "For Malayalam-speaking families: the weekly Malayalam service, the church's Kerala roots, and where cell groups meet")}
 ${line("Contact", "/contact", "Connection card, prayer requests and general enquiries")}
@@ -60,11 +71,11 @@ ${line("Connect", "/connect", "All social channels, giving and directions in one
 ${recurring.length > 0
   ? recurring
       .map((e) => `
-- **${e.name}** - ${e.weekday}s, ${formatEventTime(e)}`)
+- **${e.name}** - ${e.weekday}s, ${formatEventTime(e)}${venueFor(e) ? `, on ${venueFor(e)}` : ""}`)
       .join("")
-  : gatherings
+  : services
       .map((g) => `
-- **${g.name} (${g.language})** - Sundays, ${g.time}`)
+- **${g.name} (${g.language})** - ${g.weekday}s, ${g.time}${g.venue ? `, on ${g.venue}` : ""}`)
       .join("")}
 - **Restore Foodbank** - Wednesdays, 10:30am to 1:00pm
 
@@ -77,10 +88,11 @@ ${oneOff.map((e) => `
 ${line("About us", "/about", "Mission, vision, core values, the thirteen belief statements with scripture references, and church leadership")}
 ${line("Our history", "/our-history", "How Birmingham Pentecostal Fellowship formed between 2002 and today")}
 ${line("Restore Foodbank", "/restore-foodbank", "Weekly food distribution every Wednesday, 10:30am to 1:00pm, in partnership with the Black Country Food Bank")}
+${line("Safeguarding", "/safeguarding", "How to raise a safeguarding concern, who to contact, and what happens next. Condensed from the BPF Safeguarding Policy, September 2025")}
 
 ## Teaching
 
-${line("Sermon archive", "/sermons", `${sermons.length} recorded sermons from ${span}, filterable by preacher, series and service type`)}
+${line("Sermon archive", "/sermons", `${sermons.length} recorded sermons, filterable by preacher, series and service type. ${years.length} are dated, spanning ${span}; the remaining ${undated} are older recordings whose date is not known`)}
 ${topSeries.map((s) => line(s.name, `/sermons/series/${s.slug}`, `Sermon series, ${s.count} ${s.count === 1 ? "message" : "messages"}`)).join("\n")}
 
 ### Preachers
@@ -105,7 +117,7 @@ ${visitFaqs.map((f) => `**${f.question}** ${f.answer}`).join("\n\n")}
 ## Optional
 
 ${line("Privacy policy", "/privacy-policy", "How personal data is handled")}
-${line("Cookie policy", "/cookie-policy", "This site sets no cookies of its own")}
+${line("Cookie policy", "/cookie-policy", "This site sets no cookies of its own, and asks before loading anything from a third party")}
 ${line("Terms of use", "/terms-of-use", "Terms governing use of the website")}
 `;
 

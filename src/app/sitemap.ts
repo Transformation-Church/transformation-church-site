@@ -5,6 +5,8 @@ import { preachers, sermons, series } from "@/lib/content";
 import { openVacancies } from "@/content/vacancies";
 import { site } from "@/lib/site";
 
+// Hand-maintained, and it has already fallen behind once. If you add a page,
+// add it here: scripts/check-sitemap.py fails the check if you forget.
 const STATIC_ROUTES = [
   { path: "/", priority: 1 },
   { path: "/visit", priority: 0.9 },
@@ -21,6 +23,9 @@ const STATIC_ROUTES = [
   { path: "/kids-space", priority: 0.5 },
   { path: "/spark", priority: 0.5 },
   { path: "/connect", priority: 0.5 },
+  // Above the legal pages: parents look for this before a kids or youth page,
+  // and it is one of the few things people search a church site for by name.
+  { path: "/safeguarding", priority: 0.6 },
   { path: "/privacy-policy", priority: 0.2 },
   { path: "/terms-of-use", priority: 0.2 },
   { path: "/cookie-policy", priority: 0.2 },
