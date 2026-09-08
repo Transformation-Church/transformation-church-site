@@ -1,6 +1,6 @@
 import { SermonList } from "@/components/sermon";
 import { PageHeader, TextLink } from "@/components/ui";
-import { formatDate, type Facet, type Sermon } from "@/lib/content";
+import { formatDate, isExactDate, type Facet, type Sermon } from "@/lib/content";
 
 /** Shared layout for the preacher and series archives. */
 export function FacetArchive({
@@ -14,7 +14,7 @@ export function FacetArchive({
 }) {
   // Only dated sermons can bound the range, and undated ones sort last, so
   // taking the ends of the whole list would read a null date.
-  const dated = sermons.filter((s) => s.date);
+  const dated = sermons.filter((s) => isExactDate(s.date));
   const oldest = dated[dated.length - 1];
   const newest = dated[0];
 

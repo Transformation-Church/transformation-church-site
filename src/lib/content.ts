@@ -21,9 +21,10 @@ export type Sermon = {
   slug: string;
   title: string;
   /**
-   * Null when the YouTube title carries no date. A third of the back
-   * catalogue was bulk-uploaded years after it was preached, so its upload
-   * date would be badly wrong; those sermons are shown as undated instead.
+   * "2024-02-18" where we know the day, "2024" where the church knows only
+   * the year, null where nobody knows. The back catalogue was bulk-uploaded
+   * years after it was preached, so an upload date would be badly wrong.
+   * Use isExactDate before passing this to anything that formats a day.
    */
   date: string | null;
   preacher: Term | null;
@@ -198,4 +199,9 @@ const DAY_MONTH = new Intl.DateTimeFormat("en-GB", {
 
 export function year(iso: string | null) {
   return iso ? iso.slice(0, 4) : null;
+}
+
+/** True for "2024-02-18", false for "2024" and for null. */
+export function isExactDate(iso: string | null): iso is string {
+  return !!iso && iso.length === 10;
 }

@@ -6,6 +6,7 @@ import {
   formatDate,
   formatDateShort,
   formatDayMonth,
+  isExactDate,
   year,
   type Sermon,
 } from "@/lib/content";
@@ -41,7 +42,7 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
     >
       {/* Day and month only: SermonList's rail carries the year. */}
       <div className="col-span-2 hidden md:block">
-        {sermon.date && (
+        {isExactDate(sermon.date) && (
           <span className="label tabular-nums text-ink-muted">
             {formatDayMonth(sermon.date)}
           </span>
@@ -58,7 +59,7 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
         {/* No rail on narrow screens, so the row keeps the full date. */}
         {sermon.date && (
           <span className="label mt-2 block text-ink-muted md:hidden">
-            {formatDateShort(sermon.date)}
+            {isExactDate(sermon.date) ? formatDateShort(sermon.date) : sermon.date}
           </span>
         )}
       </div>
@@ -108,7 +109,10 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
  * travels with its group and is released by the next one. No scroll listener.
  */
 export function SermonList({ sermons }: { sermons: Sermon[] }) {
-  // Undated sermons sort last, so they gather into one trailing group.
+  // Undated sermons sit where the channel put them rather than in one block,
+  // so "Undated" can appear more than once: above the newest dated sermon for
+  // recent uploads, and below the oldest for the back catalogue. The key has
+  // to carry the first slug, since the label alone repeats.
   const groups: { year: string; sermons: Sermon[] }[] = [];
   for (const sermon of sermons) {
     const y = year(sermon.date) ?? "Undated";
@@ -119,13 +123,11 @@ export function SermonList({ sermons }: { sermons: Sermon[] }) {
   return (
     <div className="border-t border-rule">
       {groups.map((group) => (
-        <section
-          key={group.year}
-          aria-label={
-            group.year === "Undated"
-              ? "Sermons we have no date for"
-              : `Sermons from ${group.year}`
-          }
+        // A div, not a labelled section. Interleaving means a label repeats
+        // — "Undated" three times, 2021 twice — and landmarks have to be
+        // uniquely named. The headings below already carry the outline.
+        <div
+          key={`${group.year}-${group.sermons[0].slug}`}
           className="md:grid md:grid-cols-12 md:gap-x-6"
         >
           <div className="md:col-span-1">
@@ -151,7 +153,7 @@ export function SermonList({ sermons }: { sermons: Sermon[] }) {
               <SermonRow key={sermon.slug} sermon={sermon} />
             ))}
           </div>
-        </section>
+        </div>
       ))}
     </div>
   );
@@ -201,7 +203,9 @@ export function SermonCard({
 
       <span className="label mt-6 flex items-center gap-3 text-ink-muted">
         {sermon.date && (
-          <span className="tabular-nums">{formatDate(sermon.date)}</span>
+          <span className="tabular-nums">
+            {isExactDate(sermon.date) ? formatDate(sermon.date) : sermon.date}
+          </span>
         )}
         {sermon.series && (
           <>

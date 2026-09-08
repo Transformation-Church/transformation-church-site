@@ -67,6 +67,20 @@ MANUAL_TITLES = {
     "VYt-26zh5xg": "Unusual message in a terrible time",
 }
 
+# Years the church supplied for recent uploads whose titles carry no date.
+# A bare year is a real value here, not a placeholder: we know the year and we
+# do not know the day, and saying so beats inventing the 1st of January.
+KNOWN_YEARS = {
+    "In85VvEtC3E": "2026",  # Genuine Repentance and Confession of sin
+    "r5xdoBjIUv4": "2025",  # Seeking God's Counsel in Every Decision
+}
+
+# Everything else still undated that went up within this many years is from
+# 2024, per the church. The older back catalogue stays undated: nobody has
+# said when those were preached, and the uploads are a decade adrift.
+RECENT_UPLOAD_YEARS = 2
+RECENT_UNDATED_YEAR = "2024"
+
 # Segments that are channel furniture rather than part of the sermon title.
 BOILERPLATE = re.compile(
     r"^(Transformation Church|BPF( Ministries)?|Sunday Service|Saturday Service"
@@ -287,6 +301,7 @@ def parse(video, known_speakers):
         "title": title,
         "speaker": tidy_speaker(speaker),
         "order": video.get("order"),
+        "uploadedText": video.get("uploadedText"),
         "date": date_iso,
         "dateSource": date_source,
         "youtubeId": video["id"],
@@ -364,6 +379,17 @@ def main():
         newline="\n",
     )
 
+    for record in parsed:
+        if record["date"]:
+            continue
+        known = KNOWN_YEARS.get(record["youtubeId"])
+        if known:
+            record["date"], record["dateSource"] = known, "church"
+            continue
+        age = upload_year({"uploadedText": record.get("uploadedText")})
+        if age is not None and TODAY.year - age <= RECENT_UPLOAD_YEARS:
+            record["date"], record["dateSource"] = RECENT_UNDATED_YEAR, "church"
+
     records = merge(parsed, existing)
     dated = sum(1 for r in records if r["date"])
     ids = [r["youtubeId"] for r in records if r["youtubeId"]]
@@ -392,7 +418,8 @@ def service_type(record):
     title = record["title"].lower()
     if "fasting" in title:
         return {"slug": "fasting-prayer", "name": "Fasting Prayer"}
-    if not record["date"]:
+    # A bare year says nothing about which day of the week it was.
+    if not record["date"] or len(record["date"]) != 10:
         return None
     weekday = date.fromisoformat(record["date"]).weekday()
     if weekday == 6:
@@ -522,24 +549,35 @@ def merge(parsed, existing):
         if term:
             name = speakers.get(person_key(term["name"]), term["name"])
             old = {**old, "preacher": {"slug": slugify(name), "name": name}}
-        records.append({**old, "title": tidy_title(old["title"])})
+        # Not on the channel, so give it a position from its own date.
+        records.append({**old, "title": tidy_title(old["title"]), "_order": 10**6})
 
-    # Dated newest first; then the undated ones in the channel's own order.
-    records.sort(
-        key=lambda r: (
-            0 if r["date"] else 1,
-            _reverse_date(r["date"]),
-            r.get("_order", 10**6),
-        )
-    )
+    # An undated sermon sits where the channel puts it, between the dated
+    # sermons either side of it, rather than in one block at the end.
+    #
+    # Collecting them all at the end buried the fifteen most recent uploads
+    # under nine pages of older material. Collecting them at the start would be
+    # worse: two thirds of them are the thirteen-year-old back catalogue, which
+    # would then sit above 2024. So each one inherits the sort position of the
+    # nearest dated sermon above it on the channel, and keeps showing as
+    # undated, because that is still all we know.
+    records.sort(key=lambda r: r.get("_order", 10**6))
+    inherited = "9999-99-99"  # above everything, for uploads newer than any date
+    for record in records:
+        if record["date"]:
+            inherited = record["date"]
+        record["_sort"] = inherited
+
+    records.sort(key=lambda r: (_reverse_date(r["_sort"]), r.get("_order", 10**6)))
     for record in records:
         record.pop("_order", None)
+        record.pop("_sort", None)
     return records
 
 
 def _reverse_date(iso):
     """Sorts dates descending inside an otherwise ascending sort."""
-    return "" if not iso else "".join(chr(ord("9") - int(c)) if c.isdigit() else c for c in iso)
+    return "".join(chr(ord("9") - int(c)) if c.isdigit() else c for c in iso or "")
 
 
 def facets(records, key):

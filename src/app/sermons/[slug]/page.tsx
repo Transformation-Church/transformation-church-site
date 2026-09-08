@@ -6,7 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { SermonCard, thumbnail } from "@/components/sermon";
 import { Grain, TextLink } from "@/components/ui";
 import { YouTubeEmbed } from "@/components/video-embed";
-import {
+import { isExactDate,
   formatDate,
   getSermon,
   relatedSermons,
@@ -34,7 +34,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description:
       sermon.description.slice(0, 155) ||
       `${sermon.title}${by}, preached at Transformation Church${
-        sermon.date ? ` on ${formatDate(sermon.date)}` : ""
+        isExactDate(sermon.date)
+          ? ` on ${formatDate(sermon.date)}`
+          : sermon.date
+            ? ` in ${sermon.date}`
+            : ""
       }.`,
     openGraph: {
       type: "article",
@@ -54,7 +58,10 @@ export default async function SermonPage({ params }: Props) {
   const related = relatedSermons(sermon);
 
   const facts = [
-    sermon.date && { k: "Preached", v: formatDate(sermon.date) },
+    sermon.date && {
+      k: "Preached",
+      v: isExactDate(sermon.date) ? formatDate(sermon.date) : `In ${sermon.date}`,
+    },
     sermon.preacher && {
       k: "Preacher",
       v: sermon.preacher.name,
