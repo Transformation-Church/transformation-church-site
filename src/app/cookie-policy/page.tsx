@@ -40,6 +40,28 @@ export default function CookiePolicyPage() {
               efficiently, and to report information to site owners.
             </p>
 
+            <h2>Your choice about media from elsewhere</h2>
+            <p>
+              The first time you visit, we ask whether you are happy for us to
+              load two kinds of image that live on other companies&rsquo;
+              servers: sermon artwork from YouTube, where we have none of our
+              own, and photographs from our Instagram. Neither sets a cookie,
+              but fetching them tells those companies your IP address and which
+              page you are reading, so we ask first.
+            </p>
+            <p>
+              Until you answer, nothing is fetched from either. If you say no,
+              the rest of the site works exactly as it did, with a plain panel
+              where those images would be. Saying no is one click, in the same
+              place and at the same size as saying yes.
+            </p>
+            <p>
+              Your answer is remembered in your browser&rsquo;s local storage,
+              not in a cookie, and is never sent to us or to anyone else. To
+              change it, clear this site&rsquo;s data in your browser settings
+              and the question will be asked again.
+            </p>
+
             <h2>Cookies we set</h2>
             <p>
               None. This website does not set any cookies of its own. We do not
@@ -49,9 +71,8 @@ export default function CookiePolicyPage() {
 
             <h2>Third-party cookies</h2>
             <p>
-              Two embedded services may set cookies. Both are optional in the
-              sense that they only load when you interact with, or visit, the
-              relevant part of the site.
+              Two embedded services may set cookies. Neither loads until you
+              choose to interact with it.
             </p>
 
             <h3>YouTube: sermon videos</h3>
@@ -64,17 +85,28 @@ export default function CookiePolicyPage() {
               YouTube cookies are set.
             </p>
 
-            <h3>Google Maps: directions</h3>
+            <h3>Instagram: the gallery</h3>
             <p>
-              The map on our{" "}
-              <Link href="/visit">Plan Your Visit</Link> page is embedded from
-              Google Maps, which sets its own cookies when it loads. If you
-              would rather avoid this, you can view the same location by opening{" "}
+              The Instagram posts on our <Link href="/gallery">Gallery</Link>{" "}
+              and <Link href="/about">About</Link> pages are served through
+              Behold, which republishes the account as plain data and hosts the
+              images itself. Instagram is not contacted and no Instagram
+              cookies are set.
+            </p>
+
+            <h2>The map</h2>
+            <p>
+              The map on our <Link href="/visit">Plan Your Visit</Link> page
+              used to be embedded from Google Maps, which set its own cookies
+              as soon as the page loaded. We now draw it ourselves from
+              OpenStreetMap data, so that page contacts nobody and sets nothing.
+              Following the link to{" "}
               <a href={site.address.maps} target="_blank" rel="noreferrer">
-                Google Maps directly
+                open the location in Google Maps
               </a>{" "}
-              or simply using our address: {site.address.line1},{" "}
-              {site.address.town}, {site.address.postcode}.
+              takes you to Google, where their terms apply. Our address is{" "}
+              {site.address.line1}, {site.address.town},{" "}
+              {site.address.postcode}.
             </p>
 
             <h2>Forms</h2>
@@ -96,8 +128,8 @@ export default function CookiePolicyPage() {
             <h2>Changes to this policy</h2>
             <p>
               If we add analytics or any other service that sets cookies, we
-              will update this page and introduce a consent banner where one is
-              required.
+              will update this page and the choice described above will be
+              extended to cover it.
             </p>
 
             <h2>Questions</h2>

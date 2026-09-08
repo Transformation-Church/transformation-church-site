@@ -145,16 +145,23 @@ export async function Footer() {
             No.&nbsp;{site.charityNumber}.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {legalLinks.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className="label link-underline text-[0.6rem] hover:text-paper"
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
+            {legalLinks.map((l) => {
+              const cls =
+                "label link-underline text-[0.6rem] hover:text-paper";
+              return (
+                <li key={l.href}>
+                  {"external" in l && l.external ? (
+                    <a href={l.href} target="_blank" rel="noreferrer" className={cls}>
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link href={l.href} className={cls}>
+                      {l.label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

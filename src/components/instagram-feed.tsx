@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui";
+import { InstagramMarquee } from "@/components/instagram-marquee";
 import { site } from "@/lib/site";
 
 /**
@@ -98,44 +99,7 @@ export async function InstagramFeed() {
     );
   }
 
-  // Doubled so the track can loop seamlessly. The second copy is hidden from
-  // assistive technology and taken out of the tab order, or every post would
-  // be announced and focusable twice.
-  const track = [...posts, ...posts];
-
-  return (
-    <div className="marquee group relative" data-reveal>
-      <ul className="marquee-track flex w-max items-stretch">
-        {track.map((post, i) => {
-          const duplicate = i >= posts.length;
-          return (
-            <li
-              key={`${post.id}-${i}`}
-              className="w-56 shrink-0 pr-3 md:w-72 md:pr-4"
-              aria-hidden={duplicate || undefined}
-            >
-              <a
-                href={post.permalink}
-                target="_blank"
-                rel="noreferrer"
-                tabIndex={duplicate ? -1 : undefined}
-                className="group/tile relative block aspect-square overflow-hidden bg-ink/10"
-              >
-                {/* Remote host is user-configured, so next/image optimisation is
-                    deliberately bypassed here. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={post.image}
-                  alt={duplicate ? "" : post.caption || "Instagram post"}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover/tile:scale-105"
-                />
-                <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover/tile:bg-ink/25" />
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+  // Behold serves these images, so they are only fetched once the visitor has
+  // said that is fine. See components/consent.tsx.
+  return <InstagramMarquee posts={posts} />;
 }

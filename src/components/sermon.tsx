@@ -1,5 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
+
+import { RemoteImage } from "@/components/remote-image";
 
 import { Arrow } from "@/components/ui";
 import {
@@ -81,13 +82,11 @@ export function SermonRow({ sermon }: { sermon: Sermon }) {
           aria-hidden
           className="pointer-events-none absolute right-16 top-1/2 z-10 hidden h-24 w-40 -translate-y-1/2 scale-95 overflow-hidden opacity-0 shadow-2xl transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:scale-100 group-hover:opacity-100 xl:block"
         >
-          <Image
+          <RemoteImage
             src={image}
             alt=""
-            fill
             sizes="160px"
             className="object-cover"
-            unoptimized={image.startsWith("http")}
           />
         </span>
       )}
@@ -180,13 +179,11 @@ export function SermonCard({
     >
       <span className="relative block aspect-video overflow-hidden bg-ink/10">
         {image && (
-          <Image
+          <RemoteImage
             src={image}
             alt=""
-            fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"
-            unoptimized={image.startsWith("http")}
           />
         )}
         <span className="absolute inset-0 bg-ink/15 transition-opacity duration-700 group-hover:opacity-0" />

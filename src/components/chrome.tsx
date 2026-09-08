@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { ConsentProvider } from "@/components/consent";
 import { ViewTransitions } from "@/components/view-transitions";
 
 /**
@@ -33,11 +34,11 @@ export function Chrome({
   if (bare) return <>{children}</>;
 
   return (
-    <>
+    <ConsentProvider>
       <ViewTransitions />
       {header}
       <main id="main">{children}</main>
       {footer}
-    </>
+    </ConsentProvider>
   );
 }

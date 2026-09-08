@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+
+import { RemoteImage } from "@/components/remote-image";
 
 /**
  * Click-to-play facade for YouTube.
@@ -42,13 +43,13 @@ export function YouTubeEmbed({
           className="group absolute inset-0 h-full w-full cursor-pointer"
         >
           <span className="sr-only">Play: {title}</span>
-          <Image
+          {/* The poster is often YouTube's own still, so it waits for the
+              same consent the rest of the site's remote media waits for. */}
+          <RemoteImage
             src={still}
             alt=""
-            fill
             sizes="(max-width: 1024px) 100vw, 66vw"
             className="object-cover opacity-85 transition-all duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:opacity-100"
-            unoptimized
           />
           <span className="absolute inset-0 bg-ink-deep/25 transition-colors duration-500 group-hover:bg-ink-deep/10" />
           <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-paper/95 text-ink shadow-xl transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110 group-hover:bg-accent group-hover:text-paper">

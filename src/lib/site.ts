@@ -161,10 +161,67 @@ export const footerLinks = [
 ];
 
 export const legalLinks = [
+  { label: "Safeguarding", href: "/safeguarding" },
+  {
+    label: "ChurchSuite",
+    href: "https://transformationchurchgb.churchsuite.com/",
+    external: true,
+  },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms of Use", href: "/terms-of-use" },
   { label: "Cookie Policy", href: "/cookie-policy" },
 ];
+
+/**
+ * Safeguarding contacts, from the BPF Safeguarding Policy (September 2025).
+ *
+ * The coordinators' personal mobile numbers are in that policy and are not
+ * here. The church line and the independent 24-hour helpline reach the same
+ * people, and a page Google indexes is a poor place for three individuals'
+ * mobiles. Add them here if the church would rather publish them.
+ *
+ * The statutory numbers below are published by Sandwell Council and the
+ * agencies themselves, so they carry no such question. Check them when the
+ * policy is next reviewed: they go out of date quietly.
+ */
+export const safeguarding = {
+  phone: "0121 454 4742",
+  email: "pastor@bpfministries.com",
+  people: [
+    { role: "Safeguarding Coordinator", name: "Mrs Minimole Any" },
+    { role: "Deputy Safeguarding Coordinator", name: "Mrs Ancy Sam" },
+    { role: "Senior Minister", name: "Dr Wessly Lukose" },
+  ],
+  contacts: [
+    { label: "Emergency", number: "999", tel: "999" },
+    {
+      label: "ThirtyOne:Eight, 24 hours",
+      number: "0303 003 1111",
+      tel: "03030031111",
+    },
+    {
+      label: "Children's Social Services, Sandwell",
+      number: "0121 569 3100",
+      tel: "01215693100",
+    },
+    {
+      label: "Adult Social Services, Sandwell",
+      number: "0121 569 2266",
+      tel: "01215692266",
+    },
+    {
+      label: "Adult Social Services, out of hours",
+      number: "0121 569 2355",
+      tel: "01215692355",
+    },
+    { label: "Police Public Protection Unit", number: "101", tel: "101" },
+    {
+      label: "Local Authority Designated Officer",
+      number: "0121 569 4770",
+      tel: "01215694770",
+    },
+  ],
+};
 
 /**
  * The "Are you new here?" answers, shown on the visit-oriented pages.
