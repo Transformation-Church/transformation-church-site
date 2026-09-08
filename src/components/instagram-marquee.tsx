@@ -1,6 +1,6 @@
 "use client";
 
-import { AllowMediaButton, useConsent } from "@/components/consent";
+import { AllowMediaButton, useAllowed } from "@/components/consent";
 
 /**
  * The scrolling Instagram banner.
@@ -23,9 +23,9 @@ export type FeedPost = {
 };
 
 export function InstagramMarquee({ posts }: { posts: FeedPost[] }) {
-  const { state } = useConsent();
+  const allowed = useAllowed("media");
 
-  if (state !== "granted") {
+  if (!allowed) {
     return (
       <div
         className="flex flex-col items-start gap-5 border-t border-rule pt-8 md:flex-row md:items-center md:justify-between"

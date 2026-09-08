@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { useConsent } from "@/components/consent";
+import { useAllowed } from "@/components/consent";
 
 /**
  * An image that may live on someone else's server.
@@ -27,9 +27,9 @@ export function RemoteImage({
   className?: string;
 }) {
   const remote = src.startsWith("http");
-  const { state } = useConsent();
+  const allowed = useAllowed("media");
 
-  if (remote && state !== "granted") {
+  if (remote && !allowed) {
     return <span aria-hidden className="block h-full w-full bg-ink/10" />;
   }
 

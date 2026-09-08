@@ -4,6 +4,7 @@ import { Logo } from "@/components/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { openVacancies } from "@/content/vacancies";
 import { getGatherings } from "@/lib/events";
+import { CookieSettingsButton } from "@/components/consent";
 import { footerLinks, legalLinks, navigation, site } from "@/lib/site";
 
 const socials = [
@@ -162,6 +163,11 @@ export async function Footer() {
                 </li>
               );
             })}
+            <li>
+              {/* Withdrawing consent has to be as easy as giving it, so this
+                  sits beside the policies on every page. */}
+              <CookieSettingsButton className="label link-underline text-[0.6rem] hover:text-paper" />
+            </li>
           </ul>
         </div>
       </div>

@@ -58,8 +58,38 @@ export default function CookiePolicyPage() {
             <p>
               Your answer is remembered in your browser&rsquo;s local storage,
               not in a cookie, and is never sent to us or to anyone else. To
-              change it, clear this site&rsquo;s data in your browser settings
-              and the question will be asked again.
+              change it, use the <strong>Cookie settings</strong> link at the
+              foot of any page.
+            </p>
+
+            <h2>Categories</h2>
+            <p>
+              The choice is split into three, and each is off until you turn it
+              on:
+            </p>
+            <ul>
+              <li>
+                <strong>Images from YouTube and Instagram.</strong> The only one
+                currently in use. No cookies, but those companies learn your IP
+                address and which page you are on.
+              </li>
+              <li>
+                <strong>Measuring how the site is used.</strong> Not in use yet.
+                If we add it, it will tell us which pages people read and how
+                they arrived, and it will set cookies.
+              </li>
+              <li>
+                <strong>Advertising and social media tracking.</strong> Not in
+                use yet. This would let services such as Facebook recognise you
+                across other websites in order to target advertising, and would
+                set cookies.
+              </li>
+            </ul>
+            <p>
+              Nothing in a category runs before you allow it. Not loaded and
+              held back, not queued: the code is not put on the page at all.
+              When we start using one of the categories above, this page will
+              say what is running and who operates it before it goes live.
             </p>
 
             <h2>Cookies we set</h2>
