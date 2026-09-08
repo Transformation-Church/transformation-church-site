@@ -255,6 +255,8 @@ function ConsentPanel({
   onClose: () => void;
   dismissable: boolean;
 }) {
+  // Seeded from the saved answer, so reopening shows what they actually
+  // chose. On a first visit that answer is nothing, so everything is unticked.
   const [draft, setDraft] = useState<Consent>(initial);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const returnTo = useRef<Element | null>(null);
@@ -329,6 +331,12 @@ function ConsentPanel({
             ))}
           </div>
 
+          {/*
+            The boxes start unticked and stay that way. A pre-ticked box is not
+            consent — the ICO says so and Planet49 settled it — and analytics
+            relying on one would be running unlawfully. Someone who wants
+            everything gets a button instead, which is one click either way.
+          */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <button
               type="button"
@@ -336,6 +344,13 @@ function ConsentPanel({
               className="label rounded-full bg-ink px-6 py-3.5 text-paper transition-colors duration-300 hover:bg-accent"
             >
               Save choices
+            </button>
+            <button
+              type="button"
+              onClick={() => onSave(ALL)}
+              className="label rounded-full border border-rule-strong px-6 py-3.5 text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper"
+            >
+              Allow all
             </button>
             <button
               type="button"
