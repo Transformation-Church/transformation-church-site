@@ -20,3 +20,7 @@ next-env.d.ts
 # os
 .DS_Store
 Thumbs.db
+
+# Python bytecode from scripts/
+__pycache__/
+*.pyc
