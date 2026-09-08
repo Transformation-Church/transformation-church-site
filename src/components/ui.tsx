@@ -81,6 +81,7 @@ export function Section({
   className = "",
   tone = "paper",
   action,
+  titleAction,
 }: {
   index?: string;
   eyebrow?: string;
@@ -89,7 +90,10 @@ export function Section({
   children?: ReactNode;
   className?: string;
   tone?: "paper" | "warm" | "ink";
+  /** Sits in the right-hand column, under the lede. */
   action?: ReactNode;
+  /** Sits on the title's own line, for a call to action that belongs to it. */
+  titleAction?: ReactNode;
 }) {
   const tones = {
     paper: "bg-paper text-ink",
@@ -118,7 +122,15 @@ export function Section({
                   {eyebrow}
                 </p>
               )}
-              {title && <h2 className="font-display text-3xl">{title}</h2>}
+              {title &&
+                (titleAction ? (
+                  <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+                    <h2 className="font-display text-3xl">{title}</h2>
+                    {titleAction}
+                  </div>
+                ) : (
+                  <h2 className="font-display text-3xl">{title}</h2>
+                ))}
             </div>
 
             {(lede || action) && (

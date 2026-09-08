@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { canonical } from "@/lib/seo";
 import { GalleryGrid } from "@/components/gallery-grid";
 import { InstagramFeed } from "@/components/instagram-feed";
-import { Accordion, PageHeader, Section, TextLink } from "@/components/ui";
+import { Accordion, Arrow, PageHeader, Section } from "@/components/ui";
 import { gallery, galleryImageCount } from "@/lib/content";
 import { site, visitFaqs } from "@/lib/site";
 
@@ -30,10 +30,18 @@ export default function GalleryPage() {
         index="01"
         eyebrow="Follow along"
         title="From our Instagram"
-        action={
-          <TextLink href={site.social.instagram} external>
+        titleAction={
+          /* Same pill as the archive's own filters below, so the two read as
+             one set of controls rather than two unrelated styles. */
+          <a
+            href={site.social.instagram}
+            target="_blank"
+            rel="noreferrer"
+            className="label group inline-flex items-center gap-2.5 rounded-full bg-ink px-5 py-2.5 text-paper transition-colors duration-300 hover:bg-accent"
+          >
             @transformationchurchuk
-          </TextLink>
+            <Arrow />
+          </a>
         }
         tone="warm"
       >
@@ -44,7 +52,6 @@ export default function GalleryPage() {
         index="02"
         eyebrow="The archive"
         title="Photographs from across the years"
-        lede={`${galleryImageCount} images, filterable by what was happening.`}
       >
         <GalleryGrid categories={gallery} />
       </Section>
