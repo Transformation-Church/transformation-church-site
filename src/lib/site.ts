@@ -115,19 +115,6 @@ export const cellGroupTowns = cellGroups
   .sort((a, b) => a.localeCompare(b, "en-GB"));
 
 /**
- * Gatherings that do not meet at the building, by language.
- *
- * ChurchSuite should own this: setting a service's location to Online there
- * makes the feed say so and this map becomes redundant. Right now the Hindi
- * Service is still recorded as a physical location with no address, so the
- * feed cannot tell us, and the church has said it meets on Zoom. Delete an
- * entry here the moment ChurchSuite carries it.
- */
-export const onlineGatherings: Record<string, string> = {
-  Hindi: "Zoom",
-};
-
-/**
  * Restore Foodbank, from its own returns for 2023, 2024 and 2025 added
  * together.
  *

@@ -1,8 +1,4 @@
-import {
-  gatherings as fallbackGatherings,
-  onlineGatherings,
-  site,
-} from "@/lib/site";
+import { gatherings as fallbackGatherings, site } from "@/lib/site";
 
 /**
  * Events from ChurchSuite.
@@ -206,38 +202,48 @@ export async function getGatherings(): Promise<Gathering[]> {
       time: g.time,
       start: g.start,
       language: g.language,
-      venue: g.language ? onlineGatherings[g.language] : undefined,
       url: null,
     }));
   }
 
-  return recurring.map((e) => {
-    // "Sunday Service (English)" -> language English; "Hindi Service" -> Hindi.
-    const inBrackets = e.name.match(/\(([^)]+)\)/)?.[1];
-    const leading = e.name.match(/^(\w+)\s+Service$/i)?.[1];
-    const language = inBrackets ?? leading;
-    return {
-      name: e.name.replace(/\s*\([^)]*\)\s*$/, "").trim(),
-      weekday: e.weekday,
-      time: startTime(e),
-      start: startClock(e),
-      language,
-      venue: onlineVenue(e, language),
-      url: e.url,
-    };
-  });
+  return recurring.map((e) => ({
+    name: e.name.replace(/\s*\([^)]*\)\s*$/, "").trim(),
+    weekday: e.weekday,
+    time: startTime(e),
+    start: startClock(e),
+    language: languageOf(e),
+    venue: venueFor(e),
+    url: e.url,
+  }));
+}
+
+/** "Sunday Service (English)" -> English; "Hindi Service" -> Hindi. */
+export function languageOf(event: ChurchEvent) {
+  const inBrackets = event.name.match(/\(([^)]+)\)/)?.[1];
+  const leading = event.name.match(/^(\w+)\s+Service$/i)?.[1];
+  return inBrackets ?? leading;
+}
+
+/** Exported so the what's on page can say it too, from the same rule. */
+export function venueFor(event: ChurchEvent) {
+  return onlineVenue(event);
 }
 
 /**
  * Where a gathering meets, when that is not the building.
  *
- * Prefers ChurchSuite, which can mark an event's location as online. It does
- * not do so for every service yet, so anything it cannot answer falls back to
- * the map declared in site.ts.
+ * ChurchSuite owns this: an event's location can be marked online, and the
+ * Hindi Service and Ladies Prayer are. This used to fall back to a map in
+ * site.ts because the feed said "physical" with no address for everything;
+ * the church has since set them properly, so the fallback is gone and adding
+ * a new online gathering needs no code change.
+ *
+ * location.name is safe to read here only because the location is online, so
+ * it names a platform. On a physical location that field holds the host rota,
+ * which is members' names and must never reach a public page.
  */
-function onlineVenue(event: ChurchEvent, language?: string) {
-  if (event.onlineLocation) return event.onlineLocation;
-  return language ? onlineGatherings[language] : undefined;
+function onlineVenue(event: ChurchEvent) {
+  return event.onlineLocation ?? undefined;
 }
 
 export type Gathering = {

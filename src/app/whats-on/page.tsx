@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/json-ld";
 import { Button, PageHeader, Section, TextLink } from "@/components/ui";
-import {
+import { venueFor,
   CHURCHSUITE_CALENDAR_URL,
   eventSchema,
   formatEventDate,
@@ -49,7 +49,11 @@ export default async function WhatsOnPage() {
           weekday: e.weekday,
           name: e.name,
           time: formatEventTime(e),
-          detail: e.category?.name ?? "",
+          // Say where it meets when that is not the building, from the same
+          // rule the homepage and footer use.
+          detail: [e.category?.name, venueFor(e) && `On ${venueFor(e)}`]
+            .filter(Boolean)
+            .join(" · "),
           href: e.url,
           external: true,
         }))
