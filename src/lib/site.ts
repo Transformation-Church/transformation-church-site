@@ -124,7 +124,7 @@ export const cellGroupTowns = cellGroups
  * entry here the moment ChurchSuite carries it.
  */
 export const onlineGatherings: Record<string, string> = {
-  Hindi: "On Zoom",
+  Hindi: "Zoom",
 };
 
 export const navigation = [

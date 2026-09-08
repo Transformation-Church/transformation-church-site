@@ -103,14 +103,10 @@ export async function Footer() {
                 >
                   <span className="text-paper-body">
                     {g.language ?? g.name}
+                    {g.venue ? ` · ${g.venue}` : ""}
                     <span className="block text-sm text-paper-muted">{g.weekday}</span>
                   </span>
-                  <span className="font-display text-lg text-paper">
-                    {g.time}
-                    {g.venue && (
-                      <span className="label ml-2 text-paper-muted">{g.venue}</span>
-                    )}
-                  </span>
+                  <span className="font-display text-lg text-paper">{g.time}</span>
                 </li>
               ))}
             </ul>

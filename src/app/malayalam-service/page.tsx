@@ -103,13 +103,13 @@ export default async function MalayalamServicePage() {
             )}
             {hindi && (
               <div>
-                <dt className="label text-paper-muted">Hindi service</dt>
+                <dt className="label text-paper-muted">
+                  Hindi service{hindi.venue ? ` · ${hindi.venue}` : ""}
+                </dt>
                 <dd className="mt-2 font-display text-3xl text-paper">
                   {hindi.weekday}, {hindi.time}
                 </dd>
-                {hindi.venue && (
-                  <dd className="label mt-2 text-paper-muted">{hindi.venue}</dd>
-                )}
+
               </div>
             )}
             <div>

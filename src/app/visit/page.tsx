@@ -60,11 +60,9 @@ export default async function VisitPage() {
                 <dt className="label text-paper-muted">
                   {g.weekday}
                   {g.language ? ` · ${g.language}` : ""}
+                  {g.venue ? ` · ${g.venue}` : ""}
                 </dt>
                 <dd className="mt-2 font-display text-3xl text-paper">{g.time}</dd>
-                {g.venue && (
-                  <dd className="label mt-2 text-paper-muted">{g.venue}</dd>
-                )}
               </div>
             ))}
             <div>
