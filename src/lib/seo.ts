@@ -149,7 +149,8 @@ export function sermonSchema(sermon: Sermon, poster: string | null) {
     description:
       sermon.description.slice(0, 300) ||
       `${sermon.title}, preached at ${site.name}.`,
-    uploadDate: `${sermon.date}T00:00:00Z`,
+    // Omitted rather than guessed when the archive has no date for it.
+    ...(sermon.date ? { uploadDate: `${sermon.date}T00:00:00Z` } : {}),
     thumbnailUrl: poster ? absolute(poster) : undefined,
     embedUrl: `https://www.youtube-nocookie.com/embed/${sermon.youtubeId}`,
     url: `${site.url}/sermons/${sermon.slug}`,

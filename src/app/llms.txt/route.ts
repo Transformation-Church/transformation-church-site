@@ -30,7 +30,10 @@ export async function GET() {
   const roles = openVacancies();
   const { recurring, oneOff } = await getSchedule(8);
 
-  const years = sermons.map((s) => Number(s.date.slice(0, 4)));
+  // Undated sermons cannot bound a range.
+  const years = sermons
+    .filter((s) => s.date)
+    .map((s) => Number(s.date!.slice(0, 4)));
   const span = `${Math.min(...years)}-${Math.max(...years)}`;
 
   const topSeries = series.slice(0, 8);

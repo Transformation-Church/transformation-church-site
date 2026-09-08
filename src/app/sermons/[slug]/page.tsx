@@ -33,7 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ...canonical(`/sermons/${sermon.slug}`),
     description:
       sermon.description.slice(0, 155) ||
-      `${sermon.title}${by}, preached at Transformation Church on ${formatDate(sermon.date)}.`,
+      `${sermon.title}${by}, preached at Transformation Church${
+        sermon.date ? ` on ${formatDate(sermon.date)}` : ""
+      }.`,
     openGraph: {
       type: "article",
       title: sermon.title,
@@ -52,7 +54,7 @@ export default async function SermonPage({ params }: Props) {
   const related = relatedSermons(sermon);
 
   const facts = [
-    { k: "Preached", v: formatDate(sermon.date) },
+    sermon.date && { k: "Preached", v: formatDate(sermon.date) },
     sermon.preacher && {
       k: "Preacher",
       v: sermon.preacher.name,

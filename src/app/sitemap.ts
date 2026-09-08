@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...sermons.map((s) => ({
       url: url(`/sermons/${s.slug}`),
-      lastModified: new Date(s.date),
+      lastModified: s.date ? new Date(s.date) : new Date(),
       priority: 0.6,
     })),
     ...series.map((s) => ({ url: url(`/sermons/series/${s.slug}`), priority: 0.5 })),

@@ -20,7 +20,12 @@ export type Term = { slug: string; name: string };
 export type Sermon = {
   slug: string;
   title: string;
-  date: string;
+  /**
+   * Null when the YouTube title carries no date. A third of the back
+   * catalogue was bulk-uploaded years after it was preached, so its upload
+   * date would be badly wrong; those sermons are shown as undated instead.
+   */
+  date: string | null;
   preacher: Term | null;
   series: Term | null;
   serviceType: Term | null;
@@ -191,6 +196,6 @@ const DAY_MONTH = new Intl.DateTimeFormat("en-GB", {
   timeZone: "UTC",
 });
 
-export function year(iso: string) {
-  return iso.slice(0, 4);
+export function year(iso: string | null) {
+  return iso ? iso.slice(0, 4) : null;
 }
