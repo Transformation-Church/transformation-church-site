@@ -381,6 +381,12 @@ def main():
 # ------------------------------------------------------------------ merging
 
 
+def tidy_title(title):
+    """A pipe is a separator on YouTube, not punctuation. One WordPress record
+    kept one in the title itself; the rest of the archive writes "- Part 2"."""
+    return " ".join(title.replace("|", "-").split()).replace("- -", "-")
+
+
 def service_type(record):
     """What kind of gathering this was, from what the title and date say."""
     title = record["title"].lower()
@@ -487,7 +493,7 @@ def merge(parsed, existing):
 
         merged = {
             "slug": slug,
-            "title": record["title"],
+            "title": tidy_title(record["title"]),
             # A date in the title wins; otherwise keep whatever the archive knew.
             "date": record["date"] or (old or {}).get("date"),
             "preacher": preacher,
@@ -516,7 +522,7 @@ def merge(parsed, existing):
         if term:
             name = speakers.get(person_key(term["name"]), term["name"])
             old = {**old, "preacher": {"slug": slugify(name), "name": name}}
-        records.append(old)
+        records.append({**old, "title": tidy_title(old["title"])})
 
     # Dated newest first; then the undated ones in the channel's own order.
     records.sort(
