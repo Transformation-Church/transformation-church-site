@@ -4,6 +4,7 @@ import { canonical } from "@/lib/seo";
 import Link from "next/link";
 
 import { Arrow, Grain } from "@/components/ui";
+import { sermons } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -23,7 +24,8 @@ export const metadata: Metadata = {
  */
 const links = [
   { label: "Plan your visit", href: "/visit", note: "Sundays 10:00am & 12:00pm" },
-  { label: "Watch sermons", href: "/sermons", note: "167 messages" },
+  // Counted, not typed: this said 167 long after the archive passed 300.
+  { label: "Watch sermons", href: "/sermons", note: `${sermons.length} messages` },
   { label: "Instagram", href: site.social.instagram, note: "@transformationchurchuk", external: true },
   { label: "YouTube", href: site.social.youtube, note: "Full services", external: true },
   { label: "Facebook", href: site.social.facebook, note: "News & events", external: true },
@@ -55,10 +57,10 @@ export default function ConnectPage() {
               const inner = (
                 <>
                   <span>
-                    <span className="block font-display text-xl text-paper">
+                    <span className="block font-display text-xl text-paper transition-colors duration-400 ease-[var(--ease-out-expo)] group-hover:text-ink">
                       {link.label}
                     </span>
-                    <span className="label mt-1 block text-paper-muted">
+                    <span className="label mt-1 block text-paper-muted transition-colors duration-400 ease-[var(--ease-out-expo)] group-hover:text-ink-muted">
                       {link.note}
                     </span>
                   </span>
