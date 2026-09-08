@@ -61,6 +61,12 @@ MANUAL_SPEAKERS = {
     "jpG26MlLLjw": "Dr Wessly Lukose",  # Holiness Part-3
 }
 
+# Sermons whose title field on YouTube is empty, titled by the church. Keyed
+# by video id for the same reason as MANUAL_SPEAKERS.
+MANUAL_TITLES = {
+    "VYt-26zh5xg": "Unusual message in a terrible time",
+}
+
 # Segments that are channel furniture rather than part of the sermon title.
 BOILERPLATE = re.compile(
     r"^(Transformation Church|BPF( Ministries)?|Sunday Service|Saturday Service"
@@ -266,6 +272,9 @@ def parse(video, known_speakers):
         r"\s*[-–—]?\s*\(?\s*Transformation Church[^)]*\)?\s*$", "", title, flags=re.I
     ).strip(" -–—:| ")
     title = " ".join(title.split())
+    if not title and video["id"] in MANUAL_TITLES:
+        title = MANUAL_TITLES[video["id"]]
+
     if not title:
         # The title was nothing but the speaker's name. Fall back to the
         # service the video itself names, rather than inventing one.
