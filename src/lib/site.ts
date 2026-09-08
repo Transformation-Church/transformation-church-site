@@ -37,6 +37,14 @@ export const site = {
     facebook: "https://www.facebook.com/TransformationChurchBham",
     youtube: "https://www.youtube.com/c/TransformationChurchUK",
     instagram: "https://www.instagram.com/transformationchurchuk",
+    /**
+     * Behold republishes the Instagram account as plain JSON, which is what
+     * InstagramFeed reads. Not a secret: it is a public, read-only endpoint
+     * meant to be fetched by a browser, so it lives here rather than in an
+     * environment variable nobody can see. INSTAGRAM_FEED_URL still overrides
+     * it, for pointing a preview at a different feed.
+     */
+    instagramFeed: "https://feeds.behold.so/QXqO4YThKYHSPuAd1E2w",
     linktree: "https://linktr.ee/transformationchurchbham",
   },
 
