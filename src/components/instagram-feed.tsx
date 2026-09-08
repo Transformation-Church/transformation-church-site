@@ -6,11 +6,13 @@ import { site } from "@/lib/site";
  *
  * Instagram's Basic Display API was shut down in December 2024, and the npm
  * packages that scrape the public profile break constantly and breach Meta's
- * terms. So this reads a single JSON feed URL instead — set INSTAGRAM_FEED_URL
- * to either:
+ * terms. So this reads a single JSON feed URL instead: site.social.instagramFeed,
+ * a Behold.so feed, which refreshes itself and needs no server code of ours.
+ * INSTAGRAM_FEED_URL overrides it, for pointing a preview somewhere else or
+ * swapping in an endpoint of our own wrapping the Instagram Graph API.
  *
- *   • a Behold.so feed (free tier, no server code, refreshes itself), or
- *   • your own endpoint wrapping the Instagram Graph API.
+ * Behold's free tier returns six posts. That is a limit of the plan, not of
+ * this component, which shows whatever the feed gives it up to six.
  *
  * Both return an array of posts; the shapes differ slightly, so both are
  * normalised below. With nothing configured — or if the feed is unreachable —
@@ -62,7 +64,7 @@ function normalise(raw: unknown): Post[] {
 }
 
 async function fetchPosts(): Promise<Post[]> {
-  const url = process.env.INSTAGRAM_FEED_URL;
+  const url = process.env.INSTAGRAM_FEED_URL || site.social.instagramFeed;
   if (!url) return [];
 
   try {
