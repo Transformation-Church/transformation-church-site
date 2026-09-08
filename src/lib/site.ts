@@ -22,11 +22,21 @@ export const site = {
     // From the ChurchSuite site record, not estimated.
     latitude: 52.477975,
     longitude: -2.034637,
-    // Long-form place URL rather than a maps.app.goo.gl short link. The old
-    // site used one of those and it now returns "Dynamic Link Not Found",
-    // because Google retired the dynamic-link service behind them. This form
-    // points at the same Business Profile listing and does not depend on it.
-    maps: "https://www.google.com/maps/place/Transformation+Church+UK+(+Part+of+BPF+Ministries)/@52.4779727,-2.0346321,17z/data=!4m6!3m5!1s0x4870970726982b27:0xa004ed42e300a1ff",
+    /**
+     * The listing's CID, which is the only form of this link that has held up.
+     *
+     * The old site used a maps.app.goo.gl short link, which now returns
+     * "Dynamic Link Not Found" since Google retired the service behind it. The
+     * long-form /maps/place/Name/@lat,lng/data=... URL that replaced it has
+     * since stopped working too: Google drops the name and the data blob and
+     * redirects to /maps/place//@52.4779727,-2.0346321, which shows the
+     * coordinates with no pin and a page titled just "Google Maps".
+     *
+     * A CID names the Business Profile itself rather than describing where it
+     * is, so there is nothing for Google to normalise away. Taken from the
+     * place id in the church's own embed code: 0xa004ed42e300a1ff.
+     */
+    maps: "https://maps.google.com/?cid=11530601817507406335",
   },
 
   contact: {
