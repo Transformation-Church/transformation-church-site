@@ -53,6 +53,14 @@ PLAIN_SPEAKERS = {
     "Jomio Nelloor",
 }
 
+# Sermons whose title names nobody, attributed by the church. Keyed by video
+# id, because the titles are not distinctive enough to key on safely.
+MANUAL_SPEAKERS = {
+    "Jqg2uPykM-0": "Dr Wessly Lukose",  # Holiness Part-1
+    "nJXsyq_STCM": "Dr Wessly Lukose",  # Holiness Part-2
+    "jpG26MlLLjw": "Dr Wessly Lukose",  # Holiness Part-3
+}
+
 # Segments that are channel furniture rather than part of the sermon title.
 BOILERPLATE = re.compile(
     r"^(Transformation Church|BPF( Ministries)?|Sunday Service|Saturday Service"
@@ -230,6 +238,9 @@ def parse(video, known_speakers):
                 continue
         if not BOILERPLATE.match(segment):
             leftovers.append(segment)
+
+    if speaker is None and video["id"] in MANUAL_SPEAKERS:
+        speaker = MANUAL_SPEAKERS[video["id"]]
 
     if speaker is None:
         # Last resort: a name pinned on with no separator.
