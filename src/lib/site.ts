@@ -84,6 +84,29 @@ export const gatherings: Gathering[] = [
 ];
 
 /**
+ * Where the midweek cell groups meet, alphabetically.
+ *
+ * Some entries pair two towns because one group serves both. Listed once here
+ * because the Malayalam page shows it as a list and answers a question with it
+ * in prose, and those two drifted apart last time.
+ */
+export const cellGroups = [
+  "Coventry and Corby",
+  "Northfield and Redditch",
+  "Rowley Regis",
+  "Selly Oak",
+  "Small Heath",
+  "Sutton Coldfield",
+  "Walsall and Wolverhampton",
+  "Worcester and Evesham",
+];
+
+/** The same places as individual towns, for running text. */
+export const cellGroupTowns = cellGroups
+  .flatMap((entry) => entry.split(" and "))
+  .sort((a, b) => a.localeCompare(b, "en-GB"));
+
+/**
  * Gatherings that do not meet at the building, by language.
  *
  * ChurchSuite should own this: setting a service's location to Online there

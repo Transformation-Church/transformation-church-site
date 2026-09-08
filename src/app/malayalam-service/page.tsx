@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/json-ld";
 import { Accordion, Button, PageHeader, Section, TextLink } from "@/components/ui";
 import { getGatherings } from "@/lib/events";
 import { canonical, faqSchema } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { cellGroups, cellGroupTowns, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Malayalam Church in Birmingham",
@@ -29,6 +29,13 @@ export const metadata: Metadata = {
  * approved by the church, so treat it as verified copy: change it with the
  * church, not on a translator's say-so.
  */
+/** "a, b and c" — the FAQ reads as prose, not as a list. */
+function listSentence(items: string[]) {
+  return items.length < 2
+    ? items.join("")
+    : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+}
+
 const faqs = [
   {
     question: "Is there a Malayalam church in Birmingham?",
@@ -58,7 +65,7 @@ const faqs = [
   {
     question: "Are there Malayalam-speaking groups during the week?",
     answer:
-      "Yes. Cell groups meet during the week across the West Midlands, including Rowley Regis, Coventry, Northfield, Redditch, Sutton Coldfield, Walsall, Wolverhampton, Small Heath, Selly Oak and Worcester.",
+      `Yes. Cell groups meet during the week across the West Midlands and beyond, in ${listSentence(cellGroupTowns)}.`,
   },
 ];
 
@@ -211,15 +218,7 @@ export default async function MalayalamServicePage() {
           <div className="lg:col-span-4 lg:col-start-9" data-reveal>
             <h2 className="label text-ink-muted">Cell groups meet in</h2>
             <ul className="mt-6 border-t border-rule">
-              {[
-                "Rowley Regis",
-                "Coventry",
-                "Northfield and Redditch",
-                "Sutton Coldfield",
-                "Walsall and Wolverhampton",
-                "Small Heath and Selly Oak",
-                "Worcester",
-              ].map((place) => (
+              {cellGroups.map((place) => (
                 <li key={place} className="border-b border-rule py-3.5 text-ink-muted">
                   {place}
                 </li>

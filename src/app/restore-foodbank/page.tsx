@@ -11,14 +11,25 @@ export const metadata: Metadata = {
   ...canonical("/restore-foodbank"),
 };
 
-// TODO(Joe): these are the 2023 figures carried over from the old site and are
-// known to be out of date — replace before launch. The label text carries the
-// year, so update both the number and the wording together.
+/**
+ * From the foodbank's own returns for 2023, 2024 and 2025, added together.
+ *
+ *   people      253 + 303 + 249 adults, 189 + 212 + 116 children  = 1,322
+ *   food        2639 + 2858 + 2148.6 kg distributed               = 7,645.60
+ *   non-food    641 + 257 + 230.62 kg distributed                 = 1,128.62
+ *
+ * Rounded down, so the plus sign is honest: each figure is at least this.
+ *
+ * These are what the foodbank gave out, not what came in. The donation lines
+ * in the same returns are much smaller, because most stock arrives through the
+ * Black Country Food Bank rather than as direct gifts, so they understate the
+ * work. The labels have to keep saying distributed.
+ */
 const stats = [
-  { value: "440+", label: "People used our service in 2023" },
+  { value: "1,300+", label: "People used our service since 2023" },
   { value: "10", label: "Volunteers" },
-  { value: "2,500+", label: "Kilos of food donated" },
-  { value: "690+", label: "Kilos of non-food items donated" },
+  { value: "7,600+", label: "Kilos of food distributed" },
+  { value: "1,100+", label: "Kilos of non-food items distributed" },
 ];
 
 const referrers = [

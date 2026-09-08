@@ -38,7 +38,7 @@ const chapters = [
     title: "Growth and recognition",
     paragraphs: [
       "The main language of worship was Malayalam, as almost all the existing members originally belonged to south India, particularly Kerala. The services have since evolved into a multilingual gathering, and people come from various parts of Birmingham and beyond.",
-      "Cell groups formed in various places, and BPF now has ten such cells meeting during the week in Rowley Regis, Coventry, Northfield, Redditch, Sutton Coldfield, Walsall, Wolverhampton, Small Heath, Selly Oak and Worcester, aiming at prayerful discipleship and leadership. Outreach activities are conducted periodically in West Bromwich, Walsall, Coventry, Northfield, Erdington and Birmingham City Centre.",
+      "Cell groups formed in various places, and BPF now has cells meeting during the week in Corby, Coventry, Evesham, Northfield, Redditch, Rowley Regis, Selly Oak, Small Heath, Sutton Coldfield, Walsall, Wolverhampton and Worcester, aiming at prayerful discipleship and leadership. Outreach activities are conducted periodically in West Bromwich, Walsall, Coventry, Northfield, Erdington and Birmingham City Centre.",
       "On 9 September 2009, BPF was given the status of registered charity by the Charity Commission of the UK. BPF continues to grow, aiming to be a multilingual fellowship creating a Christ-like community.",
     ],
   },
