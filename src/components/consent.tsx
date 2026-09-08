@@ -67,6 +67,12 @@ const ALL: Consent = { media: true, analytics: true, marketing: true };
  * your experience" tells nobody anything, and is the wording regulators single
  * out. Name the company and say what it learns.
  */
+// Read from the same environment variables the tags themselves read, so the
+// panel starts telling the truth the moment an id is set, without anyone
+// remembering to come back and edit this list.
+const GA_CONFIGURED = !!process.env.NEXT_PUBLIC_GA_ID;
+const PIXEL_CONFIGURED = !!process.env.NEXT_PUBLIC_META_PIXEL_ID;
+
 const CATEGORIES: {
   key: Category;
   name: string;
@@ -83,16 +89,18 @@ const CATEGORIES: {
   {
     key: "analytics",
     name: "Measuring how the site is used",
-    detail:
-      "Which pages people read and how they arrived, so we know what is worth keeping. Sets cookies. Nothing is running in this category yet.",
-    live: false,
+    detail: GA_CONFIGURED
+      ? "Google Analytics, which records which pages you read and how you arrived, so we know what is worth keeping. Sets cookies in your browser."
+      : "Which pages people read and how they arrived, so we know what is worth keeping. Would set cookies. Nothing is running in this category yet.",
+    live: GA_CONFIGURED,
   },
   {
     key: "marketing",
     name: "Advertising and social media tracking",
-    detail:
-      "Lets services like Facebook recognise you across other websites in order to target advertising. Sets cookies. Nothing is running in this category yet.",
-    live: false,
+    detail: PIXEL_CONFIGURED
+      ? "The Meta pixel, which lets Facebook and Instagram recognise you across other websites in order to target advertising. Sets cookies in your browser."
+      : "Would let services such as Facebook recognise you across other websites in order to target advertising. Would set cookies. Nothing is running in this category yet.",
+    live: PIXEL_CONFIGURED,
   },
 ];
 

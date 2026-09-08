@@ -175,6 +175,8 @@ See `.env.example`. All are optional; the table says what happens without each.
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Blog uses migrated posts; `/studio` shows a setup notice |
 | `NEXT_PUBLIC_SANITY_DATASET` | Defaults to `production` |
 | `RESEND_API_KEY` + `CONTACT_FROM` | Forms tell people to email `info@bpfministries.com` directly |
+| `NEXT_PUBLIC_GA_ID` | No Google Analytics. Set it to `G-XXXXXXXXXX` and it loads, gated behind the analytics consent category |
+| `NEXT_PUBLIC_META_PIXEL_ID` | No Meta pixel. Set it to the numeric id and it loads, gated behind the marketing consent category |
 | `INSTAGRAM_FEED_URL` | Falls back to the church's Behold feed in `site.ts`. That URL is public and read-only, so it lives in the repo rather than an environment variable nobody can see |
 | `CHURCHSUITE_CALENDAR_UUID` | Falls back to the church's current calendar UUID |
 | `SITE_INDEXABLE` | **Site sends `noindex` and disallows all crawlers** |

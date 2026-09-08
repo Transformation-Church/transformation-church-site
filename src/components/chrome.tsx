@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { Analytics } from "@/components/analytics";
 import { ConsentProvider } from "@/components/consent";
 import { ViewTransitions } from "@/components/view-transitions";
 
@@ -35,6 +36,7 @@ export function Chrome({
 
   return (
     <ConsentProvider>
+      <Analytics />
       <ViewTransitions />
       {header}
       <main id="main">{children}</main>
