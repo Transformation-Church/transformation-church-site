@@ -127,6 +127,32 @@ export const onlineGatherings: Record<string, string> = {
   Hindi: "Zoom",
 };
 
+/**
+ * Restore Foodbank, from its own returns for 2023, 2024 and 2025 added
+ * together.
+ *
+ *   people      253 + 303 + 249 adults, 189 + 212 + 116 children  = 1,322
+ *   food        2639 + 2858 + 2148.6 kg distributed               = 7,645.60
+ *   non-food    641 + 257 + 230.62 kg distributed                 = 1,128.62
+ *
+ * Rounded down, so the plus sign is honest: each figure is at least this.
+ *
+ * These are what the foodbank gave out, not what came in. The donation lines
+ * in the same returns are much smaller, because most stock arrives through the
+ * Black Country Food Bank rather than as direct gifts, so they understate the
+ * work. The labels have to keep saying distributed.
+ *
+ * Here rather than on a page because the homepage and the foodbank page both
+ * show them, and last time they were written out twice the homepage was left
+ * on the 2023 figures.
+ */
+export const foodbankStats = [
+  { value: "1,300+", label: "People used our service since 2023" },
+  { value: "10", label: "Volunteers" },
+  { value: "7,600+", label: "Kilos of food distributed" },
+  { value: "1,100+", label: "Kilos of non-food items distributed" },
+];
+
 export const navigation = [
   { label: "About", href: "/about" },
   { label: "What's On", href: "/whats-on" },

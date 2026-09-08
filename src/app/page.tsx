@@ -5,7 +5,7 @@ import { HomeHero } from "@/components/home-hero";
 import { SermonCard } from "@/components/sermon";
 import { Button, Section, TextLink } from "@/components/ui";
 import { gallery, posts, sermons, formatDate } from "@/lib/content";
-import { site } from "@/lib/site";
+import { foodbankStats, site } from "@/lib/site";
 
 const values = [
   {
@@ -140,15 +140,12 @@ export default function HomePage() {
           </div>
 
           <dl className="grid grid-cols-2 gap-px self-center lg:col-span-6 lg:col-start-7" data-reveal>
-            {[
-              { n: "440+", l: "People supported in 2023" },
-              { n: "2,500+", l: "Kilos of food donated" },
-              { n: "690+", l: "Kilos of non-food items" },
-              { n: "10", l: "Volunteers" },
-            ].map((s) => (
-              <div key={s.l} className="border-t border-paper/12 py-8 pr-6">
-                <dt className="font-display text-4xl text-paper">{s.n}</dt>
-                <dd className="label mt-3 leading-relaxed text-paper-muted">{s.l}</dd>
+            {foodbankStats.map((s) => (
+              <div key={s.label} className="border-t border-paper/12 py-8 pr-6">
+                <dt className="font-display text-4xl text-paper">{s.value}</dt>
+                <dd className="label mt-3 leading-relaxed text-paper-muted">
+                  {s.label}
+                </dd>
               </div>
             ))}
           </dl>

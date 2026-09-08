@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { canonical } from "@/lib/seo";
 import { Accordion, Button, PageHeader, Section } from "@/components/ui";
-import { site } from "@/lib/site";
+import { foodbankStats, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Restore Foodbank",
@@ -10,27 +10,6 @@ export const metadata: Metadata = {
     "Restore Foodbank is a venture of Transformation Church, distributing food to individuals and families in crisis every Wednesday in Rowley Regis.",
   ...canonical("/restore-foodbank"),
 };
-
-/**
- * From the foodbank's own returns for 2023, 2024 and 2025, added together.
- *
- *   people      253 + 303 + 249 adults, 189 + 212 + 116 children  = 1,322
- *   food        2639 + 2858 + 2148.6 kg distributed               = 7,645.60
- *   non-food    641 + 257 + 230.62 kg distributed                 = 1,128.62
- *
- * Rounded down, so the plus sign is honest: each figure is at least this.
- *
- * These are what the foodbank gave out, not what came in. The donation lines
- * in the same returns are much smaller, because most stock arrives through the
- * Black Country Food Bank rather than as direct gifts, so they understate the
- * work. The labels have to keep saying distributed.
- */
-const stats = [
-  { value: "1,300+", label: "People used our service since 2023" },
-  { value: "10", label: "Volunteers" },
-  { value: "7,600+", label: "Kilos of food distributed" },
-  { value: "1,100+", label: "Kilos of non-food items distributed" },
-];
 
 const referrers = [
   "Your social worker or support worker",
@@ -71,7 +50,7 @@ export default function FoodbankPage() {
         lede="A venture of Transformation Church, distributing food to individuals and families once a week."
         meta={
           <dl className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
-            {stats.map((s) => (
+            {foodbankStats.map((s) => (
               <div key={s.label}>
                 <dt className="font-display text-4xl text-paper tabular-nums">
                   {s.value}

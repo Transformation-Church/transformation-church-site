@@ -70,7 +70,7 @@ export default async function WhatsOnPage() {
       />
 
       {/* ------------------------------------------------------- weekly */}
-      <Section index="01" eyebrow="Every week" title="The regular rhythm">
+      <Section index="01" eyebrow="Every week" title="Our weekly gatherings">
         <ul className="border-t border-rule" data-reveal>
           {schedule.map((item) => {
             const inner = (
