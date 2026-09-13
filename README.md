@@ -114,8 +114,9 @@ for the account that owns the project.
 ### Events: ChurchSuite
 
 `/whats-on` reads the public calendar feed at
-`https://{account}.churchsuite.com/-/calendar/{uuid}/json`, revalidating every
-15 minutes. No iframe: its contents would be invisible to search engines, could
+`https://{account}.churchsuite.com/-/calendar/{uuid}/json`, revalidating once a
+day. A change in ChurchSuite can take up to 24 hours to appear; redeploying
+fetches it immediately. No iframe: its contents would be invisible to search engines, could
 not carry structured data, and would load third-party cookies onto a site that
 sets none.
 

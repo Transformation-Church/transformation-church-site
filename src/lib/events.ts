@@ -104,7 +104,9 @@ async function fetchFeed(): Promise<ChurchEvent[]> {
   try {
     const res = await fetch(`${CHURCHSUITE_CALENDAR_URL}/json`, {
       headers: { Accept: "application/json" },
-      next: { revalidate: 900 },
+      // Once a day, at the church's request. A change made in ChurchSuite can
+      // take up to 24 hours to appear; a redeploy fetches it straight away.
+      next: { revalidate: 86400 },
     });
     if (!res.ok) return [];
 
