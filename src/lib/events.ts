@@ -38,6 +38,8 @@ export type ChurchEvent = {
   location: string | null;
   /** ChurchSuite marks a location as online; null when it says nothing. */
   onlineLocation: string | null;
+  /** Who is hosting. Null unless the church has approved it for this event. */
+  host: string | null;
   category: { name: string; color: string } | null;
   /** Non-null when the event belongs to a recurring series. */
   sequenceId: number | null;
@@ -51,6 +53,15 @@ type Raw = Record<string, unknown>;
 type Category = { id: number; name: string; color: string };
 
 const text = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+
+/**
+ * ChurchSuite event identifiers whose host names may be shown on the site.
+ * location.name holds members' names, so the default is never. Each entry
+ * here is a specific event the church has approved.
+ */
+const PUBLISH_HOST_FOR = new Set([
+  "iptyawo1", // Thanksgiving service, 19 September 2026: Sachin & Anchu
+]);
 
 function stripHtml(html: string) {
   return html
@@ -78,13 +89,21 @@ function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | n
   // members' names and must not appear on a public page.
   const locationAddress = loc ? text(loc.address) : "";
 
-  // ChurchSuite can mark a location as online. It does not do so for every
-  // service yet, so this is often null and site.ts fills the gap.
+  // The one exception to the rule above: events whose hosts the church has
+  // explicitly approved for publication. Keyed by ChurchSuite identifier, not
+  // by name, so a future event called "Thanksgiving service" does not inherit
+  // it. Add to this list only with the church's say-so for that event.
+  const identifier = text(raw.identifier);
+  const host =
+    loc && PUBLISH_HOST_FOR.has(identifier) ? text(loc.name) || null : null;
+
+  // ChurchSuite can mark a location as online, and when it does, location.name
+  // names the platform rather than a household.
   const online =
     loc && text(loc.type) === "online" ? text(loc.name) || "Online" : null;
 
   return {
-    id: text(raw.identifier) || String(raw.id ?? `${name}-${start}`),
+    id: identifier || String(raw.id ?? `${name}-${start}`),
     name,
     start,
     end: text(raw.ends_at) || null,
@@ -92,6 +111,7 @@ function normalise(raw: Raw, categories: Map<number, Category>): ChurchEvent | n
     description: stripHtml(text(raw.description)),
     location: locationAddress || null,
     onlineLocation: online,
+    host,
     category: cat ? { name: cat.name, color: cat.color } : null,
     sequenceId:
       typeof raw.sequence_id === "number" ? raw.sequence_id : null,

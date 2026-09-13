@@ -181,6 +181,11 @@ export default async function WhatsOnPage() {
                     <span className="block font-display text-xl transition-transform duration-500 ease-[var(--ease-out-expo)] md:group-hover:translate-x-1">
                       {event.name}
                     </span>
+                    {event.host && (
+                      <span className="mt-1.5 block text-sm text-ink-muted">
+                        Hosted by {event.host}
+                      </span>
+                    )}
                     {event.location && (
                       <span className="mt-1.5 block text-sm text-ink-muted">
                         {event.location}
